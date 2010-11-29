@@ -5,10 +5,16 @@
 
 package ec.edu.epn.fis.uil4midp.ui;
 
+import javax.microedition.lcdui.Canvas;
+import javax.microedition.lcdui.Graphics;
+
 /**
  *
  * @author Andrés
  */
-public class Dialog {
+public class Dialog extends Canvas{
+
+    protected void paint(Graphics g) {
+    }
 
 }

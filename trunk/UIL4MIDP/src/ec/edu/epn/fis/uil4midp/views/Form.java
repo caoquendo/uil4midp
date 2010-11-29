@@ -5,10 +5,15 @@
 
 package ec.edu.epn.fis.uil4midp.views;
 
+import ec.edu.epn.fis.uil4midp.components.VisualComponent;
+
 /**
  *
  * @author Andrés
  */
 public class Form implements IView {
+
+    public void addVisualComponent(VisualComponent visualComponent) {
+    }
 
 }

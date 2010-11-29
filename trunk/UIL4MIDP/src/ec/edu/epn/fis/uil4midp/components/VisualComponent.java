@@ -5,10 +5,14 @@
 
 package ec.edu.epn.fis.uil4midp.components;
 
+import javax.microedition.lcdui.Graphics;
+
 /**
  *
  * @author Andrés
  */
 public abstract class VisualComponent {
+
+    abstract void paint(Graphics g);
 
 }
