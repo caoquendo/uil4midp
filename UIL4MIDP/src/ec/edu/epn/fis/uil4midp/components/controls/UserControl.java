@@ -6,11 +6,16 @@
 package ec.edu.epn.fis.uil4midp.components.controls;
 
 import ec.edu.epn.fis.uil4midp.components.VisualComponent;
+import javax.microedition.lcdui.Graphics;
 
 /**
  *
  * @author Andrés
  */
-public class UserControl extends VisualComponent {
+public abstract class UserControl extends VisualComponent  {
+
+    public void paint(Graphics g) {
+
+    }
 
 }
