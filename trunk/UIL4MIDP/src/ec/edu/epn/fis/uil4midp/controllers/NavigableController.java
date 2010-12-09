@@ -20,4 +20,7 @@ public class NavigableController implements IController {
     public void paint(Graphics graphics) {
     }
 
+    public void setWidth(int width) {
+    }
+
 }

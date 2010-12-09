@@ -14,10 +14,20 @@ import javax.microedition.lcdui.Graphics;
  */
 public class StandaloneController implements IController {
 
+    private IView holdedView;
+    private int width;
+
     public void addView(IView view) {
+        this.holdedView = view;
     }
 
-    public void paint(Graphics graphics) {
+    public void paint(Graphics g) {
+        holdedView.setWidth(width);
+        holdedView.paint(g);
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
     }
 
 }

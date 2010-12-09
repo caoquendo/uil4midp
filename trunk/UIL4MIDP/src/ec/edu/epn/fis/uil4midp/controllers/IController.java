@@ -17,4 +17,6 @@ public interface IController {
     void addView(IView view);
 
     void paint(Graphics g);
+
+    public void setWidth(int width);
 }

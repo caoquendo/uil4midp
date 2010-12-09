@@ -6,6 +6,7 @@
 package ec.edu.epn.fis.uil4midp.views;
 
 import ec.edu.epn.fis.uil4midp.components.VisualComponent;
+import javax.microedition.lcdui.Graphics;
 
 /**
  *
@@ -14,6 +15,12 @@ import ec.edu.epn.fis.uil4midp.components.VisualComponent;
 public class List implements IView {
 
     public void addVisualComponent(VisualComponent visualComponent) {
+    }
+
+    public void paint(Graphics g) {
+    }
+
+    public void setWidth(int width) {
     }
 
 }
