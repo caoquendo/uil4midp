@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ec.edu.epn.fis.uil4midp.components;
 
 import javax.microedition.lcdui.Graphics;
@@ -13,6 +12,31 @@ import javax.microedition.lcdui.Graphics;
  */
 public abstract class VisualComponent {
 
-    abstract void paint(Graphics g);
+    protected int width;
+    protected int height;
+    protected int x;
+    protected int y;
 
+    public abstract void paint(Graphics g);
+
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 }

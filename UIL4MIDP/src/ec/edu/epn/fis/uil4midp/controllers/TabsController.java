@@ -20,4 +20,7 @@ public class TabsController implements IController {
     public void paint(Graphics graphics) {
     }
 
+    public void setWidth(int width) {
+    }
+
 }
