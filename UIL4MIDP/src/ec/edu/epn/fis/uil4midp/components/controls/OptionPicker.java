@@ -30,7 +30,7 @@ public class OptionPicker extends UserControl {
 
         // Draw text
         g.setColor(0x272926);
-        g.drawString(caption, width / 2, y + 4, Graphics.TOP | Graphics.HCENTER);
+        g.drawString(caption, x + width / 2, y + 4, Graphics.TOP | Graphics.HCENTER);
 
         // Paint buttons
         paintButtons(g);
@@ -45,16 +45,16 @@ public class OptionPicker extends UserControl {
     }
 
     private void paintButtons(Graphics g) {
-        int bWidth = 20;
+        int bWidth = 26;
         
         // Paint backgrounds
         GradientManager.paintGradient(g, 0xeceeed, 0xa7a8a7, x, y, bWidth, height, GradientManager.VERTICAL);
-        GradientManager.paintGradient(g, 0xeceeed, 0xa7a8a7, width - bWidth, y, bWidth, height, GradientManager.VERTICAL);
+        GradientManager.paintGradient(g, 0xeceeed, 0xa7a8a7, width - bWidth + x, y, bWidth, height, GradientManager.VERTICAL);
         
         // Paint borders
         g.setColor(0x272926);
         g.drawRect(x, y, bWidth - 1 , height-1);
-        g.drawRect(width - bWidth, y, bWidth - 1 , height-1);
+        g.drawRect(width - bWidth + x, y, bWidth - 1 , height-1);
         
         // Paint arrows
         int tx1, tx2;
@@ -64,7 +64,7 @@ public class OptionPicker extends UserControl {
         ty1 = height / 4;
         ty2 = ty1 * 2;
         ty3 = ty1 * 3;
-        g.fillTriangle(tx1, y + ty2, tx2, y + ty1, tx2, y + ty3);
-        g.fillTriangle(width - bWidth + tx1, y + ty1, width - bWidth + tx1, y + ty3, width - bWidth + tx2, y + ty2);
+        g.fillTriangle(x + tx1, y + ty2, x + tx2, y + ty1, x + tx2, y + ty3);
+        g.fillTriangle(width - bWidth + tx1 + x, y + ty1, width - bWidth + tx1  + x, y + ty3, width - bWidth + tx2 + x, y + ty2);
     }
 }

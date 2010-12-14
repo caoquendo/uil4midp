@@ -30,7 +30,7 @@ public class Button extends UserControl {
 
         // Draw text
         g.setColor(0x272926);
-        g.drawString(caption, width / 2, y + 4, Graphics.TOP | Graphics.HCENTER);
+        g.drawString(caption, x + width / 2, y + 4, Graphics.TOP | Graphics.HCENTER);
     }
 
     public String getCaption() {

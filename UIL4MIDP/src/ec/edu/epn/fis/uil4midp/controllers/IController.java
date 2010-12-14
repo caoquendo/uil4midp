@@ -19,4 +19,5 @@ public interface IController {
     void paint(Graphics g);
 
     public void setWidth(int width);
+    
 }
