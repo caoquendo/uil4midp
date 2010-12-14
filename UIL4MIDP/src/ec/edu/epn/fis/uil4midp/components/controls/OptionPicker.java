@@ -19,7 +19,8 @@ public class OptionPicker extends UserControl {
     }
 
     public void paint(Graphics g) {
-        height = g.getFont().getHeight() + 8;
+        // Heigth = TopPadding + FontHeight + BottomPadding
+        height = g.getFont().getHeight() + padding + padding;
 
         // Paint background
         GradientManager.paintGradient(g, 0xeceeed, 0xa7a8a7, x, y, width, height, GradientManager.VERTICAL);
@@ -28,9 +29,9 @@ public class OptionPicker extends UserControl {
         g.setColor(0x272926);
         g.drawRect(x, y, width-1, height-1);
 
-        // Draw text
+        // Draw text. TextPosition = (XCenter, Y + TopPadding)
         g.setColor(0x272926);
-        g.drawString(caption, x + width / 2, y + 4, Graphics.TOP | Graphics.HCENTER);
+        g.drawString(caption, x + width / 2, y + padding, Graphics.TOP | Graphics.HCENTER);
 
         // Paint buttons
         paintButtons(g);

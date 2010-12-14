@@ -16,11 +16,14 @@ public class Switch extends UserControl {
     private String caption;
     private boolean turnedOn = false;
 
+    private int selectorWidth = 20;
+
     public Switch() {
     }
 
     public void paint(Graphics g) {
-        int tHeight = g.getFont().getHeight() + 8;
+        // Heigth = TopPadding + FontHeight + BottomPadding
+        int tHeight = g.getFont().getHeight() + padding + padding;
         height = tHeight > 20 ? tHeight : 20;
 
         int selectorHeight = 8;
@@ -39,9 +42,9 @@ public class Switch extends UserControl {
         g.setColor(0x272926);
         g.drawRect(x, y + 20 - selectorHeight, 19, selectorHeight - 1);
 
-        // Draw text
+        // Draw text. TextPosition = (XCenter, Y + TopPadding)
         g.setColor(0x272926);
-        g.drawString(caption, x + 24, y + 4, Graphics.TOP | Graphics.LEFT);
+        g.drawString(caption, x + selectorWidth + padding, y + padding, Graphics.TOP | Graphics.LEFT);
     }
 
     public String getCaption() {

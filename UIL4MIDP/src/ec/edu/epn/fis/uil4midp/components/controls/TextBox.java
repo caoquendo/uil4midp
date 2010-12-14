@@ -19,7 +19,8 @@ public class TextBox extends UserControl {
     }
 
     public void paint(Graphics g) {
-        height = g.getFont().getHeight() + 8;
+        // Heigth = TopPadding + FontHeight + BottomPadding
+        height = g.getFont().getHeight() + padding + padding;
 
         // Paint background
         GradientManager.paintGradient(g, 0xe2e5e4, 0xeceeed, x, y, width, height, GradientManager.VERTICAL);
@@ -28,9 +29,9 @@ public class TextBox extends UserControl {
         g.setColor(0x272926);
         g.drawRect(x, y, width-1, height-1);
 
-        // Draw text
+        // Draw text. TextPosition = (XCenter, Y + TopPadding)
         g.setColor(0x272926);
-        g.drawString(text, x + 3, y + 4, Graphics.TOP | Graphics.LEFT);
+        g.drawString(text, x + padding, y + padding, Graphics.TOP | Graphics.LEFT);
     }
 
     public String getText() {

@@ -19,10 +19,12 @@ public class Label extends UserControl {
     }
 
     public void paint(Graphics g) {
-        height = g.getFont().getHeight() + 6;
+        // Heigth = TopPadding + FontHeight + BottomPadding
+        height = g.getFont().getHeight() + padding + padding;
 
+        // Draw text. TextPosition = (X + LeftPadding, Y + TopPadding)
         g.setColor(0x272926);
-        g.drawString(caption, x + 3, y + 3, Graphics.TOP | Graphics.LEFT);
+        g.drawString(caption, x + padding, y + padding, Graphics.TOP | Graphics.LEFT);
     }
 
     public String getCaption() {
