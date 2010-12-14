@@ -16,18 +16,41 @@ import javax.microedition.lcdui.Graphics;
  */
 public abstract class Container extends VisualComponent {
 
-    private Vector visualComponents;
+    protected Vector visualComponents;
+    protected int margin = 0;
+    protected int border = 0;
+    protected int borderColor = 0;
+    protected int controlSeparation = 0;
+
+    public Container() {
+        visualComponents = new Vector();
+    }
 
     public void paint(Graphics g) {
-
+        // Paint border
     }
 
     public void addContainer(Container container) {
-
+        this.visualComponents.addElement(container);
     }
 
     public void addUserControl(UserControl userControl) {
-
+        this.visualComponents.addElement(userControl);
     }
 
+    public void setMargin(int margin) {
+        this.margin = margin;
+    }
+
+    public void setBorder(int border) {
+        this.border = border;
+    }
+
+    public void setBorderColor(int borderColor) {
+        this.borderColor = borderColor;
+    }
+
+    public void setControlSeparation(int controlSeparation) {
+        this.controlSeparation = controlSeparation;
+    }
 }

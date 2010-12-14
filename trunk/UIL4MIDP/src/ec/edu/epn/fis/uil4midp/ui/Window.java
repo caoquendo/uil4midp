@@ -6,11 +6,9 @@
 package ec.edu.epn.fis.uil4midp.ui;
 
 import ec.edu.epn.fis.uil4midp.controllers.IController;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Font;
-import javax.microedition.midlet.MIDlet;
 
 /**
  *
@@ -18,17 +16,14 @@ import javax.microedition.midlet.MIDlet;
  */
 public class Window extends Canvas {
 
-    private Display d;
     private final int DISP_W;
     private final int DISP_H;
 
     private IController viewController;
 
-    public Window(MIDlet midlet) throws Exception {
+    public Window() throws Exception {
         this.setFullScreenMode(true);
         
-        d = Display.getDisplay(midlet);
-
         DISP_W = getWidth();
         DISP_H = getHeight();
     }

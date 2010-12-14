@@ -19,8 +19,8 @@ public class Form implements IView {
     private Vector visualComponents;
     private int width;
 
-    private int nX = 0;
-    private int nY = 0;
+    private int nextX = 0;
+    private int nextY = 0;
 
     private TitleBar titleBar;
 
@@ -38,15 +38,15 @@ public class Form implements IView {
     public void paint(Graphics g) {
 
         titleBar.paint(g);
-        nY = titleBar.getHeight();
+        nextY = titleBar.getHeight();
         
         for (int i = 0; i < visualComponents.size(); i++) {
             VisualComponent vc = (VisualComponent)visualComponents.elementAt(i);
-            vc.setPosition(nX, nY);
+            vc.setPosition(nextX, nextY);
             vc.setWidth(width);
             vc.paint(g);
 
-            nY = nY + vc.getHeight();
+            nextY = nextY + vc.getHeight();
         }
     }
 

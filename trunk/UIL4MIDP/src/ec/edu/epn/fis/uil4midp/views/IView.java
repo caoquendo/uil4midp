@@ -19,7 +19,5 @@ public interface IView {
     void paint(Graphics g);
 
     public void setWidth(int width);
-
-    
     
 }
