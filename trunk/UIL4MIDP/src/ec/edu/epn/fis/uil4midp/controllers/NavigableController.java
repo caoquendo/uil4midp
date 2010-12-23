@@ -23,4 +23,7 @@ public class NavigableController implements IController {
     public void setWidth(int width) {
     }
 
+    public void keyPressed(int keyPressed) {
+    }
+
 }

@@ -16,6 +16,7 @@ public class Label extends UserControl {
 
     public Label(String caption) {
         this.caption = caption;
+        this.selectable = false;
     }
 
     public void paint(Graphics g) {

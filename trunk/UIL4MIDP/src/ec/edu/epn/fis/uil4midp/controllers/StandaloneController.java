@@ -30,4 +30,8 @@ public class StandaloneController implements IController {
         this.width = width;
     }
 
+    public void keyPressed(int keyPressed) {
+        holdedView.keyPressed(keyPressed);
+    }
+
 }

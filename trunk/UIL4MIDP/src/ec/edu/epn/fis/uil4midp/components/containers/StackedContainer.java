@@ -6,6 +6,8 @@
 package ec.edu.epn.fis.uil4midp.components.containers;
 
 import ec.edu.epn.fis.uil4midp.components.VisualComponent;
+import ec.edu.epn.fis.uil4midp.components.controls.UserControl;
+import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 
 /**
@@ -16,6 +18,9 @@ public class StackedContainer extends Container {
 
     private int nextX;
     private int nextY;
+
+    private int selectedControlIndex = -1;
+    private UserControl selectedControl = null;
 
     public StackedContainer() {
         super();
@@ -39,6 +44,39 @@ public class StackedContainer extends Container {
             vc.paint(g);
 
             nextY = nextY + margin + border + controlSeparation + vc.getHeight();
+        }
+    }
+
+    public void keyPressed(int keyCode) {
+        switch (keyCode) {
+            case Canvas.DOWN:
+                manageVerticalMovement(keyCode, true);
+                break;
+            case Canvas.UP:
+                manageVerticalMovement(keyCode, false);
+                break;
+        }
+    }
+
+    private void manageVerticalMovement(int keyCode, boolean isDown) {
+        try {
+            if (selectedControl != null)
+                selectedControl.setSelected(false);
+
+            if (isDown)
+                selectedControlIndex++;
+            else
+                selectedControlIndex--;
+
+            UserControl uc = (UserControl)visualComponents.elementAt(selectedControlIndex);
+            if (uc.isSelectable())  {
+                uc.setSelected(true);
+                selectedControl = uc;
+            }
+        } catch (Exception e) {
+            // Component is a container
+            Container cnt = (Container)visualComponents.elementAt(selectedControlIndex);
+            cnt.keyPressed(keyCode);
         }
     }
 }

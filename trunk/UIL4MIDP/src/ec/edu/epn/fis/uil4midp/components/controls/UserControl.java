@@ -13,8 +13,9 @@ import javax.microedition.lcdui.Graphics;
  */
 public abstract class UserControl extends VisualComponent {
 
-    protected boolean selected;
+    protected boolean selected = false;
     protected int padding;
+    protected boolean selectable = true;
 
     public abstract void paint(Graphics g);
 
@@ -28,5 +29,9 @@ public abstract class UserControl extends VisualComponent {
 
     public void setPadding(int padding) {
         this.padding = padding;
+    }
+
+    public boolean isSelectable() {
+        return this.selectable;
     }
 }

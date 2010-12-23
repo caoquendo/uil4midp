@@ -41,5 +41,14 @@ public class Window extends Canvas {
     public void setViewController(IController viewController) {
         this.viewController = viewController;
     }
+
+    protected void keyPressed(int keyCode) {
+        int action = getGameAction(keyCode);
+        
+        viewController.keyPressed(action);
+        repaint();
+    }
+
     
+
 }

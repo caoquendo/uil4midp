@@ -23,7 +23,10 @@ public class Button extends UserControl {
         height = g.getFont().getHeight() + padding + padding;
 
         // Paint background
-        GradientManager.paintGradient(g, 0xeceeed, 0xa7a8a7, x, y, width, height, GradientManager.VERTICAL);
+        if (isSelected())
+            GradientManager.paintGradient(g, 0xb6bc3e, 0x80852c, x, y, width, height, GradientManager.VERTICAL);
+        else
+            GradientManager.paintGradient(g, 0xeceeed, 0xa7a8a7, x, y, width, height, GradientManager.VERTICAL);
 
         // Paint border
         g.setColor(0x272926);
