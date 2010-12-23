@@ -53,4 +53,6 @@ public abstract class Container extends VisualComponent {
     public void setControlSeparation(int controlSeparation) {
         this.controlSeparation = controlSeparation;
     }
+
+    public abstract void keyPressed(int keyCode);
 }

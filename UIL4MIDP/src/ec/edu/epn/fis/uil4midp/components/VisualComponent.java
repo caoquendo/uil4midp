@@ -16,6 +16,7 @@ public abstract class VisualComponent {
     protected int height;
     protected int x;
     protected int y;
+    protected boolean active = false;
 
     public abstract void paint(Graphics g);
 
@@ -38,5 +39,13 @@ public abstract class VisualComponent {
 
     public int getHeight() {
         return height;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }

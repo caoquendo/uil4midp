@@ -18,6 +18,8 @@ public interface IView {
 
     void paint(Graphics g);
 
-    public void setWidth(int width);
+    void setWidth(int width);
+
+    void keyPressed(int keyCode);
     
 }

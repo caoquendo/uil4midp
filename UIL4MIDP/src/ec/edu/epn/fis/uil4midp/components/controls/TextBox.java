@@ -29,6 +29,12 @@ public class TextBox extends UserControl {
         g.setColor(0x272926);
         g.drawRect(x, y, width-1, height-1);
 
+        if (isSelected()) {
+            // Paint inner border
+            g.setColor(0xb6bc3e);
+            g.drawRect(x+1, y+1, width-3, height-3);
+        }
+
         // Draw text. TextPosition = (XCenter, Y + TopPadding)
         g.setColor(0x272926);
         g.drawString(text, x + padding, y + padding, Graphics.TOP | Graphics.LEFT);

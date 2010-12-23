@@ -23,4 +23,7 @@ public class List implements IView {
     public void setWidth(int width) {
     }
 
+    public void keyPressed(int keyCode) {
+    }
+
 }
