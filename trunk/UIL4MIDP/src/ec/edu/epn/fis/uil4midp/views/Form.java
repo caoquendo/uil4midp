@@ -1,55 +1,51 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ec.edu.epn.fis.uil4midp.views;
 
+import ec.edu.epn.fis.uil4midp.actions.ActionListener;
 import ec.edu.epn.fis.uil4midp.components.VisualComponent;
 import ec.edu.epn.fis.uil4midp.components.containers.Container;
+import ec.edu.epn.fis.uil4midp.components.containers.StackedContainer;
 import ec.edu.epn.fis.uil4midp.components.controls.UserControl;
 import ec.edu.epn.fis.uil4midp.util.GradientManager;
-import java.util.Vector;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 
-/**
- *
- * @author Andrés
- */
-public class Form implements IView {
+public class Form extends AbstractView {
 
-    private Vector visualComponents;
+    private StackedContainer baseContainer;
     private int width;
     private int nextX = 0;
     private int nextY = 0;
     private TitleBar titleBar;
-    private int selectedControlIndex = 0;
 
     public Form(String title) {
-        visualComponents = new Vector();
+        baseContainer = new StackedContainer();
 
         titleBar = new TitleBar(title);
-        titleBar.setPadding(3);
+        titleBar.setPadding(4);
         titleBar.setPosition(0, 0);
+
+        initializeComponent();
+    }
+
+    private void initializeComponent() {
+        baseContainer.setView(this);
     }
 
     public void addVisualComponent(VisualComponent visualComponent) {
-        this.visualComponents.addElement(visualComponent);
+        try {
+            this.baseContainer.addUserControl((UserControl) visualComponent);
+        } catch (Exception e) {
+            this.baseContainer.addContainer((Container) visualComponent);
+        }
     }
 
     public void paint(Graphics g) {
-
         titleBar.paint(g);
         nextY = titleBar.getHeight();
 
-        for (int i = 0; i < visualComponents.size(); i++) {
-            VisualComponent vc = (VisualComponent) visualComponents.elementAt(i);
-            vc.setPosition(nextX, nextY);
-            vc.setWidth(width);
-            vc.paint(g);
-
-            nextY = nextY + vc.getHeight();
-        }
+        baseContainer.setPosition(nextX, nextY);
+        baseContainer.setWidth(width);
+        baseContainer.paint(g);
     }
 
     public String getTitle() {
@@ -62,54 +58,140 @@ public class Form implements IView {
         titleBar.setWidth(width);
     }
 
-    public void setLeftButton(String caption) {
-        titleBar.setTitleBarButton(caption, TitleBar.LEFT_BUTTON);
+    public void setLeftButton(String caption, ActionListener actionListener) {
+        titleBar.setTitleBarButton(caption, TitleBar.LEFT_BUTTON, actionListener);
     }
 
-    public void setRightButton(String caption) {
-        titleBar.setTitleBarButton(caption, TitleBar.RIGHT_BUTTON);
+    public void setRightButton(String caption, ActionListener actionListener) {
+        titleBar.setTitleBarButton(caption, TitleBar.RIGHT_BUTTON, actionListener);
     }
 
-    public void keyPressed(int keyCode) {
+    public void keyPressed(int action, int keyCode) {
         // UP & DOWN: Navigate through controls
         // LEFT & RIGHT: Navigate through UI elements
 
-        switch (keyCode) {
+        switch (action) {
             case Canvas.DOWN:
-                manageVerticalMovement(keyCode, true);
+                handleVerticalMovement(action, keyCode, Container.DOWN);
                 break;
             case Canvas.UP:
-                manageVerticalMovement(keyCode, false);
+                handleVerticalMovement(action, keyCode, Container.UP);
                 break;
             case Canvas.LEFT:
-                manageHorizontalDisplacement(keyCode);
+                handleHorizontalMovement(action, keyCode);
                 break;
             case Canvas.RIGHT:
-                manageHorizontalDisplacement(keyCode);
+                handleHorizontalMovement(action, keyCode);
+                break;
+            default:
+                if (baseContainer.isFocused()) {
+                    baseContainer.keyPressed(action, keyCode);
+                } else if (titleBar.isFocused()) {
+                    titleBar.keyPressed(action, keyCode);
+                }
                 break;
         }
     }
 
-    private void manageHorizontalDisplacement(int keyCode) {
-        titleBar.setSelected(true);
-        titleBar.keyPressed(keyCode);
+    private void handleHorizontalMovement(int action, int keyCode) {
+        if (titleBar.isFocused()) {
+            titleBar.keyPressed(action, keyCode);
+        } else {
+            baseContainer.keyPressed(action, keyCode);
+        }
     }
 
-    private void manageVerticalMovement(int keyCode, boolean isDown) {
-        titleBar.setSelected(false);
+    private void handleVerticalMovement(int action, int keyCode, int direction) {
+        switch (direction) {
+            case Container.DOWN:
+                if (titleBar.isFocused()) {
+                    if (!baseContainer.isFocused()) {
+                        titleBar.setFocused(false);
 
-        try {
-            UserControl uc = (UserControl)visualComponents.elementAt(selectedControlIndex);
-            uc.setSelected(true);
-            selectedControlIndex++;
-        } catch (Exception e) {
-            // Component is a container
-            Container cnt = (Container)visualComponents.elementAt(selectedControlIndex);
-            cnt.keyPressed(keyCode);
+                        baseContainer.setFocused(true);
+                        if (baseContainer.canHandleVerticalMovement(direction)) {
+                            baseContainer.keyPressed(action, keyCode);
+                        }
+                    }
+                } else {
+                    if (baseContainer.isFocused()) {
+                        if (baseContainer.canHandleVerticalMovement(direction)) {
+                            baseContainer.keyPressed(action, keyCode);
+                        }
+                    } else {
+                        titleBar.setFocused(true);
+                    }
+                }
+                break;
+            case Container.UP:
+                if (titleBar.isFocused()) {
+                    if (baseContainer.isFocused()) {
+                        //DO NOTHING
+                    } else {
+                        //DO NOTHING
+                    }
+                } else {
+                    if (baseContainer.isFocused()) {
+                        if (baseContainer.canHandleVerticalMovement(direction)) {
+                            baseContainer.keyPressed(action, keyCode);
+
+                        } else {
+                            titleBar.setFocused(true);
+                            baseContainer.setFocused(false);
+                        }
+
+                    } else {
+                        baseContainer.setFocused(true);
+                    }
+                }
+
+                break;
         }
+
+
+        /*if (isDown) {
+        if (!titleBar.isFocused() && !baseContainer.isFocused()) {
+        titleBar.setFocused(true);
+        } else if (titleBar.isFocused() && !baseContainer.isFocused()) {
+        titleBar.setFocused(false);
+        baseContainer.setFocused(true);
+
+        if (baseContainer.canHandleVerticalMovement(isDown)) {
+        baseContainer.keyPressed(keyCode);
+        }
+        } else if (!titleBar.isSelected() && baseContainer.isFocused()) {
+        if (baseContainer.canHandleVerticalMovement(isDown)) {
+        baseContainer.keyPressed(keyCode);
+        }
+        }
+        } else { // isUp
+        if (!titleBar.isSelected() && !baseContainer.isFocused()) {
+        baseContainer.setFocused(true);
+
+        if (baseContainer.canHandleVerticalMovement(isDown)) {
+        baseContainer.keyPressed(keyCode);
+        }
+        } else if (baseContainer.isFocused() && !titleBar.isSelected()) {
+        if (baseContainer.canHandleVerticalMovement(isDown)) {
+        baseContainer.keyPressed(keyCode);
+        } else {
+        titleBar.setSelected(true);
+        baseContainer.setFocused(false);
+        }
+        }
+        }*/
+    }
+
+    public void setBorder(int border) {
+        baseContainer.setBorder(border);
+    }
+
+    public void setMargin(int margin) {
+        baseContainer.setMargin(margin);
     }
 }
 
+//<editor-fold desc="TitleBar Class">
 final class TitleBar extends UserControl {
 
     public static final int LEFT_BUTTON = -1;
@@ -122,13 +204,15 @@ final class TitleBar extends UserControl {
         this.title = title;
     }
 
-    public void setTitleBarButton(String caption, int buttonPosition) {
+    public void setTitleBarButton(String caption, int buttonPosition, ActionListener actionListener) {
         if (buttonPosition == LEFT_BUTTON) {
             leftButton = new TitleBarButton(caption, buttonPosition);
             leftButton.setPadding(this.padding);
+            leftButton.setActionListener(actionListener);
         } else if (buttonPosition == RIGHT_BUTTON) {
             rightButton = new TitleBarButton(caption, buttonPosition);
             rightButton.setPadding(this.padding);
+            rightButton.setActionListener(actionListener);
         }
     }
 
@@ -165,49 +249,68 @@ final class TitleBar extends UserControl {
         return this.title;
     }
 
-    public void keyPressed(int keyCode) {
-        switch(keyCode){
+    public void keyPressed(int action, int keyCode) {
+        switch (action) {
             case Canvas.LEFT:
-                if (!leftButton.isSelected() && !rightButton.isSelected())
-                    rightButton.setSelected(true);
-                else if (leftButton.isSelected()) {
-                    leftButton.setSelected(false);
-                    rightButton.setSelected(true);
-                } else {
-                    leftButton.setSelected(true);
-                    rightButton.setSelected(false);
-                }
+                handleHorizontalMovement();
                 break;
             case Canvas.RIGHT:
-                if (!leftButton.isSelected() && !rightButton.isSelected())
-                    leftButton.setSelected(true);
-                else if (leftButton.isSelected()) {
-                    leftButton.setSelected(false);
-                    rightButton.setSelected(true);
-                } else {
-                    leftButton.setSelected(true);
-                    rightButton.setSelected(false);
+                handleHorizontalMovement();
+                break;
+            case Canvas.FIRE:
+                if (leftButton.isFocused()) {
+                    leftButton.keyPressed(action, keyCode);
+                } else if (rightButton.isFocused()) {
+                    rightButton.keyPressed(action, keyCode);
                 }
                 break;
         }
     }
 
-    public void setSelected(boolean selected) {
-        super.setSelected(selected);
-
-        if (!selected) {
-            leftButton.setSelected(selected);
-            rightButton.setSelected(selected);
+    private void handleHorizontalMovement() {
+        if (leftButton != null && leftButton.isFocused()) {
+            leftButton.setFocused(false);
+            if (rightButton != null) {
+                rightButton.setFocused(true);
+            }
+        } else if (rightButton != null && rightButton.isFocused()) {
+            rightButton.setFocused(false);
+            if (leftButton != null) {
+                leftButton.setFocused(true);
+            }
         }
     }
 
+    public void setFocused(boolean focused) {
+        super.setFocused(focused);
 
+        if (leftButton != null) {
+            leftButton.setFocused(focused);
+        } else {
+            if (rightButton != null) {
+                rightButton.setFocused(focused);
+            }
+        }
+
+        if (!focused) {
+            if (rightButton != null) {
+                rightButton.setFocused(focused);
+            }
+        }
+    }
+
+    public boolean isFocusable() {
+        return true;
+    }
 }
+//</editor-fold>
 
+//<editor-fold desc="TitleBarButton Class">
 final class TitleBarButton extends UserControl {
 
     private String label;
     private int position;
+    private ActionListener actionListener;
 
     public TitleBarButton(String label, int position) {
         this.label = label;
@@ -231,10 +334,11 @@ final class TitleBarButton extends UserControl {
             tx = x;
         }
 
-        if (isSelected())
+        if (isFocused()) {
             GradientManager.paintGradient(g, 0x4e524c, 0x191c1f, tx, y, width, height, GradientManager.VERTICAL);
-        else
+        } else {
             GradientManager.paintGradient(g, 0x3b3e39, 0x191c1f, tx, y, width, height, GradientManager.VERTICAL);
+        }
 
         g.setColor(0xFFFFFF);
         g.drawString(label, tx + (width / 2), y + padding, Graphics.TOP | Graphics.HCENTER);
@@ -243,4 +347,24 @@ final class TitleBarButton extends UserControl {
     public String getLabel() {
         return this.label;
     }
+
+    public boolean isFocusable() {
+        return true;
+    }
+
+    public void keyPressed(int action, int keyCode) {
+        switch (action) {
+            case Canvas.FIRE:
+                if (actionListener != null) {
+                    actionListener.execute();
+                }
+                break;
+        }
+    }
+
+    public void setActionListener(ActionListener actionListener) {
+        this.actionListener = actionListener;
+    }
 }
+//</editor-fold>
+

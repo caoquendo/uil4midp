@@ -1,26 +1,22 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ec.edu.epn.fis.uil4midp.components.containers;
 
 import ec.edu.epn.fis.uil4midp.components.VisualComponent;
 import ec.edu.epn.fis.uil4midp.components.controls.UserControl;
+import ec.edu.epn.fis.uil4midp.views.AbstractView;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 
-/**
- *
- * @author Andrés
- */
 public abstract class Container extends VisualComponent {
 
+    public static final int UP = 0;
+    public static final int DOWN = 1;
     protected Vector visualComponents;
     protected int margin = 0;
     protected int border = 0;
     protected int borderColor = 0;
     protected int controlSeparation = 0;
+
+    protected AbstractView view;
 
     public Container() {
         visualComponents = new Vector();
@@ -31,10 +27,12 @@ public abstract class Container extends VisualComponent {
     }
 
     public void addContainer(Container container) {
+        container.setContainer(this);
         this.visualComponents.addElement(container);
     }
 
     public void addUserControl(UserControl userControl) {
+        userControl.setContainer(this);
         this.visualComponents.addElement(userControl);
     }
 
@@ -54,5 +52,17 @@ public abstract class Container extends VisualComponent {
         this.controlSeparation = controlSeparation;
     }
 
-    public abstract void keyPressed(int keyCode);
+    public abstract boolean canHandleVerticalMovement(int direction);
+
+    public int getComponentType() {
+        return CONTAINER;
+    }
+
+    public void setView(AbstractView view) {
+        this.view = view;
+    }
+
+    public AbstractView getView() {
+        return this.view;
+    }
 }

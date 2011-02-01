@@ -1,21 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ec.edu.epn.fis.uil4midp.components.controls;
 
 import ec.edu.epn.fis.uil4midp.util.GradientManager;
+import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 
-/**
- *
- * @author Andrés
- */
 public class Switch extends UserControl {
 
     private String caption;
     private boolean turnedOn = false;
-
     private int selectorWidth = 20;
 
     public Switch() {
@@ -26,21 +18,33 @@ public class Switch extends UserControl {
         int tHeight = g.getFont().getHeight() + padding + padding;
         height = tHeight > 20 ? tHeight : 20;
 
+        int selectorY;
+
         int selectorHeight = 8;
 
         // Paint background
-        GradientManager.paintGradient(g, 0xe2e5e4, 0xeceeed, x, y, 20, 20, GradientManager.VERTICAL);
+        if (turnedOn) {
+            GradientManager.paintGradient(g, 0xc79f3e, 0xd9be7a, x, y, 20, 20, GradientManager.VERTICAL);
+            selectorY = y;
+        } else {
+            GradientManager.paintGradient(g, 0xe2e5e4, 0xeceeed, x, y, 20, 20, GradientManager.VERTICAL);
+            selectorY = y + 20 - selectorHeight;
+        }
 
         // Paint border
         g.setColor(0x272926);
         g.drawRect(x, y, 19, 19);
 
         // Paint selector
-        GradientManager.paintGradient(g, 0xeceeed, 0xaaacab, x, y + 20 - selectorHeight, 20, selectorHeight, GradientManager.VERTICAL);
+        if (isFocused()) {
+            GradientManager.paintGradient(g, 0xb6bc3e, 0x83882d, x, selectorY, 20, selectorHeight, GradientManager.VERTICAL);
+        } else {
+            GradientManager.paintGradient(g, 0xeceeed, 0xaaacab, x, selectorY, 20, selectorHeight, GradientManager.VERTICAL);
+        }
 
         // Paint selector border
         g.setColor(0x272926);
-        g.drawRect(x, y + 20 - selectorHeight, 19, selectorHeight - 1);
+        g.drawRect(x, selectorY, 19, selectorHeight - 1);
 
         // Draw text. TextPosition = (XCenter, Y + TopPadding)
         g.setColor(0x272926);
@@ -53,5 +57,25 @@ public class Switch extends UserControl {
 
     public void setCaption(String caption) {
         this.caption = caption;
+    }
+
+    public boolean isFocusable() {
+        return true;
+    }
+
+    public void keyPressed(int action, int keyCode) {
+        switch (action) {
+            case Canvas.FIRE:
+                turnedOn = !turnedOn;
+                break;
+        }
+    }
+
+    public boolean isTurnedOn() {
+        return turnedOn;
+    }
+
+    public void setTurnedOn(boolean turnedOn) {
+        this.turnedOn = turnedOn;
     }
 }
