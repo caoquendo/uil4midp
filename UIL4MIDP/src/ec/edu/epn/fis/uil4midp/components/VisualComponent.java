@@ -1,22 +1,19 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ec.edu.epn.fis.uil4midp.components;
 
+import ec.edu.epn.fis.uil4midp.components.containers.Container;
 import javax.microedition.lcdui.Graphics;
 
-/**
- *
- * @author Andrés
- */
 public abstract class VisualComponent {
 
+    public static final int USER_CONTROL = 0;
+    public static final int CONTAINER = 1;
     protected int width;
     protected int height;
     protected int x;
     protected int y;
-    protected boolean active = false;
+    protected boolean focused = false;
+
+    protected Container container;
 
     public abstract void paint(Graphics g);
 
@@ -41,11 +38,25 @@ public abstract class VisualComponent {
         return height;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setFocused(boolean focused) {
+        this.focused = focused;
     }
 
-    public boolean isActive() {
-        return active;
+    public boolean isFocused() {
+        return focused;
+    }
+
+    public abstract boolean isFocusable();
+
+    public abstract int getComponentType();
+
+    public abstract void keyPressed(int action, int keyCode);
+
+    public void setContainer(Container container) {
+        this.container = container;
+    }
+
+    public Container getContainer() {
+        return this.container;
     }
 }

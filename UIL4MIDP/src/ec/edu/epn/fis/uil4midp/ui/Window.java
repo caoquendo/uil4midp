@@ -1,54 +1,65 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ec.edu.epn.fis.uil4midp.ui;
 
-import ec.edu.epn.fis.uil4midp.controllers.IController;
+import ec.edu.epn.fis.uil4midp.controllers.AbstractController;
+import ec.edu.epn.fis.uil4midp.util.FontManager;
+import ec.edu.epn.fis.uil4midp.views.SplashScreen;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Canvas;
-import javax.microedition.lcdui.Font;
+import javax.microedition.lcdui.Display;
+import javax.microedition.midlet.MIDlet;
 
-/**
- *
- * @author Andrés
- */
 public class Window extends Canvas {
 
-    private final int DISP_W;
-    private final int DISP_H;
+    private MIDlet midlet;
+    private Display display;
 
-    private IController viewController;
-
-    public Window() throws Exception {
+    private final int DISPLAY_WIDTH;
+    private final int DISPLAY_HEIGHT;
+    private AbstractController viewController;
+    private SplashScreen splashScreen;
+    
+    protected Window(MIDlet midlet){
         this.setFullScreenMode(true);
-        
-        DISP_W = getWidth();
-        DISP_H = getHeight();
+
+        this.midlet = midlet;
+        this.display = Display.getDisplay(midlet);
+
+        DISPLAY_WIDTH = getWidth();
+        DISPLAY_HEIGHT = getHeight();
     }
 
-    public void paint(Graphics g) {
-        g.setFont(Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
+    public final void paint(Graphics g) {
+        g.setFont(FontManager.getNormalFont());
 
         g.setColor(0xFFFFFF);
-        g.fillRect(0, 0, DISP_W, DISP_H);
+        g.fillRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 
-        viewController.setWidth(DISP_W);
+        viewController.setWidth(DISPLAY_WIDTH);
         viewController.paint(g);
     }
 
-    public void setViewController(IController viewController) {
+    public void setViewController(AbstractController viewController) {
         this.viewController = viewController;
+        this.viewController.setWindow(this);
     }
 
-    protected void keyPressed(int keyCode) {
+    protected final void keyPressed(int keyCode) {
         int action = getGameAction(keyCode);
-        
-        viewController.keyPressed(action);
+
+        viewController.keyPressed(action, keyCode);
+
         repaint();
     }
 
-    
+    public void setSplashScreen(SplashScreen splashScreen) {
+        this.splashScreen = splashScreen;
+    }
 
+    public void show() {
+        display.setCurrent(this);
+    }
+
+    public Display getDisplay() {
+        return display;
+    }
 }

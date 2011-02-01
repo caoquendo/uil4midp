@@ -1,26 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ec.edu.epn.fis.uil4midp.components.containers;
 
 import ec.edu.epn.fis.uil4midp.components.VisualComponent;
-import ec.edu.epn.fis.uil4midp.components.controls.UserControl;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 
-/**
- *
- * @author Andrés
- */
 public class StackedContainer extends Container {
 
     private int nextX;
     private int nextY;
-
-    private int selectedControlIndex = -1;
-    private UserControl selectedControl = null;
+    private int selectedComponentIndex = -1;
+    private VisualComponent selectedComponent = null;
 
     public StackedContainer() {
         super();
@@ -38,7 +27,7 @@ public class StackedContainer extends Container {
         VisualComponent vc;
 
         for (int i = 0; i < visualComponents.size(); i++) {
-            vc = (VisualComponent)visualComponents.elementAt(i);
+            vc = (VisualComponent) visualComponents.elementAt(i);
             vc.setPosition(nextX, nextY);
             vc.setWidth(controlWidth);
             vc.paint(g);
@@ -47,36 +36,79 @@ public class StackedContainer extends Container {
         }
     }
 
-    public void keyPressed(int keyCode) {
-        switch (keyCode) {
+    public void keyPressed(int action, int keyCode) {
+        switch (action) {
             case Canvas.DOWN:
-                manageVerticalMovement(keyCode, true);
+                handleVerticalMovement(keyCode, Container.DOWN);
                 break;
             case Canvas.UP:
-                manageVerticalMovement(keyCode, false);
+                handleVerticalMovement(keyCode, Container.UP);
+                break;
+            default:
+                if (selectedComponent != null)
+                    selectedComponent.keyPressed(action, keyCode);
                 break;
         }
     }
 
-    private void manageVerticalMovement(int keyCode, boolean isDown) {
-        try {
-            if (selectedControl != null)
-                selectedControl.setSelected(false);
+    private void handleVerticalMovement(int keyCode, int direction) {
+        boolean isComponentFocusable = false;
 
-            if (isDown)
-                selectedControlIndex++;
-            else
-                selectedControlIndex--;
-
-            UserControl uc = (UserControl)visualComponents.elementAt(selectedControlIndex);
-            if (uc.isSelectable())  {
-                uc.setSelected(true);
-                selectedControl = uc;
-            }
-        } catch (Exception e) {
-            // Component is a container
-            Container cnt = (Container)visualComponents.elementAt(selectedControlIndex);
-            cnt.keyPressed(keyCode);
+        if (selectedComponent != null) {
+            selectedComponent.setFocused(false);
         }
+
+        while (!isComponentFocusable) {
+
+            if (direction == DOWN) {
+                selectedComponentIndex++;
+            } else {
+                selectedComponentIndex--;
+            }
+
+            System.out.println("KeyPressed: " + (direction == DOWN ? "DOWN" : "UP") + ", SelectedComponentIndex: " + selectedComponentIndex);
+
+            try {
+                VisualComponent vc = (VisualComponent) visualComponents.elementAt(selectedComponentIndex);
+
+                isComponentFocusable = vc.isFocusable();
+
+                if (isComponentFocusable) {
+                    vc.setFocused(true);
+                    selectedComponent = vc;
+                }
+            } catch (Exception e) {
+                return;
+            }
+        }
+
+        //TODO: Component is a container
+            /*Container cnt = (Container) visualComponents.elementAt(selectedControlIndex);
+
+        if (cnt.canHandleVerticalMovement(isDown)) {
+        cnt.keyPressed(keyCode);
+        }*/
+    }
+
+    public boolean canHandleVerticalMovement(int direction) {
+        switch (direction) {
+            case Container.DOWN:
+                if (selectedComponentIndex + 1 >= visualComponents.size()) {
+                    return false;
+                }
+
+                break;
+            case Container.UP:
+                if (selectedComponentIndex - 1 <= -1) {
+                    return false;
+                }
+
+                break;
+        }
+        return true;
+    }
+
+    public boolean isFocusable() {
+        return true;
     }
 }

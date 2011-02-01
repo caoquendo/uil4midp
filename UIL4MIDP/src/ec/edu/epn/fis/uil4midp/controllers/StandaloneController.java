@@ -1,37 +1,30 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ec.edu.epn.fis.uil4midp.controllers;
 
-import ec.edu.epn.fis.uil4midp.views.IView;
+import ec.edu.epn.fis.uil4midp.views.AbstractView;
 import javax.microedition.lcdui.Graphics;
 
-/**
- *
- * @author Andrés
- */
-public class StandaloneController implements IController {
+public class StandaloneController extends AbstractController {
 
-    private IView holdedView;
+    private AbstractView holdedView;
     private int width;
 
-    public void addView(IView view) {
+    public void addView(AbstractView view) {
+        view.setController(this);
         this.holdedView = view;
     }
 
-    public void paint(Graphics g) {
+    public final void paint(Graphics g) {
         holdedView.setWidth(width);
         holdedView.paint(g);
     }
 
-    public void setWidth(int width) {
+    public final void setWidth(int width) {
         this.width = width;
     }
 
-    public void keyPressed(int keyPressed) {
-        holdedView.keyPressed(keyPressed);
+    public final void keyPressed(int action, int keyCode) {
+        holdedView.keyPressed(action, keyCode);
     }
 
 }
