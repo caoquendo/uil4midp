@@ -26,4 +26,8 @@ public class List implements IView {
     public void keyPressed(int action, int keyCode) {
     }
 
+    public boolean canHandleVerticalMovement(int direction) {
+        return false;
+    }
+
 }

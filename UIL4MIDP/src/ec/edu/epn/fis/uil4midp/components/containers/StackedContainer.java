@@ -1,6 +1,7 @@
 package ec.edu.epn.fis.uil4midp.components.containers;
 
 import ec.edu.epn.fis.uil4midp.components.VisualComponent;
+import ec.edu.epn.fis.uil4midp.util.Direction;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 
@@ -39,10 +40,10 @@ public class StackedContainer extends Container {
     public void keyPressed(int action, int keyCode) {
         switch (action) {
             case Canvas.DOWN:
-                handleVerticalMovement(keyCode, Container.DOWN);
+                handleVerticalMovement(keyCode, Direction.DOWN);
                 break;
             case Canvas.UP:
-                handleVerticalMovement(keyCode, Container.UP);
+                handleVerticalMovement(keyCode, Direction.UP);
                 break;
             default:
                 if (selectedComponent != null)
@@ -60,13 +61,13 @@ public class StackedContainer extends Container {
 
         while (!isComponentFocusable) {
 
-            if (direction == DOWN) {
+            if (direction == Direction.DOWN) {
                 selectedComponentIndex++;
             } else {
                 selectedComponentIndex--;
             }
 
-            System.out.println("KeyPressed: " + (direction == DOWN ? "DOWN" : "UP") + ", SelectedComponentIndex: " + selectedComponentIndex);
+            System.out.println("KeyPressed: " + (direction == Direction.DOWN ? "DOWN" : "UP") + ", SelectedComponentIndex: " + selectedComponentIndex);
 
             try {
                 VisualComponent vc = (VisualComponent) visualComponents.elementAt(selectedComponentIndex);
@@ -92,13 +93,13 @@ public class StackedContainer extends Container {
 
     public boolean canHandleVerticalMovement(int direction) {
         switch (direction) {
-            case Container.DOWN:
+            case Direction.DOWN:
                 if (selectedComponentIndex + 1 >= visualComponents.size()) {
                     return false;
                 }
 
                 break;
-            case Container.UP:
+            case Direction.UP:
                 if (selectedComponentIndex - 1 <= -1) {
                     return false;
                 }

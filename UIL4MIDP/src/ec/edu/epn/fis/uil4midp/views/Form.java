@@ -5,6 +5,7 @@ import ec.edu.epn.fis.uil4midp.components.VisualComponent;
 import ec.edu.epn.fis.uil4midp.components.containers.Container;
 import ec.edu.epn.fis.uil4midp.components.containers.StackedContainer;
 import ec.edu.epn.fis.uil4midp.components.controls.UserControl;
+import ec.edu.epn.fis.uil4midp.util.Direction;
 import ec.edu.epn.fis.uil4midp.util.GradientManager;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
@@ -72,10 +73,10 @@ public class Form extends AbstractView {
 
         switch (action) {
             case Canvas.DOWN:
-                handleVerticalMovement(action, keyCode, Container.DOWN);
+                handleVerticalMovement(action, keyCode, Direction.DOWN);
                 break;
             case Canvas.UP:
-                handleVerticalMovement(action, keyCode, Container.UP);
+                handleVerticalMovement(action, keyCode, Direction.UP);
                 break;
             case Canvas.LEFT:
                 handleHorizontalMovement(action, keyCode);
@@ -103,7 +104,7 @@ public class Form extends AbstractView {
 
     private void handleVerticalMovement(int action, int keyCode, int direction) {
         switch (direction) {
-            case Container.DOWN:
+            case Direction.DOWN:
                 if (titleBar.isFocused()) {
                     if (!baseContainer.isFocused()) {
                         titleBar.setFocused(false);
@@ -123,7 +124,7 @@ public class Form extends AbstractView {
                     }
                 }
                 break;
-            case Container.UP:
+            case Direction.UP:
                 if (titleBar.isFocused()) {
                     if (baseContainer.isFocused()) {
                         //DO NOTHING
@@ -155,6 +156,38 @@ public class Form extends AbstractView {
 
     public void setMargin(int margin) {
         baseContainer.setMargin(margin);
+    }
+
+    public boolean canHandleVerticalMovement(int direction) {
+        switch (direction) {
+            case Direction.DOWN:
+                if (titleBar.isFocused()) {
+                    if (!baseContainer.isFocused()) {
+                        return baseContainer.canHandleVerticalMovement(direction);
+                    }
+                } else {
+                    if (baseContainer.isFocused()) {
+                        return baseContainer.canHandleVerticalMovement(direction);
+                    } else {
+                        return true;
+                    }
+                }
+                break;
+            case Direction.UP:
+                if (titleBar.isFocused()) {
+                    if (!baseContainer.isFocused()) {
+                        return baseContainer.canHandleVerticalMovement(direction);
+                    }
+                } else {
+                    if (baseContainer.isFocused()) {
+                        return baseContainer.canHandleVerticalMovement(direction);
+                    } else {
+                        return true;
+                    }
+                }
+                break;
+        }
+        return false;
     }
 }
 

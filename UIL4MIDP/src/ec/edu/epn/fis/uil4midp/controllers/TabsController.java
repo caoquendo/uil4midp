@@ -4,6 +4,7 @@ import ec.edu.epn.fis.uil4midp.components.controls.UserControl;
 import ec.edu.epn.fis.uil4midp.util.GradientManager;
 import ec.edu.epn.fis.uil4midp.views.AbstractView;
 import java.util.Vector;
+import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
@@ -51,8 +52,26 @@ public class TabsController extends AbstractController {
     }
 
     public void keyPressed(int action, int keyCode) {
-        //TODO
-        tabBar.keyPressed(action, keyCode);
+        Tab selectedTab = tabBar.getSelectedTab();
+        switch (action) {
+            case Canvas.DOWN:
+                
+                break;
+            case Canvas.UP:
+                
+                break;
+            default:
+                if (tabBar.isFocused()) {
+                    tabBar.keyPressed(action, keyCode);
+                } else {
+                    if (selectedTab.getView() != null) {
+                        selectedTab.getView().keyPressed(action, keyCode);
+                    } else {
+                        selectedTab.getController().keyPressed(action, keyCode);
+                    }
+                }
+                break;
+        }
     }
 }
 
@@ -178,7 +197,8 @@ class Tab extends UserControl {
     }
 
     public void keyPressed(int action, int keyCode) {
-        //TODO: FIRE
+        switch (action) {
+        }
 
         setSelected(true);
     }
