@@ -8,8 +8,6 @@ import javax.microedition.lcdui.Graphics;
 
 public abstract class Container extends VisualComponent {
 
-    public static final int UP = 0;
-    public static final int DOWN = 1;
     protected Vector visualComponents;
     protected int margin = 0;
     protected int border = 0;

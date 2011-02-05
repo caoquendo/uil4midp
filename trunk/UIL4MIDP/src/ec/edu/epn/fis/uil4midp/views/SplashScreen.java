@@ -73,4 +73,8 @@ public final class SplashScreen implements IView {
             this.timeout = timeout;
         }
     }
+
+    public boolean canHandleVerticalMovement(int direction) {
+        return false;
+    }
 }
