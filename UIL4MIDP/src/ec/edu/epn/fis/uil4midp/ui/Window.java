@@ -34,13 +34,15 @@ public class Window extends Canvas {
         g.setColor(0xFFFFFF);
         g.fillRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 
-        viewController.setWidth(DISPLAY_WIDTH);
         viewController.paint(g);
     }
 
     public void setViewController(AbstractController viewController) {
         this.viewController = viewController;
         this.viewController.setWindow(this);
+
+        viewController.setWidth(DISPLAY_WIDTH);
+        viewController.setHeight(DISPLAY_HEIGHT);
     }
 
     protected final void keyPressed(int keyCode) {

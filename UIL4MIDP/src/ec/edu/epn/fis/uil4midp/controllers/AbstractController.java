@@ -8,7 +8,17 @@ import javax.microedition.lcdui.Displayable;
 
 public abstract class AbstractController implements IController {
 
+    protected int width;
+    protected int height;
     protected Window window;
+    
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
 
     public void setWindow(Window window) {
         this.window = window;

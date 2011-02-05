@@ -147,39 +147,6 @@ public class Form extends AbstractView {
 
                 break;
         }
-
-
-        /*if (isDown) {
-        if (!titleBar.isFocused() && !baseContainer.isFocused()) {
-        titleBar.setFocused(true);
-        } else if (titleBar.isFocused() && !baseContainer.isFocused()) {
-        titleBar.setFocused(false);
-        baseContainer.setFocused(true);
-
-        if (baseContainer.canHandleVerticalMovement(isDown)) {
-        baseContainer.keyPressed(keyCode);
-        }
-        } else if (!titleBar.isSelected() && baseContainer.isFocused()) {
-        if (baseContainer.canHandleVerticalMovement(isDown)) {
-        baseContainer.keyPressed(keyCode);
-        }
-        }
-        } else { // isUp
-        if (!titleBar.isSelected() && !baseContainer.isFocused()) {
-        baseContainer.setFocused(true);
-
-        if (baseContainer.canHandleVerticalMovement(isDown)) {
-        baseContainer.keyPressed(keyCode);
-        }
-        } else if (baseContainer.isFocused() && !titleBar.isSelected()) {
-        if (baseContainer.canHandleVerticalMovement(isDown)) {
-        baseContainer.keyPressed(keyCode);
-        } else {
-        titleBar.setSelected(true);
-        baseContainer.setFocused(false);
-        }
-        }
-        }*/
     }
 
     public void setBorder(int border) {
