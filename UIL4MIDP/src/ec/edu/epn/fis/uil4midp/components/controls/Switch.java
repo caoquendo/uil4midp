@@ -63,12 +63,13 @@ public class Switch extends UserControl {
         return true;
     }
 
-    public void keyPressed(int action, int keyCode) {
+    public boolean keyPressed(int action, int keyCode) {
         switch (action) {
             case Canvas.FIRE:
                 turnedOn = !turnedOn;
-                break;
+                return true;
         }
+        return false;
     }
 
     public boolean isTurnedOn() {

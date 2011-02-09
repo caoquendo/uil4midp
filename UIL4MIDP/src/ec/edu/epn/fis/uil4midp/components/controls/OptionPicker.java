@@ -74,7 +74,7 @@ public class OptionPicker extends UserControl {
         return true;
     }
 
-    public void keyPressed(int action, int keyCode) {
+    public boolean keyPressed(int action, int keyCode) {
         switch (action) {
             case Canvas.LEFT:
                 if (selectedValueIndex > 0) {
@@ -82,15 +82,16 @@ public class OptionPicker extends UserControl {
                 } else {
                     selectedValueIndex = values.length - 1;
                 }
-                break;
+                return true;
             case Canvas.RIGHT:
                 if (selectedValueIndex < values.length - 1) {
                     selectedValueIndex++;
                 } else {
                     selectedValueIndex = 0;
                 }
-                break;
+                return true;
         }
+        return false;
     }
 
     public void setValues(String[] values) {

@@ -1,6 +1,7 @@
 package ec.edu.epn.fis.uil4midp.controllers;
 
 import ec.edu.epn.fis.uil4midp.components.controls.UserControl;
+import ec.edu.epn.fis.uil4midp.util.Direction;
 import ec.edu.epn.fis.uil4midp.util.GradientManager;
 import ec.edu.epn.fis.uil4midp.views.AbstractView;
 import java.util.Vector;
@@ -53,12 +54,55 @@ public class TabsController extends AbstractController {
 
     public void keyPressed(int action, int keyCode) {
         Tab selectedTab = tabBar.getSelectedTab();
+
         switch (action) {
             case Canvas.DOWN:
-                
+                if (tabBar.isFocused()) {
+                    tabBar.setFocused(false);
+
+                    if (selectedTab.getView() != null) {
+                        selectedTab.getView().keyPressed(action, keyCode);
+                    } else {
+                        selectedTab.getController().keyPressed(action, keyCode);
+                    }
+                } else {
+                    tabBar.setFocused(true);
+                }
                 break;
             case Canvas.UP:
-                
+                if (tabBar.isFocused()) {
+                    tabBar.setFocused(false);
+
+                    if (selectedTab.getView() != null) {
+                        selectedTab.getView().keyPressed(action, keyCode);
+                    } else {
+                        selectedTab.getController().keyPressed(action, keyCode);
+                    }
+                } else {
+                    tabBar.setFocused(true);
+                }
+                break;
+            case Canvas.LEFT:
+                if (tabBar.isFocused()) {
+                    tabBar.keyPressed(action, keyCode);
+                } else {
+                    if (selectedTab.getView() != null) {
+                        selectedTab.getView().keyPressed(action, keyCode);
+                    } else {
+                        selectedTab.getController().keyPressed(action, keyCode);
+                    }
+                }
+                break;
+            case Canvas.RIGHT:
+                if (tabBar.isFocused()) {
+                    tabBar.keyPressed(action, keyCode);
+                } else {
+                    if (selectedTab.getView() != null) {
+                        selectedTab.getView().keyPressed(action, keyCode);
+                    } else {
+                        selectedTab.getController().keyPressed(action, keyCode);
+                    }
+                }
                 break;
             default:
                 if (tabBar.isFocused()) {
@@ -80,7 +124,7 @@ class TabBar extends UserControl {
 
     private Vector tabs;
     private Tab selectedTab;
-
+    private int selectedTabIndex;
     private int nextX;
 
     public TabBar() {
@@ -104,7 +148,7 @@ class TabBar extends UserControl {
         nextX = x;
 
         for (int i = 0; i < tabs.size(); i++) {
-            Tab t = (Tab)tabs.elementAt(i);
+            Tab t = (Tab) tabs.elementAt(i);
 
             t.setWidth(tabWidth);
             t.setPosition(nextX, y);
@@ -118,7 +162,9 @@ class TabBar extends UserControl {
     public void addTab(Tab tab) {
         if (tabs.isEmpty()) {
             tab.setSelected(true);
+
             selectedTab = tab;
+            selectedTabIndex = 0;
         }
 
         tab.setHeight(height);
@@ -129,12 +175,49 @@ class TabBar extends UserControl {
         return this.selectedTab;
     }
 
+    public void setFocused(boolean focused) {
+        this.focused = focused;
+
+        selectedTab.setFocused(focused);
+    }
+
     public boolean isFocusable() {
         return true;
     }
 
-    public void keyPressed(int action, int keyCode) {
-        System.out.println("Action on TabBar");
+    public boolean keyPressed(int action, int keyCode) {
+        switch (action) {
+            case Canvas.LEFT:
+                return handleHorizontalMovement(Direction.LEFT);
+            case Canvas.RIGHT:
+                return handleHorizontalMovement(Direction.RIGHT);
+        }
+        return false;
+    }
+
+    private boolean handleHorizontalMovement(int direction) {
+        if (direction == Direction.RIGHT) {
+            if (selectedTabIndex + 1 < tabs.size()) {
+                selectedTabIndex++;
+            } else {
+                return false;
+            }
+        } else {
+            if (selectedTabIndex - 1 > -1) {
+                selectedTabIndex--;
+            } else {
+                return false;
+            }
+        }
+
+        selectedTab.setFocused(false);
+        selectedTab.setSelected(false);
+
+        selectedTab = (Tab) tabs.elementAt(selectedTabIndex);
+        selectedTab.setFocused(true);
+        selectedTab.setSelected(true);
+
+        return true;
     }
 
     public boolean isEmpty() {
@@ -148,7 +231,6 @@ class Tab extends UserControl {
 
     private boolean selected;
     private Image icon;
-
     private AbstractView holdedView;
     private AbstractController holdedController;
 
@@ -170,14 +252,13 @@ class Tab extends UserControl {
 
 
         // Paint Background
-        if (selected) {
+        if (focused) {
+            GradientManager.paintGradient(g, 0x3d342d, 0x67593e, x, y, width, height, GradientManager.VERTICAL);
+        } else if (selected) {
             GradientManager.paintGradient(g, 0x847351, 0x1f1a17, x, y, width, height, GradientManager.VERTICAL);
         } else {
-            if (focused) {
-                GradientManager.paintGradient(g, 0x3d342d, 0x67593e, x, y, width, height, GradientManager.VERTICAL);
-            } else {
-                GradientManager.paintGradient(g, 0x3d342d, 0x1f1a17, x, y, width, height, GradientManager.VERTICAL);
-            }
+            GradientManager.paintGradient(g, 0x3d342d, 0x1f1a17, x, y, width, height, GradientManager.VERTICAL);
+
         }
 
         // Paint icon
@@ -196,11 +277,13 @@ class Tab extends UserControl {
         return this.selected;
     }
 
-    public void keyPressed(int action, int keyCode) {
+    public boolean keyPressed(int action, int keyCode) {
         switch (action) {
         }
 
         setSelected(true);
+
+        return false;
     }
 
     public AbstractView getView() {
@@ -212,3 +295,4 @@ class Tab extends UserControl {
     }
 }
 //</editor-fold>
+

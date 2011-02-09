@@ -67,42 +67,37 @@ public class Form extends AbstractView {
         titleBar.setTitleBarButton(caption, TitleBar.RIGHT_BUTTON, actionListener);
     }
 
-    public void keyPressed(int action, int keyCode) {
+    public boolean keyPressed(int action, int keyCode) {
         // UP & DOWN: Navigate through controls
         // LEFT & RIGHT: Navigate through UI elements
 
         switch (action) {
             case Canvas.DOWN:
-                handleVerticalMovement(action, keyCode, Direction.DOWN);
-                break;
+                return handleVerticalMovement(action, keyCode, Direction.DOWN);
             case Canvas.UP:
-                handleVerticalMovement(action, keyCode, Direction.UP);
-                break;
+                return handleVerticalMovement(action, keyCode, Direction.UP);
             case Canvas.LEFT:
-                handleHorizontalMovement(action, keyCode);
-                break;
+                return handleHorizontalMovement(action, keyCode);
             case Canvas.RIGHT:
-                handleHorizontalMovement(action, keyCode);
-                break;
+                return handleHorizontalMovement(action, keyCode);
             default:
                 if (baseContainer.isFocused()) {
-                    baseContainer.keyPressed(action, keyCode);
-                } else if (titleBar.isFocused()) {
-                    titleBar.keyPressed(action, keyCode);
+                    return baseContainer.keyPressed(action, keyCode);
+                } else {
+                    return titleBar.keyPressed(action, keyCode);
                 }
-                break;
         }
     }
 
-    private void handleHorizontalMovement(int action, int keyCode) {
+    private boolean handleHorizontalMovement(int action, int keyCode) {
         if (titleBar.isFocused()) {
-            titleBar.keyPressed(action, keyCode);
+            return titleBar.keyPressed(action, keyCode);
         } else {
-            baseContainer.keyPressed(action, keyCode);
+            return baseContainer.keyPressed(action, keyCode);
         }
     }
 
-    private void handleVerticalMovement(int action, int keyCode, int direction) {
+    private boolean handleVerticalMovement(int action, int keyCode, int direction) {
         switch (direction) {
             case Direction.DOWN:
                 if (titleBar.isFocused()) {
@@ -110,22 +105,18 @@ public class Form extends AbstractView {
                         titleBar.setFocused(false);
 
                         baseContainer.setFocused(true);
-                        if (baseContainer.canHandleVerticalMovement(direction)) {
-                            baseContainer.keyPressed(action, keyCode);
-                        }
+                        return baseContainer.keyPressed(action, keyCode);
                     }
                 } else {
                     if (baseContainer.isFocused()) {
-                        if (baseContainer.canHandleVerticalMovement(direction)) {
-                            baseContainer.keyPressed(action, keyCode);
-                        }
+                        return baseContainer.keyPressed(action, keyCode);
                     } else {
                         titleBar.setFocused(true);
                     }
                 }
-                break;
+                return true;
             case Direction.UP:
-                if (titleBar.isFocused()) {
+                if (titleBar.isFocused()) { //TODO: Check this flow
                     if (baseContainer.isFocused()) {
                         //DO NOTHING
                     } else {
@@ -133,21 +124,19 @@ public class Form extends AbstractView {
                     }
                 } else {
                     if (baseContainer.isFocused()) {
-                        if (baseContainer.canHandleVerticalMovement(direction)) {
-                            baseContainer.keyPressed(action, keyCode);
+                        boolean handledByContainer = baseContainer.keyPressed(action, keyCode);
 
-                        } else {
+                        if (!handledByContainer) {
                             titleBar.setFocused(true);
                             baseContainer.setFocused(false);
                         }
-
                     } else {
                         baseContainer.setFocused(true);
                     }
                 }
-
-                break;
+                return true;
         }
+        return false;
     }
 
     public void setBorder(int border) {
@@ -156,38 +145,6 @@ public class Form extends AbstractView {
 
     public void setMargin(int margin) {
         baseContainer.setMargin(margin);
-    }
-
-    public boolean canHandleVerticalMovement(int direction) {
-        switch (direction) {
-            case Direction.DOWN:
-                if (titleBar.isFocused()) {
-                    if (!baseContainer.isFocused()) {
-                        return baseContainer.canHandleVerticalMovement(direction);
-                    }
-                } else {
-                    if (baseContainer.isFocused()) {
-                        return baseContainer.canHandleVerticalMovement(direction);
-                    } else {
-                        return true;
-                    }
-                }
-                break;
-            case Direction.UP:
-                if (titleBar.isFocused()) {
-                    if (!baseContainer.isFocused()) {
-                        return baseContainer.canHandleVerticalMovement(direction);
-                    }
-                } else {
-                    if (baseContainer.isFocused()) {
-                        return baseContainer.canHandleVerticalMovement(direction);
-                    } else {
-                        return true;
-                    }
-                }
-                break;
-        }
-        return false;
     }
 }
 
@@ -249,36 +206,36 @@ final class TitleBar extends UserControl {
         return this.title;
     }
 
-    public void keyPressed(int action, int keyCode) {
+    public boolean keyPressed(int action, int keyCode) {
         switch (action) {
             case Canvas.LEFT:
-                handleHorizontalMovement();
-                break;
+                return handleHorizontalMovement();
             case Canvas.RIGHT:
-                handleHorizontalMovement();
-                break;
+                return handleHorizontalMovement();
             case Canvas.FIRE:
-                if (leftButton.isFocused()) {
+                if (leftButton != null && leftButton.isFocused()) {
                     leftButton.keyPressed(action, keyCode);
-                } else if (rightButton.isFocused()) {
+                } else if (rightButton != null && rightButton.isFocused()) {
                     rightButton.keyPressed(action, keyCode);
                 }
-                break;
+                return true;
         }
+        return false;
     }
 
-    private void handleHorizontalMovement() {
+    private boolean handleHorizontalMovement() {
         if (leftButton != null && leftButton.isFocused()) {
             leftButton.setFocused(false);
             if (rightButton != null) {
                 rightButton.setFocused(true);
             }
-        } else if (rightButton != null && rightButton.isFocused()) {
+        } else if (rightButton != null && rightButton.isFocused()) { //TODO: Ver si necesito hacer esta segunda validacion o si el ELSE sin parámetros es suficiente.
             rightButton.setFocused(false);
             if (leftButton != null) {
                 leftButton.setFocused(true);
             }
         }
+        return true;
     }
 
     public void setFocused(boolean focused) {
@@ -352,14 +309,15 @@ final class TitleBarButton extends UserControl {
         return true;
     }
 
-    public void keyPressed(int action, int keyCode) {
+    public boolean keyPressed(int action, int keyCode) {
         switch (action) {
             case Canvas.FIRE:
                 if (actionListener != null) {
                     actionListener.execute();
                 }
-                break;
+                return true;
         }
+        return false;
     }
 
     public void setActionListener(ActionListener actionListener) {

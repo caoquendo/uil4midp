@@ -37,40 +37,49 @@ public class StackedContainer extends Container {
         }
     }
 
-    public void keyPressed(int action, int keyCode) {
+    public boolean keyPressed(int action, int keyCode) {
         switch (action) {
             case Canvas.DOWN:
-                handleVerticalMovement(keyCode, Direction.DOWN);
-                break;
+                return handleVerticalMovement(keyCode, Direction.DOWN);
             case Canvas.UP:
-                handleVerticalMovement(keyCode, Direction.UP);
-                break;
+                return handleVerticalMovement(keyCode, Direction.UP);
             default:
-                if (selectedComponent != null)
-                    selectedComponent.keyPressed(action, keyCode);
+                if (selectedComponent != null) {
+                    return selectedComponent.keyPressed(action, keyCode);
+                }
                 break;
         }
+        return false;
     }
 
-    private void handleVerticalMovement(int keyCode, int direction) {
+    private boolean handleVerticalMovement(int keyCode, int direction) {
         boolean isComponentFocusable = false;
-
-        if (selectedComponent != null) {
-            selectedComponent.setFocused(false);
-        }
+        boolean keyPressHandled = false;
 
         while (!isComponentFocusable) {
-
-            if (direction == Direction.DOWN) {
-                selectedComponentIndex++;
-            } else {
-                selectedComponentIndex--;
-            }
-
             System.out.println("KeyPressed: " + (direction == Direction.DOWN ? "DOWN" : "UP") + ", SelectedComponentIndex: " + selectedComponentIndex);
 
             try {
+                if (direction == Direction.DOWN) {
+                    if (selectedComponentIndex + 1 < visualComponents.size()) {
+                        selectedComponentIndex++;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    if (selectedComponentIndex - 1 > -1) {
+                        selectedComponentIndex--;
+                    } else {
+                        return false;
+                    }
+                }
+
                 VisualComponent vc = (VisualComponent) visualComponents.elementAt(selectedComponentIndex);
+
+                // Quitar el foco del componente actual
+                if (selectedComponent != null) {
+                    selectedComponent.setFocused(false);
+                }
 
                 isComponentFocusable = vc.isFocusable();
 
@@ -78,35 +87,18 @@ public class StackedContainer extends Container {
                     vc.setFocused(true);
                     selectedComponent = vc;
                 }
-            } catch (Exception e) {
-                return;
+
+                // Key press fue manejado
+                keyPressHandled = true;
+
+            } catch (Exception e) { //TODO: Checkout
+                // Key press no fue manejado
+                keyPressHandled = false;
+                break;
             }
         }
 
-        //TODO: Component is a container
-            /*Container cnt = (Container) visualComponents.elementAt(selectedControlIndex);
-
-        if (cnt.canHandleVerticalMovement(isDown)) {
-        cnt.keyPressed(keyCode);
-        }*/
-    }
-
-    public boolean canHandleVerticalMovement(int direction) {
-        switch (direction) {
-            case Direction.DOWN:
-                if (selectedComponentIndex + 1 >= visualComponents.size()) {
-                    return false;
-                }
-
-                break;
-            case Direction.UP:
-                if (selectedComponentIndex - 1 <= -1) {
-                    return false;
-                }
-
-                break;
-        }
-        return true;
+        return keyPressHandled;
     }
 
     public boolean isFocusable() {

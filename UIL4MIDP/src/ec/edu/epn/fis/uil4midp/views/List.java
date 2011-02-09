@@ -23,7 +23,8 @@ public class List implements IView {
     public void setWidth(int width) {
     }
 
-    public void keyPressed(int action, int keyCode) {
+    public boolean keyPressed(int action, int keyCode) {
+        return false;
     }
 
     public boolean canHandleVerticalMovement(int direction) {
