@@ -38,7 +38,8 @@ public final class SplashScreen implements IView {
         this.height = height;
     }
 
-    public void keyPressed(int action, int keyCode) {
+    public boolean keyPressed(int action, int keyCode) {
+        return false;
     }
 
     /**

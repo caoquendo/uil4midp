@@ -1,4 +1,3 @@
-
 package ec.edu.epn.fis.uil4midp.controllers;
 
 import ec.edu.epn.fis.uil4midp.views.AbstractView;
@@ -23,5 +22,4 @@ public class StandaloneController extends AbstractController {
     public final void keyPressed(int action, int keyCode) {
         holdedView.keyPressed(action, keyCode);
     }
-
 }

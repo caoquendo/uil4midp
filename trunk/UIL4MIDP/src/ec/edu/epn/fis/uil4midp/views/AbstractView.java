@@ -15,4 +15,5 @@ public abstract class AbstractView implements IView {
         return this.controller;
     }
 
+    public abstract boolean keyPressed(int action, int keyCode);
 }

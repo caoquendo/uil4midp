@@ -39,8 +39,8 @@ public class Label extends UserControl {
         return false;
     }
 
-    public void keyPressed(int action, int keyCode) {
-        return;
+    public boolean keyPressed(int action, int keyCode) {
+        return false;
     }
 
     public void setFont(Font font) {

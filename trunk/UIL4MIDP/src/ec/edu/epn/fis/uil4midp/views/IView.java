@@ -11,7 +11,7 @@ public interface IView {
 
     void setWidth(int width);
 
-    void keyPressed(int action, int keyCode);
+    boolean keyPressed(int action, int keyCode);
 
-    boolean canHandleVerticalMovement(int direction);
+    //boolean canHandleVerticalMovement(int direction);
 }

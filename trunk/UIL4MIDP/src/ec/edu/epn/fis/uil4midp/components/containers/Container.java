@@ -50,7 +50,7 @@ public abstract class Container extends VisualComponent {
         this.controlSeparation = controlSeparation;
     }
 
-    public abstract boolean canHandleVerticalMovement(int direction);
+    //public abstract boolean canHandleVerticalMovement(int direction);
 
     public int getComponentType() {
         return CONTAINER;

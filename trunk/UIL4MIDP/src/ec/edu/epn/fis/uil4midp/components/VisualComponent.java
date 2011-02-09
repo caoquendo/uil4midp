@@ -50,7 +50,7 @@ public abstract class VisualComponent {
 
     public abstract int getComponentType();
 
-    public abstract void keyPressed(int action, int keyCode);
+    public abstract boolean keyPressed(int action, int keyCode);
 
     public void setContainer(Container container) {
         this.container = container;

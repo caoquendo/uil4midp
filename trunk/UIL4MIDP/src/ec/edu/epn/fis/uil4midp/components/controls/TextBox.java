@@ -109,17 +109,15 @@ public class TextBox extends UserControl {
         return true;
     }
 
-    public void keyPressed(int action, int keyCode) {
+    public boolean keyPressed(int action, int keyCode) {
         switch (action) {
             case Canvas.FIRE:
-                //Launch editor.
+                //Launch Native Text Editor.
                 getContainer().getView().getController().showNativeTextScreen(this);
-
-                break;
+                return true;
             default:
                 System.out.println("KeyPressed Captured! > TextBox > " + getText() + " > " + keyCode);
-                break;
+                return false;
         }
-
     }
 }

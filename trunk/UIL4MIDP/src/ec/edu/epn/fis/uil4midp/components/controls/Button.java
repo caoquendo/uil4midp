@@ -46,13 +46,14 @@ public class Button extends UserControl {
         return true;
     }
 
-    public void keyPressed(int action, int keyCode) {
+    public boolean keyPressed(int action, int keyCode) {
         switch (action) {
             case Canvas.FIRE:
                 if (actionListener != null) actionListener.execute();
-                break;
+                return true;
             default:
                 System.out.println("KeyPressed Handled! > Button > " + getCaption() + " > " + keyCode);
+                return false;
         }
 
     }

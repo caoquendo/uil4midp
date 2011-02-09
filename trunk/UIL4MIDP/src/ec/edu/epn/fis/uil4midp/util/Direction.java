@@ -2,7 +2,8 @@ package ec.edu.epn.fis.uil4midp.util;
 
 public class Direction {
 
-    public static final int UP = 0;
-    public static final int DOWN = 1;
-    
+    public static final byte UP = 0x00;
+    public static final byte DOWN = 0x01;
+    public static final byte LEFT = 0x10;
+    public static final byte RIGHT = 0x11;
 }
