@@ -1,39 +1,36 @@
 package ec.edu.epn.fis.uil4midp.components.controls;
 
+import ec.edu.epn.fis.uil4midp.util.FontManager;
 import ec.edu.epn.fis.uil4midp.util.GradientManager;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 
 public class Switch extends UserControl {
 
-    private String caption;
+    private Label caption;
     private boolean turnedOn = false;
-    private int selectorWidth = 20;
 
     public Switch() {
     }
 
     public void paint(Graphics g) {
-        // Heigth = TopPadding + FontHeight + BottomPadding
-        int tHeight = g.getFont().getHeight() + padding + padding;
-        height = tHeight > 20 ? tHeight : 20;
+        int fontHeight = FontManager.getNormalFont().getHeight();
 
         int selectorY;
-
         int selectorHeight = 8;
 
         // Paint background
         if (turnedOn) {
-            GradientManager.paintGradient(g, 0xc79f3e, 0xd9be7a, x, y, 20, 20, GradientManager.VERTICAL);
+            GradientManager.paintGradient(g, 0xc79f3e, 0xd9be7a, x, y, fontHeight, fontHeight, GradientManager.VERTICAL);
             selectorY = y;
         } else {
-            GradientManager.paintGradient(g, 0xe2e5e4, 0xeceeed, x, y, 20, 20, GradientManager.VERTICAL);
+            GradientManager.paintGradient(g, 0xe2e5e4, 0xeceeed, x, y, fontHeight, fontHeight, GradientManager.VERTICAL);
             selectorY = y + 20 - selectorHeight;
         }
 
         // Paint border
         g.setColor(0x272926);
-        g.drawRect(x, y, 19, 19);
+        g.drawRect(x, y, fontHeight - 1, fontHeight - 1);
 
         // Paint selector
         if (isFocused()) {
@@ -47,16 +44,19 @@ public class Switch extends UserControl {
         g.drawRect(x, selectorY, 19, selectorHeight - 1);
 
         // Draw text. TextPosition = (XCenter, Y + TopPadding)
-        g.setColor(0x272926);
-        g.drawString(caption, x + selectorWidth + padding, y + padding, Graphics.TOP | Graphics.LEFT);
+        caption.setPosition(x + padding + fontHeight, y + padding);
+        caption.setPadding(this.padding);
+        caption.paint(g);
+
+        height = caption.getHeight();
     }
 
     public String getCaption() {
-        return caption;
+        return caption.getCaption();
     }
 
     public void setCaption(String caption) {
-        this.caption = caption;
+        this.caption.setCaption(caption);
     }
 
     public boolean isFocusable() {

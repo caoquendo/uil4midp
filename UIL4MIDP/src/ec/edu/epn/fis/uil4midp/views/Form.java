@@ -102,7 +102,9 @@ public class Form extends AbstractView {
             case Direction.DOWN:
                 if (titleBar.isFocused()) {
                     if (!baseContainer.isFocused()) {
-                        titleBar.setFocused(false);
+                        if (titleBar.isFocusable()) {
+                            titleBar.setFocused(false);
+                        }
 
                         baseContainer.setFocused(true);
                         return baseContainer.keyPressed(action, keyCode);
@@ -111,7 +113,12 @@ public class Form extends AbstractView {
                     if (baseContainer.isFocused()) {
                         return baseContainer.keyPressed(action, keyCode);
                     } else {
-                        titleBar.setFocused(true);
+                        if (titleBar.isFocusable()) {
+                            titleBar.setFocused(true);
+                        } else {
+                            baseContainer.setFocused(true);
+                            return baseContainer.keyPressed(action, keyCode);
+                        }
                     }
                 }
                 return true;
@@ -127,7 +134,10 @@ public class Form extends AbstractView {
                         boolean handledByContainer = baseContainer.keyPressed(action, keyCode);
 
                         if (!handledByContainer) {
-                            titleBar.setFocused(true);
+                            if (titleBar.isFocusable()) {
+                                titleBar.setFocused(true);
+                            }
+
                             baseContainer.setFocused(false);
                         }
                     } else {
@@ -159,6 +169,7 @@ final class TitleBar extends UserControl {
 
     public TitleBar(String title) {
         this.title = title;
+        setFocused(false);
     }
 
     public void setTitleBarButton(String caption, int buttonPosition, ActionListener actionListener) {
@@ -257,7 +268,11 @@ final class TitleBar extends UserControl {
     }
 
     public boolean isFocusable() {
-        return true;
+        if (leftButton != null || rightButton != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 //</editor-fold>

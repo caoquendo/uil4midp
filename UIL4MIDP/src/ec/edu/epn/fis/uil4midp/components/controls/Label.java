@@ -1,30 +1,39 @@
 package ec.edu.epn.fis.uil4midp.components.controls;
 
 import ec.edu.epn.fis.uil4midp.util.FontManager;
+import ec.edu.epn.fis.uil4midp.util.TextManager;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 
 public class Label extends UserControl {
 
     private String caption;
+    private String[] textLines;
     private Font font = FontManager.getNormalFont();
+    private boolean synced = false;
 
     public Label(String caption) {
         this.caption = caption;
     }
 
     public void paint(Graphics g) {
+        int fontHeight = font.getHeight();
+
+        // Get text lines
+        if (!synced) {
+            textLines = TextManager.getLines(caption, width - 2 * padding, font);
+            height = (textLines.length * fontHeight) + 2 * padding;
+            synced = true;
+        }
+
+        // Draw text
+        g.setColor(0x272926);
         g.setFont(font);
 
-        // Heigth = TopPadding + FontHeight + BottomPadding
-        height = g.getFont().getHeight() + padding + padding;
-
-        // Draw text. TextPosition = (X + LeftPadding, Y + TopPadding)
-        g.setColor(0x272926);
-        g.drawString(caption, x + padding, y + padding, Graphics.TOP | Graphics.LEFT);
-
-        // Restore the default font
-        g.setFont(FontManager.getNormalFont());
+        int[] pos = new int[]{x + padding, y + padding};
+        for (int i = 0; i < textLines.length; i++) {
+            g.drawString(textLines[i], pos[0], pos[1] + fontHeight * i, Graphics.TOP | Graphics.LEFT);
+        }
     }
 
     public String getCaption() {
@@ -33,6 +42,7 @@ public class Label extends UserControl {
 
     public void setCaption(String caption) {
         this.caption = caption;
+        this.synced = false;
     }
 
     public boolean isFocusable() {
@@ -44,7 +54,8 @@ public class Label extends UserControl {
     }
 
     public void setFont(Font font) {
-        if (font != null)
+        if (font != null) {
             this.font = font;
+        }
     }
 }
