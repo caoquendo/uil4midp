@@ -1,22 +1,33 @@
 package ec.edu.epn.fis.uil4midp.components.controls;
 
 import ec.edu.epn.fis.uil4midp.actions.ActionListener;
+import ec.edu.epn.fis.uil4midp.util.FontManager;
 import ec.edu.epn.fis.uil4midp.util.GradientManager;
+import ec.edu.epn.fis.uil4midp.util.TextManager;
 import javax.microedition.lcdui.Canvas;
+import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 
 public class Button extends UserControl {
 
     private String caption;
-
+    private String[] textLines;
+    private boolean synced = false;
+    private Font font = FontManager.getBoldFont();
     private ActionListener actionListener;
 
     public Button() {
     }
 
     public void paint(Graphics g) {
-        // Heigth = TopPadding + FontHeight + BottomPadding
-        height = g.getFont().getHeight() + padding + padding;
+        int fontHeight = font.getHeight();
+
+        // Get text lines
+        if (!synced) {
+            textLines = TextManager.getLines(caption, width - 2 * padding, font);
+            height = (textLines.length * fontHeight) + 2 * padding;
+            synced = true;
+        }
 
         // Paint background
         if (isFocused()) {
@@ -29,9 +40,14 @@ public class Button extends UserControl {
         g.setColor(0x272926);
         g.drawRect(x, y, width - 1, height - 1);
 
-        // Draw text. TextPosition = (XCenter, Y + TopPadding)
+        // Draw text
         g.setColor(0x272926);
-        g.drawString(caption, x + width / 2, y + padding, Graphics.TOP | Graphics.HCENTER);
+        g.setFont(font);
+
+        int[] pos = new int[]{x + width / 2, y + padding};
+        for (int i = 0; i < textLines.length; i++) {
+            g.drawString(textLines[i], pos[0], pos[1] + fontHeight * i, Graphics.TOP | Graphics.HCENTER);
+        }
     }
 
     public String getCaption() {
@@ -40,6 +56,7 @@ public class Button extends UserControl {
 
     public void setCaption(String caption) {
         this.caption = caption;
+        synced = false;
     }
 
     public boolean isFocusable() {
@@ -49,7 +66,9 @@ public class Button extends UserControl {
     public boolean keyPressed(int action, int keyCode) {
         switch (action) {
             case Canvas.FIRE:
-                if (actionListener != null) actionListener.execute();
+                if (actionListener != null) {
+                    actionListener.execute();
+                }
                 return true;
             default:
                 System.out.println("KeyPressed Handled! > Button > " + getCaption() + " > " + keyCode);

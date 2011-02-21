@@ -66,7 +66,12 @@ public class TabsController extends AbstractController {
                         selectedTab.getController().keyPressed(action, keyCode);
                     }
                 } else {
-                    tabBar.setFocused(true);
+                    if (selectedTab.getView() != null) {
+                        if (!selectedTab.getView().keyPressed(action, keyCode))
+                            tabBar.setFocused(true);    
+                    } else {
+                        selectedTab.getController().keyPressed(action, keyCode);
+                    }
                 }
                 break;
             case Canvas.UP:
@@ -278,11 +283,6 @@ class Tab extends UserControl {
     }
 
     public boolean keyPressed(int action, int keyCode) {
-        switch (action) {
-        }
-
-        setSelected(true);
-
         return false;
     }
 
