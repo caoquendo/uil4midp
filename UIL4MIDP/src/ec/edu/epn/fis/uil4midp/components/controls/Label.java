@@ -2,60 +2,102 @@ package ec.edu.epn.fis.uil4midp.components.controls;
 
 import ec.edu.epn.fis.uil4midp.util.FontManager;
 import ec.edu.epn.fis.uil4midp.util.TextManager;
-import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 
 public class Label extends UserControl {
 
     private String caption;
-    private String[] textLines;
-    private Font font = FontManager.getNormalFont();
-    private boolean synced = false;
+    private String[] captionLines;
+    private boolean captionSynced;
 
-    public Label(String caption) {
-        this.caption = caption;
+    //<editor-fold desc="Constructors">
+    /**
+     * Initializes internal fields
+     */
+    private Label() {
+        font = FontManager.getNormalFont();
+        captionSynced = false;
     }
 
-    public void paint(Graphics g) {
-        int fontHeight = font.getHeight();
+    /**
+     * Creates a new Label instance with the specified caption.
+     * @param caption Text to show in the Label.
+     */
+    public Label(String caption) {
+        this();
+        this.caption = caption;
+    }
+    //</editor-fold>
 
-        // Get text lines
-        if (!synced) {
-            textLines = TextManager.getLines(caption, width - 2 * padding, font);
-            height = (textLines.length * fontHeight) + 2 * padding;
-            synced = true;
-        }
+    //<editor-fold desc="Getters & Setters">
+    /**
+     * Gets the caption of the Label
+     * @return String containing the caption of the Label
+     */
+    public String getCaption() {
+        return caption;
+    }
+
+    /**
+     * Sets the caption of the Label
+     * @param caption Caption of the Label
+     */
+    public void setCaption(String caption) {
+        this.caption = caption;
+        captionSynced = false;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Abstract Methods Implementations">
+    /**
+     * Handles the key events.
+     * Label can not handle any key press event.
+     * @param action Canvas' key action number.
+     * @param keyCode Pressed key code. This code may be device-specific.
+     * @return This method always returns False.
+     */
+    public boolean keyPressed(int action, int keyCode) {
+        return false;
+    }
+
+    /**
+     * Determines if the Label can be focused.
+     * @return This method always return False, due to Label can not be focused.
+     */
+    public boolean isFocusable() {
+        return false;
+    }
+
+    /**
+     * Paints the Label.
+     * @param g Graphics object on which paint.
+     */
+    public void paint(Graphics g) {
+        prepareComponent();
 
         // Draw text
         g.setColor(0x272926);
         g.setFont(font);
 
         int[] pos = new int[]{x + padding, y + padding};
-        for (int i = 0; i < textLines.length; i++) {
-            g.drawString(textLines[i], pos[0], pos[1] + fontHeight * i, Graphics.TOP | Graphics.LEFT);
+        for (int i = 0; i < captionLines.length; i++) {
+            g.drawString(captionLines[i], pos[0], pos[1] + font.getHeight() * i, Graphics.TOP | Graphics.LEFT);
         }
     }
 
-    public String getCaption() {
-        return caption;
-    }
+    /**
+     * Prepares the layout of the Label.
+     */
+    public void prepareComponent() {
+        if (!captionSynced || !layoutSynced) {
+            int captionLineWidth = width - 2 * padding;
 
-    public void setCaption(String caption) {
-        this.caption = caption;
-        this.synced = false;
-    }
+            captionLines = TextManager.getLines(caption, captionLineWidth, font);
+            height = captionLines.length * font.getHeight() + 2 * padding;
 
-    public boolean isFocusable() {
-        return false;
-    }
-
-    public boolean keyPressed(int action, int keyCode) {
-        return false;
-    }
-
-    public void setFont(Font font) {
-        if (font != null) {
-            this.font = font;
+            captionSynced = true;
+            layoutSynced = true;
         }
     }
+    //</editor-fold>
 }

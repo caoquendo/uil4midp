@@ -1,66 +1,95 @@
 package ec.edu.epn.fis.uil4midp.components.containers;
 
 import ec.edu.epn.fis.uil4midp.components.VisualComponent;
-import ec.edu.epn.fis.uil4midp.components.controls.UserControl;
-import ec.edu.epn.fis.uil4midp.views.AbstractView;
+import ec.edu.epn.fis.uil4midp.views.View;
 import java.util.Vector;
-import javax.microedition.lcdui.Graphics;
 
+/**
+ * Defines the structure of a Container
+ * @author Carlos Andrés Oquendo
+ */
 public abstract class Container extends VisualComponent {
 
     protected Vector visualComponents;
-    protected int margin = 0;
-    protected int border = 0;
-    protected int borderColor = 0;
+    protected int margin;
     protected int controlSeparation = 0;
+    protected View view;
 
-    protected AbstractView view;
-
-    public Container() {
+    protected Container() {
         visualComponents = new Vector();
     }
 
-    public void paint(Graphics g) {
-        // Paint border
-    }
+    //<editor-fold desc="Abstract Methods">
+    /**
+     * Gets the currently selected visual component.
+     * <i>Each subclass knows how to determine the selected VisualComponent</i>
+     * @return Currently selected visual component.
+     */
+    public abstract VisualComponent getSelectedVisualComponent();
+    //</editor-fold>
 
-    public void addContainer(Container container) {
-        container.setContainer(this);
-        this.visualComponents.addElement(container);
+    //<editor-fold desc="Content Management Methods">
+    /**
+     * Removes all the holded controls in the Container
+     */
+    public void removeAllVisualComponents() {
+        visualComponents.removeAllElements();
     }
+    //</editor-fold>
 
-    public void addUserControl(UserControl userControl) {
-        userControl.setContainer(this);
-        this.visualComponents.addElement(userControl);
-    }
-
+    //<editor-fold desc="Basic Layout Methods">
+    /**
+     * Sets the margin of the Container
+     * @param margin Margin of the container. Value must be equal or greater
+     * than 0.
+     */
     public void setMargin(int margin) {
-        this.margin = margin;
+        if (margin >= 0) {
+            this.margin = margin;
+        }
     }
 
-    public void setBorder(int border) {
-        this.border = border;
-    }
-
-    public void setBorderColor(int borderColor) {
-        this.borderColor = borderColor;
-    }
-
+    /**
+     * Sets the distance between VisualComponents when drawn on screen.
+     * @param controlSeparation Distance between VisualComponents.
+     */
     public void setControlSeparation(int controlSeparation) {
         this.controlSeparation = controlSeparation;
     }
 
-    //public abstract boolean canHandleVerticalMovement(int direction);
-
-    public int getComponentType() {
-        return CONTAINER;
-    }
-
-    public void setView(AbstractView view) {
+    /**
+     * Sets the owner of the Container
+     * @param view View instance to which the Container belongs.
+     */
+    public void setView(View view) {
         this.view = view;
     }
 
-    public AbstractView getView() {
+    /**
+     * Gets the owner of the Container
+     * @return View instance to which the Container belongs.
+     */
+    public View getView() {
         return this.view;
     }
+    //</editor-fold>
+
+    //<editor-fold desc="Abstract Methods">
+    /**
+     * Adds a VisualComponent to the Container
+     * @param visualComponent VisualComponent to be added to the Container
+     */
+    public abstract void addVisualComponent(VisualComponent visualComponent);
+    //</editor-fold>
+
+    //<editor-fold desc="Abstract Methods Implementations">
+    /**
+     * Determines if the Container can be focused.
+     * @return This method always return True. This method may be overriden by
+     * the implementations.
+     */
+    public boolean isFocusable() {
+        return true;
+    }
+    //</editor-fold>
 }

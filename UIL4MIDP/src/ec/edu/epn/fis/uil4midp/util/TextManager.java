@@ -3,15 +3,19 @@ package ec.edu.epn.fis.uil4midp.util;
 import java.util.Vector;
 import javax.microedition.lcdui.Font;
 
+/**
+ * Manages the creation of text lines
+ * @author Carlos Andrés Oquendo
+ */
 public class TextManager {
 
     /**
-     * Obtiene un arreglo de líneas.
-     * Adaptado de: http://wiki.forum.nokia.com/index.php/Scrollable_Text_in_Java_ME
-     * @param text
-     * @param width
-     * @param font
-     * @return
+     * Gets an array of text lines
+     * Based on code from http://wiki.forum.nokia.com/index.php/Scrollable_Text_in_Java_ME
+     * @param text Text to be processed
+     * @param width Maximum width of a text line
+     * @param font Font that will be used to measure the width of the text
+     * @return String array containing the text converted in lines
      */
     public static String[] getLines(String text, int width, Font font) {
         char spaceChar = ' ';
