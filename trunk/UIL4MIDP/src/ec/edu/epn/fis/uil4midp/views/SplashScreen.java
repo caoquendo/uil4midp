@@ -3,7 +3,7 @@ package ec.edu.epn.fis.uil4midp.views;
 import ec.edu.epn.fis.uil4midp.components.VisualComponent;
 import javax.microedition.lcdui.Graphics;
 
-public final class SplashScreen implements IView {
+public abstract class SplashScreen extends View {
 
     private boolean shown = false;
     private int[] backgroundColors = new int[]{0xFFFFFF};
@@ -28,10 +28,6 @@ public final class SplashScreen implements IView {
 
     public void setCaption(String caption) {
         this.caption = caption;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
     }
 
     public void setHeight(int height) {
@@ -78,4 +74,6 @@ public final class SplashScreen implements IView {
     public boolean canHandleVerticalMovement(int direction) {
         return false;
     }
+
+    public abstract void initialize();
 }

@@ -1,5 +1,9 @@
 package ec.edu.epn.fis.uil4midp.util;
 
+/**
+ * Defines directions
+ * @author Carlos Andrés Oquendo
+ */
 public class Direction {
 
     public static final byte UP = 0x00;

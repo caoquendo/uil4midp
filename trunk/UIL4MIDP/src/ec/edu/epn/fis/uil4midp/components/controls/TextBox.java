@@ -4,143 +4,134 @@ import ec.edu.epn.fis.uil4midp.util.FontManager;
 import ec.edu.epn.fis.uil4midp.util.GradientManager;
 import ec.edu.epn.fis.uil4midp.util.TextManager;
 import javax.microedition.lcdui.Canvas;
-import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.TextField;
 
 public class TextBox extends UserControl {
 
+    private Label caption;
     private StringBuffer text;
     private String[] textLines;
-    private Label caption;
-    private int maxLength = 20;
-    private int constraints = TextField.ANY;
-    private boolean passwordEnabled = false;
-    private char passwordMaskChar = '*';
-    private boolean synced = false;
-    private Font font = FontManager.getNormalFont();
+    private boolean textSynced;
+    private int[] textBoxPosition;
+    private int textBoxHeight;
+    private int maxLength;
+    private int constraints;
+    private char passwordMask;
+    private boolean passwordModeEnabled;
 
-    public TextBox() {
+    //<editor-fold desc="Constructors">
+    /**
+     * Initializes internal fields
+     */
+    private TextBox() {
+        font = FontManager.getNormalFont();
+        passwordMask = '*';
         text = new StringBuffer("");
+        textSynced = false;
+        textBoxPosition = new int[2];
     }
 
-    public TextBox(String caption) {
+    /**
+     * Creates a new TextBox instance.
+     * @param caption Caption of the TextBox
+     * @param maxLength Maximum text length.
+     * @param constraints TextBox behaviour modifiers. The constraints defined
+     * on LCDUI TextField class are supported.
+     */
+    public TextBox(String caption, int maxLength, int constraints) {
         this();
 
-        if (caption.length() > 0) {
-            this.caption = new Label(caption.endsWith(":") ? caption : caption + ":");
-        }
-    }
+        this.maxLength = maxLength < 0 ? 0 : maxLength;
 
-    public TextBox(String caption, int maxLength, int constraints) {
-        this(caption);
-
-        if (maxLength > 0) {
-            this.maxLength = maxLength;
+        if (caption != null && caption.length() > 0) {
+            this.caption = new Label(caption);
         }
 
         this.constraints = constraints;
     }
 
-    public TextBox(String caption, int maxLength, boolean enablePasswordMode) {
-        this(caption, maxLength, (enablePasswordMode ? TextField.PASSWORD : TextField.ANY));
-
-        this.passwordEnabled = enablePasswordMode;
+    /**
+     * Creates a new TextBox instance.
+     * @param caption Caption of the TextBox
+     * @param maxLength Maximum text length.
+     * @param passwordInputEnabled Specifies if the TextBox will be used to
+     * capture a password.
+     */
+    public TextBox(String caption, int maxLength, boolean passwordInputEnabled) {
+        this(caption, maxLength, passwordInputEnabled ? TextField.PASSWORD : TextField.ANY);
+        passwordModeEnabled = passwordInputEnabled;
     }
+    //</editor-fold>
 
-    public TextBox(String caption, int maxLength, char passwordMaskChar) {
-        this(caption, maxLength, TextField.PASSWORD);
-        this.passwordEnabled = true;
-        this.passwordMaskChar = passwordMaskChar;
-    }
-
-    public void paint(Graphics g) {
-        int captionHeight = 0;
-        if (caption != null) {
-            caption.setPosition(x, y);
-            caption.setPadding(padding);
-            caption.setWidth(width);
-            caption.paint(g);
-
-            captionHeight = caption.getHeight();
-        }
-
-        int fontHeight = font.getHeight();
-
-        // Get text lines
-        if (!synced) {
-            textLines = TextManager.getLines(text.toString(), width - 2 * padding, font);
-            synced = true;
-        }
-
-        int textBoxHeight = (textLines.length == 0 ? fontHeight : textLines.length * fontHeight) + 2 * padding;
-        height = textBoxHeight + captionHeight;
-
-        // Paint background
-        GradientManager.paintGradient(g, 0xe2e5e4, 0xeceeed, x, y + captionHeight, width, textBoxHeight, GradientManager.VERTICAL);
-
-        // Paint border
-        g.setColor(0x272926);
-        g.drawRect(x, y + captionHeight, width - 1, textBoxHeight - 1);
-
-        if (isFocused()) {
-            // Paint inner border
-            g.setColor(0xb6bc3e);
-            g.drawRect(x + 1, y + 1 + captionHeight, width - 3, textBoxHeight - 3);
-            g.drawRect(x + 2, y + 2 + captionHeight, width - 5, textBoxHeight - 5);
-        }
-
-        // Draw text
-        g.setColor(0x272926);
-        g.setFont(font);
-
-        int[] pos = new int[]{x + padding, y + padding + captionHeight};
-        for (int i = 0; i < textLines.length; i++) {
-            g.drawString(passwordEnabled ? maskText(textLines[i]) : textLines[i], pos[0], pos[1] + fontHeight * i, Graphics.TOP | Graphics.LEFT);
-        }
-    }
-
+    //<editor-fold desc="Getters & Setters">
+    /**
+     * Gets the text of the TextBox
+     * @return String containing the Text entered on the TextBox.
+     */
     public String getText() {
         return text.toString();
     }
 
+    /**
+     * Sets the text of the TextBox
+     * @param text Text of the TextBox
+     */
     public void setText(String text) {
-        this.text = new StringBuffer(text);
-        synced = false;
+        this.text.setLength(0);
+        this.text.append(text);
+        textSynced = false;
     }
 
-    public void setCaption(String caption) {
-        if (caption.length() > 0) {
-            this.caption = new Label(caption);
-        } else {
-            this.caption = null;
+    /**
+     * Gets the caption of the TextBox
+     * @return String containing the caption of the TextBox. If the caption was
+     * set to null, null is returned.
+     */
+    public final String getCaption() {
+        return caption == null ? null : caption.getCaption();
+    }
+
+    /**
+     * Gets the maximum length of the text on the textbox.
+     * @return Maximum length of the text.
+     */
+    public final int getMaxLength() {
+        return maxLength;
+    }
+
+    /**
+     * Sets the maximum length of the text on the textbox.
+     * @param maxLength Maximum length of the text. If the value is less than 0
+     * it is discarded. If the value is less than the current text length, the text
+     * will be truncated.
+     */
+    public final void setMaxLength(int maxLength) {
+        if (maxLength > 0) {
+            this.maxLength = maxLength;
+            if (text.length() > maxLength) {
+                text.setLength(maxLength);
+                textSynced = false;
+            }
         }
     }
 
-    public String getCaption() {
-        return this.caption.getCaption();
+    /**
+     * Gets the constraints applied to the TextBox.
+     * @return Value representing all the LCDUI TextField constraints applied.
+     */
+    public final int getConstraints() {
+        return constraints;
     }
+    //</editor-fold>
 
-    public void setMaxLength(int maxLength) {
-        this.maxLength = maxLength;
-        if (text.length() > maxLength) {
-            text.setLength(maxLength);
-            synced = false;
-        }
-    }
-
-    public int getMaxLength() {
-        return this.maxLength;
-    }
-
-    public int getConstraints() {
-        return this.constraints;
-    }
-
-    public boolean isFocusable() {
-        return true;
-    }
-
+    //<editor-fold desc="Abstract Methods Implementation">
+    /**
+     * Handles the key events.
+     * @param action Canvas' key action number.
+     * @param keyCode Pressed key code. This code may be device-specific.
+     * @return This method returns True if the key event was handled, False, otherwise.
+     */
     public boolean keyPressed(int action, int keyCode) {
         switch (action) {
             case Canvas.FIRE:
@@ -152,13 +143,94 @@ public class TextBox extends UserControl {
         }
     }
 
+    /**
+     * Determines if the TextBox can be focused.
+     * @return This method always return True.
+     */
+    public boolean isFocusable() {
+        return true;
+    }
+
+    /**
+     * Paints the TextBox.
+     * @param g Graphics object on which paint.
+     */
+    public void paint(Graphics g) {
+        prepareComponent();
+
+        // Draw caption
+        if (caption != null){
+            caption.paint(g);
+        }
+
+        // Paint textBox background
+        GradientManager.paintGradient(g, 0xe2e5e4, 0xeceeed, textBoxPosition[0], textBoxPosition[1], width, textBoxHeight, GradientManager.VERTICAL);
+
+        // Paint border
+        g.setColor(0x272926);
+        g.drawRect(textBoxPosition[0], textBoxPosition[1], width - 1, textBoxHeight - 1);
+
+        if (isFocused()) {
+            // Paint inner border
+            g.setColor(0xb6bc3e);
+            g.drawRect(textBoxPosition[0] + 1, textBoxPosition[1] + 1, width - 3, textBoxHeight - 3);
+            g.drawRect(textBoxPosition[0] + 2, textBoxPosition[1] + 2, width - 5, textBoxHeight - 5);
+        }
+
+        // Draw text
+        g.setColor(0x272926);
+        int[] pos = new int[]{textBoxPosition[0] + padding, textBoxPosition[1] + padding};
+        for (int i = 0; i < textLines.length; i++) {
+            g.drawString((passwordModeEnabled ? maskText(textLines[i]) : textLines[i]), pos[0], pos[1] + font.getHeight() * i, Graphics.TOP | Graphics.LEFT);
+        }
+    }
+
+    /**
+     * Prepares the layout of the TextBox
+     */
+    public void prepareComponent() {
+        textBoxPosition[0] = x;
+        textBoxPosition[1] = y;
+        int captionHeight = 0;
+
+        if (caption != null && !layoutSynced) {
+            caption.setPosition(x, y);
+            caption.setWidth(width);
+            caption.setPadding(padding);
+            caption.prepareComponent();
+        }
+
+        textBoxPosition[1] = y + caption.getHeight();
+        captionHeight = caption.getHeight();
+
+        if (!textSynced || !layoutSynced) {
+            int textLineWidth = width - 2 * padding;
+
+            textLines = TextManager.getLines(text.toString(), textLineWidth, font);
+            textBoxHeight = (textLines.length > 0 ? textLines.length : 1) * font.getHeight() + 2 * padding;
+
+            textSynced = true;
+            layoutSynced = true;
+        }
+
+        height = captionHeight + textBoxHeight;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Utility Methods">
+    /**
+     * Hides the actual text using a mask
+     * @param text String to be masked
+     * @return String containing the masked text.
+     */
     private String maskText(String text) {
         StringBuffer sbText = new StringBuffer();
 
         for (int i = 0; i < text.length(); i++) {
-            sbText.append(passwordMaskChar);
+            sbText.append(passwordMask);
         }
 
         return sbText.toString();
     }
+    //</editor-fold>
 }

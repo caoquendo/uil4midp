@@ -7,58 +7,105 @@ import javax.microedition.lcdui.Graphics;
 
 public class StackedContainer extends Container {
 
-    private int nextX;
-    private int nextY;
+    private VisualComponent selectedComponent;
     private int selectedComponentIndex = -1;
-    private VisualComponent selectedComponent = null;
+    protected int[] nextPosition = {x, y};
 
+    //<editor-fold desc="Constructors">
+
+    /**
+     * Creates a new StackedContainer instance.
+     */
     public StackedContainer() {
         super();
     }
+    //</editor-fold>
 
-    public void paint(Graphics g) {
-        super.paint(g);
+    //<editor-fold desc="Abstract Methods Implementations">
+    /**
+     * Adds a VisualComponent to the StackedContainer
+     * @param visualComponent VisualComponent to be added to the Container
+     */
+    public void addVisualComponent(VisualComponent visualComponent) {
+        visualComponent.setContainer(this);
+        visualComponents.addElement(visualComponent);
 
-        // Set the controls position
-        nextX = x + margin + border;
-        nextY = y + margin + border;
-
-        int controlWidth = width - (2 * margin) - (2 * border);
-
-        VisualComponent vc;
-
-        for (int i = 0; i < visualComponents.size(); i++) {
-            vc = (VisualComponent) visualComponents.elementAt(i);
-            vc.setPosition(nextX, nextY);
-            vc.setWidth(controlWidth);
-            vc.paint(g);
-
-            nextY = nextY + margin + border + controlSeparation + vc.getHeight();
-        }
+        layoutSynced = false;
     }
 
+    /**
+     * Gets the currently selected component of the Container
+     * @return If there is a selected component, this method will return a
+     * VisualComponent's subclass instance, else, null.
+     */
+    public VisualComponent getSelectedVisualComponent() {
+        return selectedComponent;
+    }
+
+    /**
+     * Handles the key events.
+     * @param action Canvas' key action number.
+     * @param keyCode Pressed key code. This code may be device-specific.
+     * @return True if the key event was handled, else, False.
+     */
     public boolean keyPressed(int action, int keyCode) {
         switch (action) {
             case Canvas.DOWN:
-                return handleVerticalMovement(keyCode, Direction.DOWN);
+                return handleVerticalMovement(Direction.DOWN);
             case Canvas.UP:
-                return handleVerticalMovement(keyCode, Direction.UP);
+                return handleVerticalMovement(Direction.UP);
             default:
-                if (selectedComponent != null) {
-                    return selectedComponent.keyPressed(action, keyCode);
-                }
-                break;
+                return selectedComponent == null ? false : selectedComponent.keyPressed(action, keyCode);
         }
-        return false;
     }
 
-    private boolean handleVerticalMovement(int keyCode, int direction) {
+    /**
+     * Paints the StackedContainer.
+     * @param g Graphics object on which paint.
+     */
+    public void paint(Graphics g) {
+        prepareComponent();
+
+        for (int i = 0; i < visualComponents.size(); i++) {
+            ((VisualComponent) visualComponents.elementAt(i)).paint(g);
+        }
+    }
+
+    /**
+     * Prepares the layout of the StackerContainer
+     */
+    public void prepareComponent() {
+        if (!layoutSynced) {
+            nextPosition[0] = x + margin;
+            nextPosition[1] = y + margin;
+
+            for (int i = 0; i < visualComponents.size(); i++) {
+                VisualComponent vc = (VisualComponent)visualComponents.elementAt(i);
+
+                vc.setWidth(width - 2 * margin);
+                vc.setPosition(nextPosition[0], nextPosition[1]);
+                vc.prepareComponent();
+
+                nextPosition[1] = nextPosition[1] + vc.getHeight() + controlSeparation;
+                height = height + vc.getHeight() + controlSeparation;
+            }
+
+            layoutSynced = true;
+        }
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Utility Methods">
+    /**
+     * Handles the vertical movement of the screen.
+     * @param direction Movement direction. May be Direction.UP or Direction.DOWN
+     * @return True if the vertical movement succeeded, else, False.
+     */
+    private boolean handleVerticalMovement(int direction) {
         boolean isComponentFocusable = false;
         boolean keyPressHandled = false;
 
         while (!isComponentFocusable) {
-            System.out.println("KeyPressed: " + (direction == Direction.DOWN ? "DOWN" : "UP") + ", SelectedComponentIndex: " + selectedComponentIndex);
-
             try {
                 if (direction == Direction.DOWN) {
                     if (selectedComponentIndex + 1 < visualComponents.size()) {
@@ -81,17 +128,17 @@ public class StackedContainer extends Container {
                     selectedComponent.setFocused(false);
                 }
 
-                isComponentFocusable = vc.isFocusable();
-
-                if (isComponentFocusable) {
+                // Determinar si el control es capaz de recibir el foco. Si el control
+                // es capaz, establecerlo como seleccionado y marcar el evento como manejado
+                if (isComponentFocusable = vc.isFocusable()) {
                     vc.setFocused(true);
                     selectedComponent = vc;
+
+                    // Key press fue manejado
+                    keyPressHandled = true;
                 }
 
-                // Key press fue manejado
-                keyPressHandled = true;
-
-            } catch (Exception e) { //TODO: Checkout
+            } catch (Exception e) {
                 // Key press no fue manejado
                 keyPressHandled = false;
                 break;
@@ -100,8 +147,21 @@ public class StackedContainer extends Container {
 
         return keyPressHandled;
     }
+    //</editor-fold>
 
-    public boolean isFocusable() {
-        return true;
+    //<editor-fold desc="Overriden Methods">
+    /**
+     * Sets the margin of the Container
+     * @param margin Margin of the container. Value must be equal or greater
+     * than 0.
+     */
+    public void setMargin(int margin) {
+        super.setMargin(margin);
+
+        nextPosition[0] = x + margin;
+        nextPosition[1] = y + margin;
+
+        layoutSynced = false;
     }
+    //</editor-fold>
 }
