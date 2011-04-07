@@ -13,6 +13,7 @@ public abstract class VisualComponent {
     protected int height;
     protected int x;
     protected int y;
+    protected int yOffset;
     protected boolean focused = false;
     protected Container container;
     protected boolean layoutSynced;
@@ -57,6 +58,38 @@ public abstract class VisualComponent {
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    /**
+     * Gets the X coordinate of the VisualComponent
+     * @return X coordinate of the VisualComponent
+     */
+    public int getXCoordinate() {
+        return x;
+    }
+
+    /**
+     * Gets the Y coordinate of the VisualComponent
+     * @return Y coordinate of the VisualComponent
+     */
+    public int getYCoordinate() {
+        return y;
+    }
+
+    /**
+     * Sets the Y displacement of the position of the VisualComponent.
+     * @param yOffset Y displacement of the position of the VisualComponent.
+     */
+    public void setYOffset(int yOffset) {
+        this.yOffset = yOffset;
+    }
+
+    /**
+     * Gets the Y displacement of the position of the VisualComponent.
+     * @return Y displacement of the position of the VisualComponent.
+     */
+    public int getYOffset() {
+        return yOffset;
     }
 
     /**

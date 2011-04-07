@@ -129,30 +129,35 @@ public class ListItem extends UserControl {
     public void paint(Graphics g) {
         prepareComponent();
 
+        int ty = y - yOffset;
+
         // Pintar fondo
         if (isFocused()) {
-            GradientManager.paintGradient(g, 0xb6bc3e, 0x80852c, x, y, width, height, GradientManager.VERTICAL);
+            GradientManager.paintGradient(g, 0xb6bc3e, 0x80852c, x, ty, width, height, GradientManager.VERTICAL);
         } else {
             g.setColor(0xFFFFFF);
-            g.fillRect(x, y, width, height);
+            g.fillRect(x, ty, width, height);
         }
 
         // Paint List Item Elements
         g.setColor(0x272926);
 
+        caption.setYOffset(yOffset);
         caption.paint(g);
 
         if (image != null) {
+            image.setYOffset(yOffset);
             image.paint(g);
         }
 
         if (text != null) {
+            text.setYOffset(yOffset);
             text.paint(g);
         }
 
         // Pintar línea divisoria
         g.setColor(0x5d5f5c);
-        g.drawLine(x, y + height - 1, x + width, y + height - 1);
+        g.drawLine(x, ty + height - 1, x + width, ty + height - 1);
     }
 
     /**

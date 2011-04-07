@@ -18,6 +18,7 @@ public abstract class Controller {
 
     protected int width;
     protected int height;
+    protected int viewPortHeight;
     protected Window window;
     protected Dialog dialog;
 

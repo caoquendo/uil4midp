@@ -75,11 +75,13 @@ public class Label extends UserControl {
     public void paint(Graphics g) {
         prepareComponent();
 
+        int ty = y - yOffset;
+
         // Draw text
         g.setColor(0x272926);
         g.setFont(font);
 
-        int[] pos = new int[]{x + padding, y + padding};
+        int[] pos = new int[]{x + padding, ty + padding};
         for (int i = 0; i < captionLines.length; i++) {
             g.drawString(captionLines[i], pos[0], pos[1] + font.getHeight() * i, Graphics.TOP | Graphics.LEFT);
         }

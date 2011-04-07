@@ -30,6 +30,12 @@ public abstract class Form extends View {
     public void clearControls() {
         baseContainer.removeAllVisualComponents();
     }
+
+    public void setViewPortHeight(int viewPortHeight) {
+        super.setViewPortHeight(viewPortHeight);
+        baseContainer.setViewPortHeight(viewPortHeight - titleBar.getHeight());
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="Getters & Setters">
@@ -125,9 +131,8 @@ public abstract class Form extends View {
      * @param g Graphics object on which paint.
      */
     public void paint(Graphics g) {
-        titleBar.paint(g);
-
         baseContainer.paint(g);
+        titleBar.paint(g);
     }
     //</editor-fold>
 

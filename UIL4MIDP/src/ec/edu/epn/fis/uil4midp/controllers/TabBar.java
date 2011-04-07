@@ -116,7 +116,7 @@ final class TabBar extends UserControl {
      */
     public void prepareComponent() {
         if (!layoutSynced) {
-            int tabWidth = width / tabs.size();
+            int tabWidth = width / (tabs.isEmpty() ? 1 : tabs.size());
 
             for (int i = 0; i < tabs.size(); i++) {
                 Tab t = (Tab) tabs.elementAt(i);

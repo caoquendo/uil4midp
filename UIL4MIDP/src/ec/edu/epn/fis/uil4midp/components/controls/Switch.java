@@ -79,20 +79,22 @@ public class Switch extends UserControl {
     public void paint(Graphics g) {
         prepareComponent();
 
+        int ty = y - yOffset;
+
         int selectorY;
 
         // Paint switch background
         if (turnedOn) {
-            GradientManager.paintGradient(g, 0xc79f3e, 0xd9be7a, x, y, switchDimension, switchDimension, GradientManager.VERTICAL);
-            selectorY = y;
+            GradientManager.paintGradient(g, 0xc79f3e, 0xd9be7a, x, ty, switchDimension, switchDimension, GradientManager.VERTICAL);
+            selectorY = ty;
         } else {
-            GradientManager.paintGradient(g, 0xe2e5e4, 0xeceeed, x, y, switchDimension, switchDimension, GradientManager.VERTICAL);
-            selectorY = y + switchDimension - selectorHeight;
+            GradientManager.paintGradient(g, 0xe2e5e4, 0xeceeed, x, ty, switchDimension, switchDimension, GradientManager.VERTICAL);
+            selectorY = ty + switchDimension - selectorHeight;
         }
 
         // Paint border
         g.setColor(0x272926);
-        g.drawRect(x, y, switchDimension - 1, switchDimension - 1);
+        g.drawRect(x, ty, switchDimension - 1, switchDimension - 1);
 
         // Paint selector
         if (isFocused()) {
@@ -106,6 +108,7 @@ public class Switch extends UserControl {
         g.drawRect(x, selectorY, switchDimension - 1, selectorHeight - 1);
 
         // Draw text
+        caption.setYOffset(yOffset);
         caption.paint(g);
     }
 
