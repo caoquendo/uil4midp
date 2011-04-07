@@ -96,22 +96,24 @@ public class Button extends UserControl {
     public void paint(Graphics g) {
         prepareComponent();
 
+        int ty = y - yOffset;
+
         // Paint background
         if (isFocused()) {
-            GradientManager.paintGradient(g, 0xb6bc3e, 0x80852c, x, y, width, height, GradientManager.VERTICAL);
+            GradientManager.paintGradient(g, 0xb6bc3e, 0x80852c, x, ty, width, height, GradientManager.VERTICAL);
         } else {
-            GradientManager.paintGradient(g, 0xeceeed, 0xa7a8a7, x, y, width, height, GradientManager.VERTICAL);
+            GradientManager.paintGradient(g, 0xeceeed, 0xa7a8a7, x, ty, width, height, GradientManager.VERTICAL);
         }
 
         // Paint border
         g.setColor(0x272926);
-        g.drawRect(x, y, width - 1, height - 1);
+        g.drawRect(x, ty, width - 1, height - 1);
 
         // Draw text
         g.setColor(0x272926);
         g.setFont(font);
 
-        int[] pos = new int[]{x + width / 2, y + padding};
+        int[] pos = new int[]{x + width / 2, ty + padding};
         for (int i = 0; i < captionLines.length; i++) {
             g.drawString(captionLines[i], pos[0], pos[1] + font.getHeight() * i, Graphics.TOP | Graphics.HCENTER);
         }

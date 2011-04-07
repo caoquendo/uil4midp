@@ -14,6 +14,7 @@ public abstract class View {
     protected Controller controller;
     protected int width;
     protected ActionListener actionListener;
+    protected int viewPortHeight;
 
     //<editor-fold desc="Abstract Methods">
     /**
@@ -81,6 +82,14 @@ public abstract class View {
      */
     public final Controller getController() {
         return this.controller;
+    }
+
+    /**
+     * Sets the height of the available space on screen
+     * @param viewPortHeight Height of the available space on screen.
+     */
+    public void setViewPortHeight(int viewPortHeight) {
+        this.viewPortHeight = viewPortHeight;
     }
     //</editor-fold>
 }

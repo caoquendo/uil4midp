@@ -121,23 +121,25 @@ public class OptionPicker extends UserControl {
     public void paint(Graphics g) {
         prepareComponent();
 
+        int ty = y - yOffset;
+
         // Paint background
         if (isFocused()) {
-            GradientManager.paintGradient(g, 0xb6bc3e, 0x80852c, x, y, width, height, GradientManager.VERTICAL);
+            GradientManager.paintGradient(g, 0xb6bc3e, 0x80852c, x, ty, width, height, GradientManager.VERTICAL);
         } else {
-            GradientManager.paintGradient(g, 0xeceeed, 0xa7a8a7, x, y, width, height, GradientManager.VERTICAL);
+            GradientManager.paintGradient(g, 0xeceeed, 0xa7a8a7, x, ty, width, height, GradientManager.VERTICAL);
         }
 
         // Paint border
         g.setColor(0x272926);
-        g.drawRect(x, y, width - 1, height - 1);
+        g.drawRect(x, ty, width - 1, height - 1);
 
         // Draw text
         g.setColor(0x272926);
         g.setFont(font);
-        g.drawString(caption, x + width / 2, y + padding, Graphics.TOP | Graphics.HCENTER);
+        g.drawString(caption, x + width / 2, ty + padding, Graphics.TOP | Graphics.HCENTER);
         g.setFont(FontManager.getNormalFont());
-        g.drawString(values[selectedValueIndex], x + width / 2, y + padding + font.getHeight() + padding, Graphics.TOP | Graphics.HCENTER);
+        g.drawString(values[selectedValueIndex], x + width / 2, ty + padding + font.getHeight() + padding, Graphics.TOP | Graphics.HCENTER);
 
         // Paint buttons
         paintArrows(g);

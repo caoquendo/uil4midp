@@ -37,6 +37,7 @@ public class StandaloneController extends Controller {
      * @param g Graphics object on which paint.
      */
     public void paint(Graphics g) {
+        holdedView.setViewPortHeight(viewPortHeight);
         holdedView.paint(g);
 
         //TODO: Verificar esta implementacion de cuadros de diálogo.
@@ -50,8 +51,7 @@ public class StandaloneController extends Controller {
      * Prepares the layout of the StandaloneController.
      */
     public void prepareController() {
-        //TODO: Does nothing
-        //holdedView.setWidth(width);
+        viewPortHeight = height;
     }
     //</editor-fold>   
 }

@@ -88,6 +88,7 @@ public abstract class Window extends Canvas {
         controller.setHeight(getHeight());
         controller.setWidth(getWidth());
         controller.setWindow(this);
+        controller.prepareController();
 
         this.controller = controller;
     }

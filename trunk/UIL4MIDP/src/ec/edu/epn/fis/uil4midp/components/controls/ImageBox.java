@@ -100,7 +100,7 @@ public class ImageBox extends UserControl {
         prepareComponent();
 
         // Draw picture;
-        int[] pos = {x + padding, y + padding};
+        int[] pos = {x + padding, y + padding - yOffset};
         g.drawImage(image, pos[0], pos[1], Graphics.LEFT | Graphics.TOP);
     }
 

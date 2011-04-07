@@ -10,9 +10,10 @@ public class StackedContainer extends Container {
     private VisualComponent selectedComponent;
     private int selectedComponentIndex = -1;
     protected int[] nextPosition = {x, y};
+    private int controlYOffset;
+    private int tOffset;
 
     //<editor-fold desc="Constructors">
-
     /**
      * Creates a new StackedContainer instance.
      */
@@ -67,7 +68,11 @@ public class StackedContainer extends Container {
         prepareComponent();
 
         for (int i = 0; i < visualComponents.size(); i++) {
-            ((VisualComponent) visualComponents.elementAt(i)).paint(g);
+            VisualComponent vc = (VisualComponent) visualComponents.elementAt(i);
+
+            vc.setYOffset(controlYOffset);
+
+            vc.paint(g);
         }
     }
 
@@ -80,7 +85,7 @@ public class StackedContainer extends Container {
             nextPosition[1] = y + margin;
 
             for (int i = 0; i < visualComponents.size(); i++) {
-                VisualComponent vc = (VisualComponent)visualComponents.elementAt(i);
+                VisualComponent vc = (VisualComponent) visualComponents.elementAt(i);
 
                 vc.setWidth(width - 2 * margin);
                 vc.setPosition(nextPosition[0], nextPosition[1]);
@@ -101,7 +106,7 @@ public class StackedContainer extends Container {
      * @param direction Movement direction. May be Direction.UP or Direction.DOWN
      * @return True if the vertical movement succeeded, else, False.
      */
-    private boolean handleVerticalMovement(int direction) {
+    private boolean handleVerticalMovement(byte direction) {
         boolean isComponentFocusable = false;
         boolean keyPressHandled = false;
 
@@ -136,6 +141,20 @@ public class StackedContainer extends Container {
 
                     // Key press fue manejado
                     keyPressHandled = true;
+                }
+
+                switch (direction) {
+                    case Direction.DOWN:
+                        if (selectedComponent.getYCoordinate() + selectedComponent.getHeight() > y + viewPortHeight) {
+                            controlYOffset = selectedComponent.getYCoordinate() + selectedComponent.getHeight() - y - viewPortHeight;
+                        }
+                        break;
+                    case Direction.UP:
+                        if (selectedComponent.getYCoordinate() - selectedComponent.getYOffset() < y) {
+                            tOffset = y - selectedComponent.getYCoordinate() + selectedComponent.getYOffset();
+                            controlYOffset = controlYOffset - tOffset;
+                        }
+                        break;
                 }
 
             } catch (Exception e) {

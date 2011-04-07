@@ -14,6 +14,7 @@ public abstract class Container extends VisualComponent {
     protected int margin;
     protected int controlSeparation = 0;
     protected View view;
+    protected int viewPortHeight;
 
     protected Container() {
         visualComponents = new Vector();
@@ -71,6 +72,14 @@ public abstract class Container extends VisualComponent {
      */
     public View getView() {
         return this.view;
+    }
+
+    /**
+     * Sets the height of the available space on screen
+     * @param viewPortHeight Height of the available space on screen.
+     */
+    public void setViewPortHeight(int viewPortHeight) {
+        this.viewPortHeight = viewPortHeight;
     }
     //</editor-fold>
 

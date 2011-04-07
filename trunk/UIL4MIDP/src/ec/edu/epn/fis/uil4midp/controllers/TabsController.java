@@ -119,6 +119,7 @@ public class TabsController extends Controller {
         // Verificar si se pinta la vista o el controlador del tab.
         Tab selectedTab = tabBar.getSelectedTab();
         if (selectedTab.getView() != null) {
+            selectedTab.getView().setViewPortHeight(viewPortHeight);
             selectedTab.getView().paint(g);
         } else {
             // Pintar el controlador
@@ -136,6 +137,8 @@ public class TabsController extends Controller {
         tabBar.setWidth(width);
         tabBar.prepareComponent();
 
+        viewPortHeight = height - tabBar.getHeight();
+        
         tabBar.setPosition(0, height - tabBar.getHeight());
     }
     //</editor-fold>
