@@ -6,6 +6,7 @@ import ec.edu.epn.fis.uil4midp.components.containers.StackedContainer;
 import ec.edu.epn.fis.uil4midp.util.Direction;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
 
 public abstract class Form extends View {
 
@@ -59,12 +60,30 @@ public abstract class Form extends View {
     }
 
     /**
+     * Sets the LeftButton of the TitleBar of the Form
+     * @param icon Icon to show on the Button
+     * @param actionListener ActionListener for the Button
+     */
+    public void setLeftButton(Image icon, ActionListener actionListener) {
+        titleBar.setTitleBarButton(icon, TitleBarButton.LEFT_BUTTON, actionListener);
+    }
+
+    /**
      * Sets the RightButton of the TitleBar of the Form
      * @param caption Caption to show on the Button
      * @param actionListener ActionListener for the Button
      */
     public void setRightButton(String caption, ActionListener actionListener) {
         titleBar.setTitleBarButton(caption, TitleBarButton.RIGHT_BUTTON, actionListener);
+    }
+
+    /**
+     * Sets the RightButton of the TitleBar of the Form
+     * @param icon Icon to show on the Button
+     * @param actionListener ActionListener for the Button
+     */
+    public void setRightButton(Image icon, ActionListener actionListener) {
+        titleBar.setTitleBarButton(icon, TitleBarButton.RIGHT_BUTTON, actionListener);
     }
 
     /**

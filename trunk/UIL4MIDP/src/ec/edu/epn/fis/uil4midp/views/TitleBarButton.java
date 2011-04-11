@@ -6,12 +6,14 @@ import ec.edu.epn.fis.uil4midp.util.FontManager;
 import ec.edu.epn.fis.uil4midp.util.GradientManager;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
 
 final class TitleBarButton extends UserControl {
 
     public static final int LEFT_BUTTON = -1;
     public static final int RIGHT_BUTTON = 1;
     private String label;
+    private Image icon;
     private int position;
     private ActionListener actionListener;
 
@@ -24,8 +26,8 @@ final class TitleBarButton extends UserControl {
     }
 
     /**
-     * Creates a new TitleBarButton instance with the specified Label and Positions.
-     * This is intended to be instantiated only by the TitleBar class.
+     * Creates a new TitleBarButton instance with the specified Label and Position.
+     * This constructor is intended to be called only by the TitleBar class.
      * @param label Text to show in the TitleBarButton
      * @param position Position of the TitleBarButton within the TitleBar. The possible
      * values are TitleBarButton.LEFT_BUTTON or TitleBarButton.RIGHT_BUTTON.
@@ -33,6 +35,20 @@ final class TitleBarButton extends UserControl {
     public TitleBarButton(String label, int position) {
         this();
         this.label = label;
+        this.position = position;
+    }
+
+    /**
+     * Creates a new TitleBarButton instance with the specified Icon and Position.
+     * This constructor is intended to be called only by the TitleBar class.
+     * @param icon Icon to show in the TitleBarButton. The dimensions of the icon
+     * must be 16 x 16 pixels.
+     * @param position Position of the TitleBarButton within the TitleBar. The possible
+     * values are TitleBarButton.LEFT_BUTTON or TitleBarButton.RIGHT_BUTTON.
+     */
+    public TitleBarButton(Image icon, int position) {
+        this();
+        this.icon = icon;
         this.position = position;
     }
     //</editor-fold>
@@ -85,8 +101,12 @@ final class TitleBarButton extends UserControl {
             GradientManager.paintGradient(g, 0x3b3e39, 0x191c1f, buttonX, y, width, height, GradientManager.VERTICAL);
         }
 
-        g.setColor(0xFFFFFF);
-        g.drawString(label, buttonX + (width / 2), y + padding, Graphics.TOP | Graphics.HCENTER);
+        if (icon == null) { // Label
+            g.setColor(0xFFFFFF);
+            g.drawString(label, buttonX + (width / 2), y + padding, Graphics.TOP | Graphics.HCENTER);
+        } else {
+            g.drawImage(icon, buttonX + padding, y + (height / 2), Graphics.VCENTER | Graphics.LEFT);
+        }
     }
 
     /**
@@ -94,8 +114,13 @@ final class TitleBarButton extends UserControl {
      */
     public void prepareComponent() {
         if (!layoutSynced) {
-            width = font.stringWidth(label) + 2 * padding;
             height = font.getHeight() + 2 * padding;
+
+            if (icon == null) { // Text Label
+                width = font.stringWidth(label) + 2 * padding;
+            } else { // Icon
+                width = icon.getWidth() + 2 * padding;
+            }
 
             layoutSynced = true;
         }

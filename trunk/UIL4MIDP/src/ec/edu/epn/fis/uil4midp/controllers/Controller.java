@@ -19,6 +19,7 @@ public abstract class Controller {
     protected int width;
     protected int height;
     protected int viewPortHeight;
+    protected boolean autoCalcViewPortHeight = true;
     protected Window window;
     protected Dialog dialog;
 
@@ -68,6 +69,18 @@ public abstract class Controller {
      */
     public final void setHeight(int height) {
         this.height = height;
+    }
+
+    /**
+     * Sets the height of the ViewPort.
+     * @param viewPortHeight Height of the viewport. This value is frequently
+     * calculated automatically. Use this method to override the automatic
+     * calculation.
+     */
+    public void setViewPortHeight(int viewPortHeight) {
+        this.viewPortHeight = viewPortHeight;
+
+        autoCalcViewPortHeight = viewPortHeight == -1 ? true : false;
     }
 
     /**

@@ -77,7 +77,7 @@ final class TabBar extends UserControl {
             case Canvas.FIRE:
                 if (selectedTab != null) {
                     if (selectedTab.getView() != null) {
-                        if (selectedTab.getView().getActionListener() != null) {
+                         if (selectedTab.getView().getActionListener() != null) {
                             selectedTab.getView().getActionListener().execute();
                         }
                     }
