@@ -12,8 +12,8 @@ public class StandaloneController extends Controller {
     /**
      * Adds a View to the StandaloneController.
      * @param view View to be managed by the StandaloneController.
-     * @param icon Icon to be used by the controller. Depending on the subclass
-     * this parameter may be optional.
+     * @param icon Icon to be used by the controller. This parameter is optional
+     * so 'null' can be passed.
      */
     public void addView(View view, Image icon) {
         view.setController(this);

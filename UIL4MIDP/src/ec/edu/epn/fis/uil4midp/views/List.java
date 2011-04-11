@@ -1,5 +1,6 @@
 package ec.edu.epn.fis.uil4midp.views;
 
+import ec.edu.epn.fis.uil4midp.actions.ActionListener;
 import ec.edu.epn.fis.uil4midp.components.controls.ListItem;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Image;
@@ -69,21 +70,40 @@ public abstract class List extends Form {
     public boolean keyPressed(int action, int keyCode) {
         switch (action) {
             case Canvas.FIRE:
-                
-                return false;
+                if (actionListener != null) {
+                    actionListener.execute();
+                    return true;
+                }
+                return super.keyPressed(action, keyCode);
             default:
                 return super.keyPressed(action, keyCode);
         }
     }
 
-    public ListItem getSelectedListItem() {
-        return (ListItem)getSelectedVisualComponent();
-    }
-
     public abstract void initialize();
+
 
     public void clearControls() {
         super.clearControls();
     }
+
+    //<editor-fold desc="Getters & Setters">
+    /**
+     * Sets the ActionListener of the List. This ActionListener may be used to
+     * handle the keypress events based on the elements of the List.
+     * @param actionListener ActionListener of the List.
+     */
+    public void setActionListener(ActionListener actionListener) {
+        super.setActionListener(actionListener);
+    }
+
+    /**
+     * Gets the selected ListItem on the List.
+     * @return SelectedListItem on the List.
+     */
+    public ListItem getSelectedListItem() {
+        return (ListItem)getSelectedVisualComponent();
+    }
+    //</editor-fold>
 }
 

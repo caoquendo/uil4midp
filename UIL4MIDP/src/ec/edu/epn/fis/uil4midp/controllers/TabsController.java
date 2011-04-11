@@ -34,6 +34,19 @@ public class TabsController extends Controller {
     }
 
     /**
+     * Adds a Controller (as a sub controller) to the TabsController
+     * @param view Additional controller to be managed by the TabsController
+     * @param icon Image to be used as the icon of the Controller
+     */
+    public void addController(Controller controller, Image icon) {
+        controller.setWidth(width);
+        controller.prepareController();
+
+        Tab newTab = new Tab(icon, controller);
+        tabBar.addTab(newTab);
+    }
+
+    /**
      * Handles the key events.
      * @param action Canvas' key action number.
      * @param keyCode Pressed key code. This code may be device-specific.
@@ -74,28 +87,6 @@ public class TabsController extends Controller {
                     tabBar.setFocused(true);
                 }
                 break;
-            case Canvas.LEFT:
-                if (tabBar.isFocused()) {
-                    tabBar.keyPressed(action, keyCode);
-                } else {
-                    if (selectedTab.getView() != null) {
-                        selectedTab.getView().keyPressed(action, keyCode);
-                    } else {
-                        selectedTab.getController().keyPressed(action, keyCode);
-                    }
-                }
-                break;
-            case Canvas.RIGHT:
-                if (tabBar.isFocused()) {
-                    tabBar.keyPressed(action, keyCode);
-                } else {
-                    if (selectedTab.getView() != null) {
-                        selectedTab.getView().keyPressed(action, keyCode);
-                    } else {
-                        selectedTab.getController().keyPressed(action, keyCode);
-                    }
-                }
-                break;
             default:
                 if (tabBar.isFocused()) {
                     tabBar.keyPressed(action, keyCode);
@@ -112,7 +103,6 @@ public class TabsController extends Controller {
 
     /**
      * Paints the contents of the Controller.
-     * <i>This method must be implemented on all the subclasses.</i>
      * @param g Graphics object on which paint.
      */
     public void paint(Graphics g) {
@@ -123,11 +113,14 @@ public class TabsController extends Controller {
             selectedTab.getView().paint(g);
         } else {
             // Pintar el controlador
+            selectedTab.getController().setViewPortHeight(viewPortHeight);
             selectedTab.getController().paint(g);
         }
 
         // Pintar el tabBar
         tabBar.paint(g);
+
+        //TODO: Implementar cuadros de diálogo
     }
 
     /**
@@ -137,21 +130,11 @@ public class TabsController extends Controller {
         tabBar.setWidth(width);
         tabBar.prepareComponent();
 
-        viewPortHeight = height - tabBar.getHeight();
+        if (autoCalcViewPortHeight) {
+            viewPortHeight = height - tabBar.getHeight();
+        }
         
         tabBar.setPosition(0, height - tabBar.getHeight());
     }
-    //</editor-fold>
-
-    //<editor-fold desc="Disabled Optional Methods">
-    /*
-    public void addController(Controller controller, Image icon) {
-    controller.setWidth(width);
-    controller.setHeight(height - tabBarHeight);
-
-    Tab newTab = new Tab(icon, controller);
-    tabBar.addTab(newTab);
-    }
-     */
     //</editor-fold>
 }

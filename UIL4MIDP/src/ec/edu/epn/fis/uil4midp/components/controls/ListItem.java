@@ -86,7 +86,7 @@ public class ListItem extends UserControl {
     //<editor-fold desc="Getters & Setters">
     /**
      * Gets the value of the ListItem.
-     * @return Value of the ListItem.
+     * @return Value of the ListItem. If there is no value set, null is returned
      */
     public Object getValue() {
         return value;
@@ -98,6 +98,22 @@ public class ListItem extends UserControl {
      */
     public void setValue(Object value) {
         this.value = value;
+    }
+
+    /**
+     * Gets the caption of the ListItem.
+     * @return Caption of the ListItem. If there is no caption set, the empty string is returned.
+     */
+    public String getCaption() {
+        return caption == null ? "" : caption.getCaption();
+    }
+
+    /**
+     * Gets the text of the ListItem.
+     * @return Text of the ListItem. If there is no text set, the empty string is returned.
+     */
+    public String getText() {
+        return text == null ? "" : text.getCaption();
     }
     //</editor-fold>
 

@@ -56,6 +56,14 @@ public abstract class View {
     public ActionListener getActionListener() {
         return actionListener;
     }
+
+    /**
+     * Sets the associated ActionListener of the view.
+     * @param actionListener ActionListener of the view.
+     */
+    public void setActionListener(ActionListener actionListener) {
+        this.actionListener = actionListener;
+    }
     //</editor-fold>
 
     //<editor-fold desc="Basic Layout Methods">

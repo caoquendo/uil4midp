@@ -6,6 +6,7 @@ import ec.edu.epn.fis.uil4midp.util.FontManager;
 import ec.edu.epn.fis.uil4midp.util.GradientManager;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
 
 public class TitleBar extends UserControl {
 
@@ -46,6 +47,24 @@ public class TitleBar extends UserControl {
             initializeButton(leftButton, actionListener);
         } else if (buttonPosition == TitleBarButton.RIGHT_BUTTON) {
             rightButton = new TitleBarButton(caption, buttonPosition);
+            initializeButton(rightButton, actionListener);
+        }
+        layoutSynced = false;
+    }
+
+    /**
+     * Sets a TitleBarButton on the TitleBar
+     * @param icon Image to show as icon of the TitleBarButton
+     * @param buttonPosition Position of the button on the TitleBar. The accepted
+     * values are TitleBarButton.LEFT_BUTTON or TitleBarButton.RIGHT_BUTTON
+     * @param actionListener ActionListener for the TitleBarButton
+     */
+    public void setTitleBarButton(Image icon, int buttonPosition, ActionListener actionListener) {
+        if (buttonPosition == TitleBarButton.LEFT_BUTTON) {
+            leftButton = new TitleBarButton(icon, buttonPosition);
+            initializeButton(leftButton, actionListener);
+        } else if (buttonPosition == TitleBarButton.RIGHT_BUTTON) {
+            rightButton = new TitleBarButton(icon, buttonPosition);
             initializeButton(rightButton, actionListener);
         }
         layoutSynced = false;
@@ -113,7 +132,7 @@ public class TitleBar extends UserControl {
         GradientManager.paintGradient(g, 0x272926, 0x191c1f, x, y, width, height, GradientManager.VERTICAL);
 
         g.setColor(0xFFFFFF);
-        g.drawString(title, x + (width / 2), y + padding, Graphics.TOP | Graphics.HCENTER);
+        g.drawString(title, x + (width / 2), y + (height / 2) - (font.getHeight() / 2), Graphics.TOP | Graphics.HCENTER);
 
         if (leftButton != null) {
             leftButton.paint(g);
