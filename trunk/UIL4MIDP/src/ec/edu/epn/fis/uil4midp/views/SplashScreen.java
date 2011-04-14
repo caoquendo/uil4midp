@@ -6,7 +6,7 @@ import javax.microedition.lcdui.Graphics;
 public abstract class SplashScreen extends View {
 
     private boolean shown = false;
-    private int[] backgroundColors = new int[]{0xFFFFFF};
+    private int[] backgroundColors = new int[]{tm.getMainBackgroundColor()};
     private int width;
     private int height;
     private String caption;

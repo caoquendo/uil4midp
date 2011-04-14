@@ -124,18 +124,15 @@ public class OptionPicker extends UserControl {
         int ty = y - yOffset;
 
         // Paint background
-        if (isFocused()) {
-            GradientManager.paintGradient(g, 0xb6bc3e, 0x80852c, x, ty, width, height, GradientManager.VERTICAL);
-        } else {
-            GradientManager.paintGradient(g, 0xeceeed, 0xa7a8a7, x, ty, width, height, GradientManager.VERTICAL);
-        }
+        int[] back = focused ? tm.getButtonActiveBackground() : tm.getButtonInactiveBackground();
+        GradientManager.paintGradient(g, back[0], back[1], x, ty, width, height, GradientManager.VERTICAL);
 
         // Paint border
-        g.setColor(0x272926);
+        g.setColor(focused ? tm.getButtonActiveBorder() : tm.getButtonInactiveBorder());
         g.drawRect(x, ty, width - 1, height - 1);
 
         // Draw text
-        g.setColor(0x272926);
+        g.setColor(tm.getPrimaryFontColor());
         g.setFont(font);
         g.drawString(caption, x + width / 2, ty + padding, Graphics.TOP | Graphics.HCENTER);
         g.setFont(FontManager.getNormalFont());

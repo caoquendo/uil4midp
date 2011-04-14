@@ -129,9 +129,10 @@ public class TitleBar extends UserControl {
     public void paint(Graphics g) {
         prepareComponent();
 
-        GradientManager.paintGradient(g, 0x272926, 0x191c1f, x, y, width, height, GradientManager.VERTICAL);
+        int[] back = tm.getTitlebarNormalBackground();
+        GradientManager.paintGradient(g, back[0], back[1], x, y, width, height, GradientManager.VERTICAL);
 
-        g.setColor(0xFFFFFF);
+        g.setColor(tm.getInvertedFontColor());
         g.drawString(title, x + (width / 2), y + (height / 2) - (font.getHeight() / 2), Graphics.TOP | Graphics.HCENTER);
 
         if (leftButton != null) {

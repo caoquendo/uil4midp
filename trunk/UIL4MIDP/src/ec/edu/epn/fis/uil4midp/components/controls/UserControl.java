@@ -9,7 +9,7 @@ import javax.microedition.lcdui.Font;
  */
 public abstract class UserControl extends VisualComponent {
 
-    protected int padding;
+    protected int padding = tm.getUsercontrolPadding();
     protected Font font;
 
     //<editor-fold desc="Basic Layout Methods">
@@ -29,7 +29,7 @@ public abstract class UserControl extends VisualComponent {
      * @param padding Padding for the UserControl
      */
     public void setPadding(int padding) {
-        if (padding > 0) {
+        if (padding >= 0) {
             this.padding = padding;
             layoutSynced = false;
         }

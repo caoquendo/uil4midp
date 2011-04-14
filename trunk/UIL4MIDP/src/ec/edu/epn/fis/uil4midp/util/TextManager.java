@@ -99,4 +99,38 @@ public class TextManager {
 
         return outLines;
     }
+
+    public static String[] split(String string, char separator) {
+        if (string == null || string.length() == 0) {
+            return new String[0];
+        }
+
+        Vector textPieces = new Vector();
+
+        StringBuffer buffer = new StringBuffer();
+        for (int i = 0; i < string.length(); i++) {
+            char c = string.charAt(i);
+
+            if (c == separator) {
+                textPieces.addElement(buffer.toString());
+                buffer.setLength(0);
+            } else {
+                buffer.append(c);
+            }
+        }
+
+        if (buffer.length() > 0) {
+            textPieces.addElement(buffer.toString());
+        }
+
+        return toStringArray(textPieces);
+    }
+
+    public static String[] toStringArray(Vector strings) {
+        String[] output = new String[strings.size()];
+        for (int i = 0; i < strings.size(); i++) {
+            output[i] = strings.elementAt(i).toString();
+        }
+        return output;
+    }
 }

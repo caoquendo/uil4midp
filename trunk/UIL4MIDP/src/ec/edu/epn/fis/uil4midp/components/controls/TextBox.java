@@ -165,21 +165,22 @@ public class TextBox extends UserControl {
         }
 
         // Paint textBox background
-        GradientManager.paintGradient(g, 0xe2e5e4, 0xeceeed, textBoxPosition[0], textBoxPosition[1] - yOffset, width, textBoxHeight, GradientManager.VERTICAL);
+        int back[] = focused ? tm.getTextboxActiveBackground() : tm.getTextboxInactiveBackground();
+        GradientManager.paintGradient(g, back[0], back[1], textBoxPosition[0], textBoxPosition[1] - yOffset, width, textBoxHeight, GradientManager.VERTICAL);
 
         // Paint border
-        g.setColor(0x272926);
+        g.setColor(focused ? tm.getTextboxActiveBorder() : tm.getTextboxInactiveBorder());
         g.drawRect(textBoxPosition[0], textBoxPosition[1] - yOffset, width - 1, textBoxHeight - 1);
 
         if (isFocused()) {
             // Paint inner border
-            g.setColor(0xb6bc3e);
+            g.setColor(tm.getTextboxActiveBorderinside());
             g.drawRect(textBoxPosition[0] + 1, textBoxPosition[1] - yOffset + 1, width - 3, textBoxHeight - 3);
             g.drawRect(textBoxPosition[0] + 2, textBoxPosition[1] - yOffset + 2, width - 5, textBoxHeight - 5);
         }
 
         // Draw text
-        g.setColor(0x272926);
+        g.setColor(tm.getPrimaryFontColor());
         int[] pos = new int[]{textBoxPosition[0] + padding, textBoxPosition[1] - yOffset + padding};
         for (int i = 0; i < textLines.length; i++) {
             g.drawString((passwordModeEnabled ? maskText(textLines[i]) : textLines[i]), pos[0], pos[1] + font.getHeight() * i, Graphics.TOP | Graphics.LEFT);

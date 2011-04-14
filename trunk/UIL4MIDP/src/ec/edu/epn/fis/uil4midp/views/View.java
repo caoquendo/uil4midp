@@ -3,6 +3,7 @@ package ec.edu.epn.fis.uil4midp.views;
 import ec.edu.epn.fis.uil4midp.actions.ActionListener;
 import ec.edu.epn.fis.uil4midp.components.VisualComponent;
 import ec.edu.epn.fis.uil4midp.controllers.Controller;
+import ec.edu.epn.fis.uil4midp.util.ThemeManager;
 import javax.microedition.lcdui.Graphics;
 
 /**
@@ -15,6 +16,7 @@ public abstract class View {
     protected int width;
     protected ActionListener actionListener;
     protected int viewPortHeight;
+    protected ThemeManager tm = ThemeManager.getInstance();
 
     //<editor-fold desc="Abstract Methods">
     /**

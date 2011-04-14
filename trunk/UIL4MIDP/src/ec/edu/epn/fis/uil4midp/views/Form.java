@@ -160,7 +160,7 @@ public abstract class Form extends View {
      * Initializes the internal fields and the layout of the Form
      */
     private void initializeComponent() {
-        titleBar.setPadding(4);
+        titleBar.setPadding(tm.getTitlebarPadding());
         titleBar.setPosition(0, 0);
         titleBar.prepareComponent();
 
