@@ -16,12 +16,10 @@ public abstract class MessageDialog extends Dialog{
      */
     public MessageDialog(String message) {
         Label lblMessage = new Label(message);
-        lblMessage.setPadding(3);
         addVisualComponent(lblMessage);
 
         Button btnOk = new Button("Aceptar");
         btnOk.setCaption("Aceptar");
-        btnOk.setPadding(5);
         btnOk.setFocused(true);
         btnOk.setActionListener(new ActionListener() {
             public void execute() {

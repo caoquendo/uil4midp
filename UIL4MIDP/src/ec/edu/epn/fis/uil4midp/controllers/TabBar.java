@@ -1,6 +1,5 @@
 package ec.edu.epn.fis.uil4midp.controllers;
 
-import ec.edu.epn.fis.uil4midp.actions.ActionListener;
 import ec.edu.epn.fis.uil4midp.components.controls.UserControl;
 import ec.edu.epn.fis.uil4midp.util.Direction;
 import java.util.Vector;

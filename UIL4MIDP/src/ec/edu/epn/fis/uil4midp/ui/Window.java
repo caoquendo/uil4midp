@@ -2,6 +2,7 @@ package ec.edu.epn.fis.uil4midp.ui;
 
 import ec.edu.epn.fis.uil4midp.controllers.Controller;
 import ec.edu.epn.fis.uil4midp.util.FontManager;
+import ec.edu.epn.fis.uil4midp.util.ThemeManager;
 import ec.edu.epn.fis.uil4midp.views.SplashScreen;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Canvas;
@@ -21,6 +22,7 @@ public abstract class Window extends Canvas {
     private SplashScreen splashScreen;
     private Image overlay;
     private int[] overlayData;
+    private ThemeManager tm;
 
     /**
      * Creates a new Window instance.
@@ -32,9 +34,12 @@ public abstract class Window extends Canvas {
         this.midlet = midlet;
         this.display = Display.getDisplay(midlet);
 
+        // Inicializar los temas
+        tm = ThemeManager.getInstance();
+
         // Create overlay image
         overlayData = new int[getWidth() * getHeight()];
-        int baseColor = 0xBF272926;
+        int baseColor = 0xC0000000;
         for (int i = 0; i < overlayData.length; i++) {
             overlayData[i] = baseColor;
         }
@@ -62,7 +67,7 @@ public abstract class Window extends Canvas {
     public final void paint(Graphics g) {
         g.setFont(FontManager.getNormalFont());
 
-        g.setColor(0xFFFFFF);
+        g.setColor(tm.getMainBackgroundColor());
         g.fillRect(0, 0, getWidth(), getHeight());
 
         //controller.prepareController();

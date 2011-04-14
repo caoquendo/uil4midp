@@ -15,7 +15,7 @@ public class TabsController extends Controller {
      */
     public TabsController() {
         tabBar = new TabBar(this);
-        tabBar.setPadding(4);
+        tabBar.setPadding(tm.getTabbarPadding());
     }
     //</editor-fold>
 

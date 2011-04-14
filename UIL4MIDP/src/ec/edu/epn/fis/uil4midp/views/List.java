@@ -9,61 +9,63 @@ public abstract class List extends Form {
 
     public List(String caption) {
         super(caption);
+        super.setMargin(0); // List does not have a margin
+        super.setControlSeparation(0); // List does not have ControlSeparation
     }
 
     public void addListItem(String caption) {
         ListItem li = new ListItem(caption);
         li.setValue(caption);
-        li.setPadding(3);
+        li.setPadding(tm.getListitemPadding());
         addVisualComponent(li);
     }
 
     public void addListItem(String caption, Object value) {
         ListItem li = new ListItem(caption);
         li.setValue(value);
-        li.setPadding(3);
+        li.setPadding(tm.getListitemPadding());
         addVisualComponent(li);
     }
 
     public void addListItem(String caption, String text) {
         ListItem li = new ListItem(caption, text);
         li.setValue(caption);
-        li.setPadding(3);
+        li.setPadding(tm.getListitemPadding());
         addVisualComponent(li);
     }
 
     public void addListItem(String caption, String text, Object value) {
         ListItem li = new ListItem(caption, text);
         li.setValue(value);
-        li.setPadding(3);
+        li.setPadding(tm.getListitemPadding());
         addVisualComponent(li);
     }
 
     public void addListItem(String caption, Image image, boolean isIcon) {
         ListItem li = new ListItem(caption, image, isIcon);
         li.setValue(caption);
-        li.setPadding(3);
+        li.setPadding(tm.getListitemPadding());
         addVisualComponent(li);
     }
 
     public void addListItem(String caption, Image image, boolean isIcon, Object value) {
         ListItem li = new ListItem(caption, image, isIcon);
         li.setValue(value);
-        li.setPadding(3);
+        li.setPadding(tm.getListitemPadding());
         addVisualComponent(li);
     }
 
     public void addListItem(String caption, Image image, String text, boolean isIcon) {
         ListItem li = new ListItem(caption, text, image, isIcon);
         li.setValue(caption);
-        li.setPadding(3);
+        li.setPadding(tm.getListitemPadding());
         addVisualComponent(li);
     }
 
     public void addListItem(String caption, Image image, String text, boolean isIcon, Object value) {
         ListItem li = new ListItem(caption, text, image, isIcon);
         li.setValue(value);
-        li.setPadding(3);
+        li.setPadding(tm.getListitemPadding());
         addVisualComponent(li);
     }
 
@@ -104,6 +106,15 @@ public abstract class List extends Form {
     public ListItem getSelectedListItem() {
         return (ListItem)getSelectedVisualComponent();
     }
+
     //</editor-fold>
+
+    public void setMargin(int margin) {
+        super.setMargin(0);
+    }
+
+    public void setControlSeparation(int controlSeparation) {
+        super.setControlSeparation(0);
+    }
 }
 

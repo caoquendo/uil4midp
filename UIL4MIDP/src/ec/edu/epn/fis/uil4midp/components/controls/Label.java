@@ -78,7 +78,7 @@ public class Label extends UserControl {
         int ty = y - yOffset;
 
         // Draw text
-        g.setColor(0x272926);
+        g.setColor(tm.getPrimaryFontColor());
         g.setFont(font);
 
         int[] pos = new int[]{x + padding, ty + padding};

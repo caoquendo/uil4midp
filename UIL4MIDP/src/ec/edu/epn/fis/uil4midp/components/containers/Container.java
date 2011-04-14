@@ -11,8 +11,8 @@ import java.util.Vector;
 public abstract class Container extends VisualComponent {
 
     protected Vector visualComponents;
-    protected int margin;
-    protected int controlSeparation = 0;
+    protected int margin = tm.getViewMargin();
+    protected int controlSeparation = tm.getContainerControlSeparation();
     protected View view;
     protected int viewPortHeight;
 

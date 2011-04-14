@@ -106,14 +106,15 @@ final class Tab extends UserControl {
         prepareComponent();
 
         // Paint Background
+        int back[];
         if (focused) {
-            GradientManager.paintGradient(g, 0x3d342d, 0x67593e, x, y, width, height, GradientManager.VERTICAL);
+            back = tm.getTabbarHoverBackground();
         } else if (selected) {
-            GradientManager.paintGradient(g, 0x847351, 0x1f1a17, x, y, width, height, GradientManager.VERTICAL);
+            back = tm.getTabbarSelectedBackground();
         } else {
-            GradientManager.paintGradient(g, 0x3d342d, 0x1f1a17, x, y, width, height, GradientManager.VERTICAL);
-
+            back = tm.getTabbarNormalBackground();
         }
+        GradientManager.paintGradient(g, back[0], back[1], x, y, width, height, GradientManager.VERTICAL);
 
         // Paint icon
         g.drawImage(icon, x + (width / 2), y + (height / 2), Graphics.HCENTER | Graphics.VCENTER);

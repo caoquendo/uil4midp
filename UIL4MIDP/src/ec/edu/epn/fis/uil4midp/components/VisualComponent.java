@@ -1,6 +1,7 @@
 package ec.edu.epn.fis.uil4midp.components;
 
 import ec.edu.epn.fis.uil4midp.components.containers.Container;
+import ec.edu.epn.fis.uil4midp.util.ThemeManager;
 import javax.microedition.lcdui.Graphics;
 
 /**
@@ -17,6 +18,7 @@ public abstract class VisualComponent {
     protected boolean focused = false;
     protected Container container;
     protected boolean layoutSynced;
+    protected ThemeManager tm = ThemeManager.getInstance();
 
     //<editor-fold desc="Abstract Methods">
     /**

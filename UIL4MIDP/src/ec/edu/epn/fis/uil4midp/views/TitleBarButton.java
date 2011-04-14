@@ -95,14 +95,11 @@ final class TitleBarButton extends UserControl {
 
         int buttonX = position == RIGHT_BUTTON ? x - width : x;
 
-        if (isFocused()) {
-            GradientManager.paintGradient(g, 0x4e524c, 0x191c1f, buttonX, y, width, height, GradientManager.VERTICAL);
-        } else {
-            GradientManager.paintGradient(g, 0x3b3e39, 0x191c1f, buttonX, y, width, height, GradientManager.VERTICAL);
-        }
-
+        int[] back = focused ? tm.getTitlebarButtonHoverBackground() : tm.getTitlebarButtonNormalBackground();
+        GradientManager.paintGradient(g, back[0], back[1], buttonX, y, width, height, GradientManager.VERTICAL);
+        
         if (icon == null) { // Label
-            g.setColor(0xFFFFFF);
+            g.setColor(tm.getInvertedFontColor());
             g.drawString(label, buttonX + (width / 2), y + padding, Graphics.TOP | Graphics.HCENTER);
         } else {
             g.drawImage(icon, buttonX + padding, y + (height / 2), Graphics.VCENTER | Graphics.LEFT);

@@ -149,14 +149,15 @@ public class ListItem extends UserControl {
 
         // Pintar fondo
         if (isFocused()) {
-            GradientManager.paintGradient(g, 0xb6bc3e, 0x80852c, x, ty, width, height, GradientManager.VERTICAL);
+            int back[] = tm.getButtonActiveBackground();
+            GradientManager.paintGradient(g, back[0], back[1], x, ty, width, height, GradientManager.VERTICAL);
         } else {
-            g.setColor(0xFFFFFF);
+            g.setColor(tm.getMainBackgroundColor());
             g.fillRect(x, ty, width, height);
         }
 
         // Paint List Item Elements
-        g.setColor(0x272926);
+        g.setColor(tm.getPrimaryFontColor());
 
         caption.setYOffset(yOffset);
         caption.paint(g);
@@ -172,7 +173,7 @@ public class ListItem extends UserControl {
         }
 
         // Pintar línea divisoria
-        g.setColor(0x5d5f5c);
+        g.setColor(tm.getListitemDivider());
         g.drawLine(x, ty + height - 1, x + width, ty + height - 1);
     }
 
@@ -204,7 +205,7 @@ public class ListItem extends UserControl {
                 break;
             case 1: // Caption, Image
                 image.setMaxWidth(width / 4);
-                if (isIcon) image.setPadding(padding);
+                image.setPadding(isIcon ? padding : 0);
                 image.prepareComponent();
 
                 int imageWidth = isIcon ? 2 * padding + image.getActualImageWidth() : padding + image.getActualImageWidth();
@@ -214,7 +215,7 @@ public class ListItem extends UserControl {
                 caption.prepareComponent();
 
                 if (caption.getHeight() > image.getHeight()) {
-                    image.setPosition(x + padding, y + caption.getHeight() / 2 - image.getHeight() / 2);
+                    image.setPosition(isIcon ? x + padding : x, y + caption.getHeight() / 2 - image.getHeight() / 2);
                     caption.setPosition(x + imageWidth, y);
                     height = caption.getHeight();
                 } else {
@@ -239,7 +240,7 @@ public class ListItem extends UserControl {
                 break;
             case 3: // Caption, Text, Image
                 image.setMaxWidth(width / 4);
-                if (isIcon) image.setPadding(padding);
+                image.setPadding(isIcon ? padding : 0);
                 image.prepareComponent();
 
                 int picWidth = isIcon ? 2 * padding + image.getActualImageWidth() : padding + image.getActualImageWidth();
@@ -255,7 +256,7 @@ public class ListItem extends UserControl {
                 int dataHeight = caption.getHeight() + text.getHeight();
 
                 if (dataHeight > image.getHeight()) {
-                    image.setPosition(x + padding, y + dataHeight / 2 - image.getHeight() / 2);
+                    image.setPosition(isIcon ? x + padding : x, y + dataHeight / 2 - image.getHeight() / 2);
                     caption.setPosition(x + picWidth, y);
                     text.setPosition(x + picWidth, y + caption.getHeight());
                     height = caption.getHeight() + text.getHeight();

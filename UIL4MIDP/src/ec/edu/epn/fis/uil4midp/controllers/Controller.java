@@ -2,6 +2,7 @@ package ec.edu.epn.fis.uil4midp.controllers;
 
 import ec.edu.epn.fis.uil4midp.components.controls.TextBox;
 import ec.edu.epn.fis.uil4midp.ui.Window;
+import ec.edu.epn.fis.uil4midp.util.ThemeManager;
 import ec.edu.epn.fis.uil4midp.views.Dialog;
 import ec.edu.epn.fis.uil4midp.views.View;
 import javax.microedition.lcdui.Command;
@@ -22,6 +23,7 @@ public abstract class Controller {
     protected boolean autoCalcViewPortHeight = true;
     protected Window window;
     protected Dialog dialog;
+    protected ThemeManager tm = ThemeManager.getInstance();
 
     //<editor-fold desc="Abstract Methods">
     /**

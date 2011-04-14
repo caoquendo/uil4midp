@@ -81,30 +81,23 @@ public class Switch extends UserControl {
 
         int ty = y - yOffset;
 
-        int selectorY;
-
         // Paint switch background
-        if (turnedOn) {
-            GradientManager.paintGradient(g, 0xc79f3e, 0xd9be7a, x, ty, switchDimension, switchDimension, GradientManager.VERTICAL);
-            selectorY = ty;
-        } else {
-            GradientManager.paintGradient(g, 0xe2e5e4, 0xeceeed, x, ty, switchDimension, switchDimension, GradientManager.VERTICAL);
-            selectorY = ty + switchDimension - selectorHeight;
-        }
+        int[] swBack = turnedOn ? tm.getSwitchActiveBackground() : tm.getSwitchInactiveBackground();
+        int selectorY = turnedOn ? ty : ty + switchDimension - selectorHeight;
+        GradientManager.paintGradient(g, swBack[0], swBack[1], x, ty, switchDimension, switchDimension, GradientManager.VERTICAL);
 
         // Paint border
-        g.setColor(0x272926);
+        int border = focused ? tm.getSwitchActiveBorder() : tm.getSwitchInactiveBorder();
+
+        g.setColor(border);
         g.drawRect(x, ty, switchDimension - 1, switchDimension - 1);
 
         // Paint selector
-        if (isFocused()) {
-            GradientManager.paintGradient(g, 0xb6bc3e, 0x83882d, x, selectorY, switchDimension, selectorHeight, GradientManager.VERTICAL);
-        } else {
-            GradientManager.paintGradient(g, 0xeceeed, 0xaaacab, x, selectorY, switchDimension, selectorHeight, GradientManager.VERTICAL);
-        }
-
+        int[] selBack = focused ? tm.getSwitchActiveSelector() : tm.getSwitchInactiveSelector();
+        GradientManager.paintGradient(g, selBack[0], selBack[1], x, selectorY, switchDimension, selectorHeight, GradientManager.VERTICAL);
+        
         // Paint selector border
-        g.setColor(0x272926);
+        g.setColor(border);
         g.drawRect(x, selectorY, switchDimension - 1, selectorHeight - 1);
 
         // Draw text
