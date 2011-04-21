@@ -39,7 +39,7 @@ public abstract class Window extends Canvas {
 
         // Create overlay image
         overlayData = new int[getWidth() * getHeight()];
-        int baseColor = 0xC0000000;
+        int baseColor = 0x80000000;
         for (int i = 0; i < overlayData.length; i++) {
             overlayData[i] = baseColor;
         }
@@ -70,7 +70,6 @@ public abstract class Window extends Canvas {
         g.setColor(tm.getMainBackgroundColor());
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        //controller.prepareController();
         controller.paint(g);
     }
     //</editor-fold>

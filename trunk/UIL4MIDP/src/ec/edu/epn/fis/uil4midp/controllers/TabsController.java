@@ -52,52 +52,56 @@ public class TabsController extends Controller {
      * @param keyCode Pressed key code. This code may be device-specific.
      */
     public void keyPressed(int action, int keyCode) {
-        Tab selectedTab = tabBar.getSelectedTab();
+        if (dialog == null || dialog.isDismissed()) {
+            Tab selectedTab = tabBar.getSelectedTab();
 
-        switch (action) {
-            case Canvas.DOWN:
-                if (tabBar.isFocused()) {
-                    tabBar.setFocused(false);
+            switch (action) {
+                case Canvas.DOWN:
+                    if (tabBar.isFocused()) {
+                        tabBar.setFocused(false);
 
-                    if (selectedTab.getView() != null) {
-                        selectedTab.getView().keyPressed(action, keyCode);
-                    } else {
-                        selectedTab.getController().keyPressed(action, keyCode);
-                    }
-                } else {
-                    if (selectedTab.getView() != null) {
-                        if (!selectedTab.getView().keyPressed(action, keyCode)) {
-                            tabBar.setFocused(true);
+                        if (selectedTab.getView() != null) {
+                            selectedTab.getView().keyPressed(action, keyCode);
+                        } else {
+                            selectedTab.getController().keyPressed(action, keyCode);
                         }
                     } else {
-                        selectedTab.getController().keyPressed(action, keyCode);
+                        if (selectedTab.getView() != null) {
+                            if (!selectedTab.getView().keyPressed(action, keyCode)) {
+                                tabBar.setFocused(true);
+                            }
+                        } else {
+                            selectedTab.getController().keyPressed(action, keyCode);
+                        }
                     }
-                }
-                break;
-            case Canvas.UP:
-                if (tabBar.isFocused()) {
-                    tabBar.setFocused(false);
+                    break;
+                case Canvas.UP:
+                    if (tabBar.isFocused()) {
+                        tabBar.setFocused(false);
 
-                    if (selectedTab.getView() != null) {
-                        selectedTab.getView().keyPressed(action, keyCode);
+                        if (selectedTab.getView() != null) {
+                            selectedTab.getView().keyPressed(action, keyCode);
+                        } else {
+                            selectedTab.getController().keyPressed(action, keyCode);
+                        }
                     } else {
-                        selectedTab.getController().keyPressed(action, keyCode);
+                        tabBar.setFocused(true);
                     }
-                } else {
-                    tabBar.setFocused(true);
-                }
-                break;
-            default:
-                if (tabBar.isFocused()) {
-                    tabBar.keyPressed(action, keyCode);
-                } else {
-                    if (selectedTab.getView() != null) {
-                        selectedTab.getView().keyPressed(action, keyCode);
+                    break;
+                default:
+                    if (tabBar.isFocused()) {
+                        tabBar.keyPressed(action, keyCode);
                     } else {
-                        selectedTab.getController().keyPressed(action, keyCode);
+                        if (selectedTab.getView() != null) {
+                            selectedTab.getView().keyPressed(action, keyCode);
+                        } else {
+                            selectedTab.getController().keyPressed(action, keyCode);
+                        }
                     }
-                }
-                break;
+                    break;
+            }
+        } else {
+            dialog.keyPressed(action, keyCode);
         }
     }
 
@@ -120,7 +124,8 @@ public class TabsController extends Controller {
         // Pintar el tabBar
         tabBar.paint(g);
 
-        //TODO: Implementar cuadros de diálogo
+        // Mostrar el cuadro de dialogo
+        paintDialog(g);
     }
 
     /**
@@ -133,7 +138,7 @@ public class TabsController extends Controller {
         if (autoCalcViewPortHeight) {
             viewPortHeight = height - tabBar.getHeight();
         }
-        
+
         tabBar.setPosition(0, height - tabBar.getHeight());
     }
     //</editor-fold>

@@ -182,5 +182,20 @@ public class StackedContainer extends Container {
 
         layoutSynced = false;
     }
+
+    public void setPosition(int x, int y) {
+        super.setPosition(x, y);
+
+        nextPosition[0] = x + margin;
+        nextPosition[1] = y + margin;
+
+        for (int i = 0; i < visualComponents.size(); i++) {
+            VisualComponent vc = (VisualComponent) visualComponents.elementAt(i);
+
+            vc.setPosition(nextPosition[0], nextPosition[1]);
+
+            nextPosition[1] = nextPosition[1] + vc.getHeight() + controlSeparation;
+        }
+    }
     //</editor-fold>
 }
