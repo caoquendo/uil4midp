@@ -104,14 +104,22 @@ public abstract class Controller {
 
     //<editor-fold desc="Dialog Management Functions">
     public final void setDialog(Dialog dialog) {
+        dialog.setDismissed(false);
         dialog.setController(this);
-        this.dialog = dialog;
-
         dialog.setWidth(width);
+        dialog.initialize();
+
+        this.dialog = dialog;
     }
 
     public final void dismissDialog() {
-        this.dialog = null;
+        dialog.setDismissed(true);
+
+        if (dialog.getDismissActionListener() != null) {
+            dialog.getDismissActionListener().execute();
+        }
+
+        getWindow().repaint();
     }
     //</editor-fold>
 
@@ -159,6 +167,16 @@ public abstract class Controller {
             textBox.setText(((javax.microedition.lcdui.TextBox)d).getString());
             window.getDisplay().setCurrent(window);
             window.repaint();
+        }
+    }
+
+    protected void paintDialog(Graphics g) {
+        // Mostrar el cuadro de dialogo
+        if (dialog != null && !dialog.isDismissed()) {
+            g.drawImage(getWindow().getOverlayImage(), 0, 0, Graphics.LEFT | Graphics.TOP);
+            dialog.refreshLayout();
+            dialog.setPosition(0, height - dialog.getHeight());
+            dialog.paint(g);
         }
     }
     //</editor-fold>

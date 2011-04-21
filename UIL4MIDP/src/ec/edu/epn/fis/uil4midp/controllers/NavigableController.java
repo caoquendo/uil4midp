@@ -1,4 +1,3 @@
-
 package ec.edu.epn.fis.uil4midp.controllers;
 
 import ec.edu.epn.fis.uil4midp.actions.ActionListener;
@@ -13,7 +12,6 @@ public class NavigableController extends Controller {
 
     private Stack holdedViews;
     private View activeView;
-
     private Image backIcon;
 
     //<editor-fold desc="Constructors">
@@ -59,7 +57,7 @@ public class NavigableController extends Controller {
                 f.setLeftButton(backIcon, new ActionListener() {
 
                     public void execute() {
-                        activeView = (View)holdedViews.pop();
+                        activeView = (View) holdedViews.pop();
                     }
                 });
             }
@@ -78,14 +76,19 @@ public class NavigableController extends Controller {
      * @param keyCode Pressed key code. This code may be device-specific.
      */
     public void keyPressed(int action, int keyCode) {
-        activeView.keyPressed(action, keyCode);
+        if (dialog == null || dialog.isDismissed()) {
+            activeView.keyPressed(action, keyCode);
+        } else {
+            dialog.keyPressed(action, keyCode);
+        }
     }
 
-    public void paint(Graphics graphics) {
+    public void paint(Graphics g) {
         activeView.setViewPortHeight(viewPortHeight);
-        activeView.paint(graphics);
+        activeView.paint(g);
 
-        //TODO: Implementar cuadros de diálogo
+        // Mostrar el cuadro de diálogo
+        paintDialog(g);
     }
 
     /**
@@ -97,5 +100,4 @@ public class NavigableController extends Controller {
         }
     }
     //</editor-fold>
-
 }

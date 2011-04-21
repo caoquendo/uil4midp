@@ -29,7 +29,11 @@ public class StandaloneController extends Controller {
      * @param keyCode Pressed key code. This code may be device-specific.
      */
     public void keyPressed(int action, int keyCode) {
-        holdedView.keyPressed(action, keyCode);
+        if (dialog == null || dialog.isDismissed()) {
+            holdedView.keyPressed(action, keyCode);
+        } else {
+            dialog.keyPressed(action, keyCode);
+        }
     }
 
     /**
@@ -40,11 +44,8 @@ public class StandaloneController extends Controller {
         holdedView.setViewPortHeight(viewPortHeight);
         holdedView.paint(g);
 
-        //TODO: Verificar esta implementacion de cuadros de diálogo.
-        if (dialog != null) {
-            g.drawImage(getWindow().getOverlayImage(), 0, 0, Graphics.LEFT | Graphics.TOP);
-            dialog.paint(g);
-        }
+        // Mostrar el cuadro de diálogo
+        paintDialog(g);
     }
 
     /**

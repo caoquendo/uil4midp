@@ -102,4 +102,10 @@ public abstract class View {
         this.viewPortHeight = viewPortHeight;
     }
     //</editor-fold>
+
+    //<editor-fold desc="UI Methods">
+    public void showDialog(Dialog dialog) {
+        controller.setDialog(dialog);
+    }
+    //</editor-fold>
 }
