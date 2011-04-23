@@ -4,6 +4,10 @@ import ec.edu.epn.fis.uil4midp.util.FontManager;
 import ec.edu.epn.fis.uil4midp.util.TextManager;
 import javax.microedition.lcdui.Graphics;
 
+/**
+ * A Label is a VisualComponent intended to display any text values.
+ * @author Carlos Andrés Oquendo
+ */
 public class Label extends UserControl {
 
     private String caption;

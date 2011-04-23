@@ -7,6 +7,10 @@ import ec.edu.epn.fis.uil4midp.util.TextManager;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 
+/**
+ * A Button is a VisualComponent which is intended to execute actions.
+ * @author Carlos Andrés Oquendo
+ */
 public class Button extends UserControl {
 
     private String caption;

@@ -6,6 +6,11 @@ import ec.edu.epn.fis.uil4midp.util.TextManager;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 
+/**
+ * An OptionPicker is a UserControl that allows the user to select a value from
+ * a given list of data.
+ * @author Carlos Andrés Oquendo
+ */
 public class OptionPicker extends UserControl {
 
     private String caption;
@@ -118,6 +123,10 @@ public class OptionPicker extends UserControl {
         return true;
     }
 
+    /**
+     * Paints the OptionPicker.
+     * @param g Graphics object on which paint.
+     */
     public void paint(Graphics g) {
         prepareComponent();
 

@@ -4,7 +4,7 @@ import java.util.Vector;
 import javax.microedition.lcdui.Font;
 
 /**
- * Manages the creation of text lines
+ * Handles text specific operations.
  * @author Carlos Andrés Oquendo
  */
 public class TextManager {
@@ -100,6 +100,13 @@ public class TextManager {
         return outLines;
     }
 
+    /**
+     * Splits a string on several substring using a given character as separator.
+     * @param string String to be splitted.
+     * @param separator Character used as a string separator.
+     * @return String array containing all the substrings created by the splitting
+     * procedure.
+     */
     public static String[] split(String string, char separator) {
         if (string == null || string.length() == 0) {
             return new String[0];
@@ -126,6 +133,11 @@ public class TextManager {
         return toStringArray(textPieces);
     }
 
+    /**
+     * Converts a vector of Strings into a String array.
+     * @param strings Vector containing string values.
+     * @return Array containing string values.
+     */
     public static String[] toStringArray(Vector strings) {
         String[] output = new String[strings.size()];
         for (int i = 0; i < strings.size(); i++) {

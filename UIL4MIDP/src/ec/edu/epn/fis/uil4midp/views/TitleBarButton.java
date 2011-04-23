@@ -8,6 +8,10 @@ import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
+/**
+ * A TitleBarButton is a kind of UserControl which only can be located on a TitleBar.
+ * @author Carlos Andrés Oquendo
+ */
 final class TitleBarButton extends UserControl {
 
     public static final int LEFT_BUTTON = -1;

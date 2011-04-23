@@ -6,9 +6,13 @@ import java.util.TimerTask;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
+/**
+ * An AnimatedImageBox is a VisualComponent which is able to show a sequence of
+ * images.
+ * @author Andrés
+ */
 public class AnimatedImageBox extends UserControl {
 
-    private int maxWidth = -1;
     private FramesManager framesManager;
     private int delay;
     private Image image;
@@ -29,16 +33,6 @@ public class AnimatedImageBox extends UserControl {
     }
     //</editor-fold>
 
-    //<editor-fold desc="Getters & Setters">
-    /**
-     * Sets the maximum width for the image. This value is used only as reference.
-     * @param maxWidth Maximum width for the image.
-     */
-    public void setMaxWidth(int maxWidth) {
-        this.maxWidth = maxWidth;
-    }
-    //</editor-fold>
-
     //<editor-fold desc="Abstract Methods Implementations">
     /**
      * Handles the key events.
@@ -52,15 +46,15 @@ public class AnimatedImageBox extends UserControl {
     }
 
     /**
-     * Determines if the ImageBox can be focused.
-     * @return This method always return False, due to ImageBox can not be focused.
+     * Determines if the AnimatedImageBox can be focused.
+     * @return This method always return False, due to AnimatedImageBox can not be focused.
      */
     public boolean isFocusable() {
         return false;
     }
 
     /**
-     * Paints the ImageBox.
+     * Paints the AnimatedImageBox.
      * @param g Graphics object on which paint.
      */
     public void paint(Graphics g) {
@@ -97,6 +91,9 @@ public class AnimatedImageBox extends UserControl {
         }
     }
 
+    /**
+     * Stops the animation being handled by the AnimatedImageBox.
+     */
     public void cancelAnimation() {
         try {
             timer.cancel();
@@ -105,6 +102,9 @@ public class AnimatedImageBox extends UserControl {
         }
     }
 
+    /**
+     * Fires the re-painting of the objects visible on screen.
+     */
     private void repaint() {
         getContainer().getView().getController().getWindow().repaint();
     }

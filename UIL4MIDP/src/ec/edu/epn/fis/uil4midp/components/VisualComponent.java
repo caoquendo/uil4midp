@@ -5,7 +5,8 @@ import ec.edu.epn.fis.uil4midp.util.ThemeManager;
 import javax.microedition.lcdui.Graphics;
 
 /**
- * Defines the structure of a VisualComponent
+ * Defines the structure of a VisualComponent. A VisualComponent represents an
+ * abstract object which is part of a User Interface.
  * @author Carlos Andrés Oquendo
  */
 public abstract class VisualComponent {
@@ -31,7 +32,7 @@ public abstract class VisualComponent {
     public abstract boolean keyPressed(int action, int keyCode);
 
     /**
-     * Determines if the VisualComponent can be focused.
+     * Determines if the VisualComponent can get focus.
      * @return True if the VisualComponent can be focused, otherwise, False.
      */
     public abstract boolean isFocusable();
@@ -104,21 +105,13 @@ public abstract class VisualComponent {
 
     /**
      * Sets the width of the VisualComponent.
-     * This method can be overriden by the subclasses.
+     * <i>This method can be overriden by the subclasses.</i>
      * @param width Width of the VisualComponent.
      */
     public void setWidth(int width) {
         this.width = width;
         layoutSynced = false;
     }
-
-    /**
-     * Sets the height of the VisualComponent.
-     * @param height Height of the VisualComponent
-     */
-    /*public void setHeight(int height) {
-        this.height = height;
-    }*/
 
     /**
      * Gets the height of the VisualComponent
@@ -147,15 +140,15 @@ public abstract class VisualComponent {
 
     //<editor-fold desc="Behavior Methods">
     /**
-     * Sets the focused status of the VisualComponent
-     * @param focused True if the component must get the focus, else, False.
+     * Sets the focus status of the VisualComponent
+     * @param focused True to set the focus on the VisualComponent, else, False.
      */
     public void setFocused(boolean focused) {
         this.focused = focused;
     }
 
     /**
-     * Gets the focused status of the VisualComponent
+     * Gets the focus status of the VisualComponent
      * @return True if the component is focused, False, otherwise.
      */
     public boolean isFocused() {

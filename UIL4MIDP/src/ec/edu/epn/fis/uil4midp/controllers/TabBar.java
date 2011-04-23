@@ -6,6 +6,12 @@ import java.util.Vector;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 
+/**
+ * The TabBar is a kind of UserControl which holds several Tab instances. A TabBar
+ * is intended to be used only by the TabsController class. The TabBar handles the
+ * way the user can change between the views associated to the holded tabs.
+ * @author Carlos Andrés Oquendo
+ */
 final class TabBar extends UserControl {
 
     private Vector tabs;
@@ -48,6 +54,10 @@ final class TabBar extends UserControl {
         return this.selectedTab;
     }
 
+    /**
+     * Adds a Tab to the TabBar
+     * @param tab Tab to be added to the TabBar.
+     */
     public void addTab(Tab tab) {
         if (tabs.isEmpty()) {
             tab.setSelected(true);

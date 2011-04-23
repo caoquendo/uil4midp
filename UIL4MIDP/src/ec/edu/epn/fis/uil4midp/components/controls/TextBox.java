@@ -7,6 +7,10 @@ import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.TextField;
 
+/**
+ * A TextBox is a UserControl that allows the user to input text.
+ * @author Carlos Andrés Oquendo
+ */
 public class TextBox extends UserControl {
 
     private Label caption;

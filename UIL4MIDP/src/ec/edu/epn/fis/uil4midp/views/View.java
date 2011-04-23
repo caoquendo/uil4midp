@@ -104,6 +104,10 @@ public abstract class View {
     //</editor-fold>
 
     //<editor-fold desc="UI Methods">
+    /**
+     * Shows a Dialog box.
+     * @param dialog Dialog box instance to be shown.
+     */
     public void showDialog(Dialog dialog) {
         controller.setDialog(dialog);
     }

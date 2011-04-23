@@ -103,6 +103,10 @@ public abstract class Controller {
     //</editor-fold>
 
     //<editor-fold desc="Dialog Management Functions">
+    /**
+     * Sets the Dialog instace to be shown.
+     * @param dialog Dialog to be shown.
+     */
     public final void setDialog(Dialog dialog) {
         dialog.setDismissed(false);
         dialog.setController(this);
@@ -112,6 +116,9 @@ public abstract class Controller {
         this.dialog = dialog;
     }
 
+    /**
+     * Dismisses the currently shown Dialog.
+     */
     public final void dismissDialog() {
         dialog.setDismissed(true);
 
@@ -170,6 +177,10 @@ public abstract class Controller {
         }
     }
 
+    /**
+     * Paints the Dialog on the screen.
+     * @param g Graphics object on which paint.
+     */
     protected void paintDialog(Graphics g) {
         // Mostrar el cuadro de dialogo
         if (dialog != null && !dialog.isDismissed()) {

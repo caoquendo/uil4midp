@@ -8,6 +8,12 @@ import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
+/**
+ * A Form is a kind of View which can hold several UserControl instances. It has
+ * a Title Bar where a title can be desplayed, as well as two optional TitleBarButtons
+ * which can perform custom actions.
+ * @author Carlos Andrés Oquendo
+ */
 public abstract class Form extends View {
 
     private StackedContainer baseContainer;
@@ -32,6 +38,10 @@ public abstract class Form extends View {
         baseContainer.removeAllVisualComponents();
     }
 
+    /**
+     * Sets the view port height available to show content.
+     * @param viewPortHeight Available height to show content.
+     */
     public void setViewPortHeight(int viewPortHeight) {
         super.setViewPortHeight(viewPortHeight);
         baseContainer.setViewPortHeight(viewPortHeight - titleBar.getHeight());

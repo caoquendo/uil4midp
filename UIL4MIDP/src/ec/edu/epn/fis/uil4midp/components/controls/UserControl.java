@@ -4,7 +4,9 @@ import ec.edu.epn.fis.uil4midp.components.VisualComponent;
 import javax.microedition.lcdui.Font;
 
 /**
- * Defines the structure of a UserControl
+ * Defines the structure of a UserControl. A UserControl is a VisualComponent
+ * which can have its own appearance, dimensions, and can perform several
+ * custom actions with data.
  * @author Carlos Andrés Oquendo
  */
 public abstract class UserControl extends VisualComponent {

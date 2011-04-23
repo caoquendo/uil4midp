@@ -5,16 +5,22 @@ import ec.edu.epn.fis.uil4midp.actions.ActionListener;
 import ec.edu.epn.fis.uil4midp.components.controls.Button;
 import javax.microedition.lcdui.Canvas;
 
+/**
+ * A ConfirmationDialog is a kind of Dialog which shows a message which
+ * only can be confirmed or denied.
+ * @author Carlos Andrés Oquendo
+ */
 public class ConfirmationDialog extends Dialog {
 
     private Button btnYes;
     private Button btnNo;
 
+    //<editor-fold desc="Constructors">
     /**
-     * Crea un ConfirmationDialog que muestra un mensaje y tiene un botón Si y un Botón No
-     * que cierran el diálogo.
-     * @param title
-     * @param message
+     * Creates a MessageDialog showing a message. It contains a OK button that
+     * dismisses the Dialog when fired.
+     * @param title Title of the Dialog
+     * @param message Message to be shown on the Dialog.
      */
     public ConfirmationDialog(String title, String message) {
         super(title, message);
@@ -36,7 +42,15 @@ public class ConfirmationDialog extends Dialog {
             }
         });
     }
+    //</editor-fold>
 
+    //<editor-fold desc="Abstract Methods Implementations">
+    /**
+     * Handles the key events.
+     * @param action Canvas' key action number.
+     * @param keyCode Pressed key code. This code may be device-specific.
+     * @return True if the key event was handled, else, False.
+     */
     public boolean keyPressed(int action, int keyCode) {
         switch (action) {
             case Canvas.FIRE:
@@ -49,12 +63,17 @@ public class ConfirmationDialog extends Dialog {
                 return handleMovement();
             case Canvas.DOWN:
                 return handleMovement();
-
             default:
                 return false;
         }
     }
+    //</editor-fold>
 
+    //<editor-fold desc="Utility Methods">
+    /**
+     * Handles the directional movement on the Dialog.
+     * @return True, due to the movement always will be handled.
+     */
     private boolean handleMovement() {
         if (btnYes.isFocused()) {
             btnYes.setFocused(false);
@@ -65,11 +84,16 @@ public class ConfirmationDialog extends Dialog {
         }
         return true;
     }
+    //</editor-fold>
 
+    //<editor-fold desc="Overriden Methods">
+    /**
+     * Initializes additional components of the ConfirmationDialog.
+     */
     public void initialize() {
         super.initialize();
         addVisualComponent(btnYes);
         addVisualComponent(btnNo);
     }
-
+    //</editor-fold>
 }
