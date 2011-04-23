@@ -6,6 +6,12 @@ import ec.edu.epn.fis.uil4midp.views.View;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
+/**
+ * A Tab is a UserControl which is part of the TabsController. A Tab instance has
+ * an associated view and icon. The icon is used to identify the view on the TabBar
+ * and the View is shown everytime the user selects the Tab.
+ * @author Andrés
+ */
 final class Tab extends UserControl {
 
     private Image icon;

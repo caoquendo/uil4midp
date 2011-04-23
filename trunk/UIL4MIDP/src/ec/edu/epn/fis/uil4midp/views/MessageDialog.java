@@ -5,14 +5,21 @@ import ec.edu.epn.fis.uil4midp.actions.ActionListener;
 import ec.edu.epn.fis.uil4midp.components.controls.Button;
 import javax.microedition.lcdui.Canvas;
 
+/**
+ * A MessageDialog is a kind of Dialog which shows a informative message which
+ * only can be accepted.
+ * @author Carlos Andrés Oquendo
+ */
 public class MessageDialog extends Dialog{
 
     private Button btnOk;
 
+    //<editor-fold desc="Constructors">
     /**
-     * Crea un MessageDialog que muestra un mensaje y tiene un botón Aceptar que
-     * cierra el dialogo.
-     * @param message
+     * Creates a MessageDialog showing a message. It contains a OK button that
+     * dismisses the Dialog when fired.
+     * @param title Title of the Dialog
+     * @param message Message to be shown on the Dialog.
      */
     public MessageDialog(String title, String message) {
         super(title, message);
@@ -26,7 +33,15 @@ public class MessageDialog extends Dialog{
             }
         });
     }
+    //</editor-fold>
 
+    //<editor-fold desc="Abstract Methods Implementations">
+    /**
+     * Handles the key events.
+     * @param action Canvas' key action number.
+     * @param keyCode Pressed key code. This code may be device-specific.
+     * @return True if the key event was handled, else, False.
+     */
     public boolean keyPressed(int action, int keyCode) {
         switch (action) {
             case Canvas.FIRE:
@@ -35,9 +50,15 @@ public class MessageDialog extends Dialog{
                 return false;
         }
     }
+    //</editor-fold>
 
+    //<editor-fold desc="Overriden Methods">
+    /**
+     * Initializes additional components of the MessageDialog.
+     */
     public void initialize() {
         super.initialize();
         addVisualComponent(btnOk);
     }
+    //</editor-fold>
 }

@@ -4,6 +4,10 @@ import java.io.IOException;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
+/**
+ * A ImageBox is a VisualComponent which is designed to show images on the screen.
+ * @author Carlos Andrés Oquendo
+ */
 public class ImageBox extends UserControl {
 
     private Image image;

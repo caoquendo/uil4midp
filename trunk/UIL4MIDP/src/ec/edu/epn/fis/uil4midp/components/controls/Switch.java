@@ -5,6 +5,10 @@ import ec.edu.epn.fis.uil4midp.util.GradientManager;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 
+/**
+ * A Switch is a UserControl that allows the user to set a boolean value.
+ * @author Carlos Andrés Oquendo
+ */
 public class Switch extends UserControl {
 
     private Label caption;

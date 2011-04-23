@@ -6,10 +6,15 @@ import java.io.InputStreamReader;
 import java.util.Hashtable;
 
 /**
- * Utility class to read properties files
+ * Utility class to load the contents of a properties file.
  */
 class Properties extends Hashtable {
 
+    /**
+     * Loads the contents of a properties file.
+     * @param filename Properties file to be read.
+     * @throws IOException
+     */
     public void load(String filename) throws IOException {
         InputStream stream = getClass().getResourceAsStream(filename);
         InputStreamReader reader = new InputStreamReader(stream);

@@ -5,6 +5,13 @@ import ec.edu.epn.fis.uil4midp.util.Direction;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 
+/**
+ * A StackedContainer is a VisualComponent which has the ability to
+ * hold other VisualComponents. The objects within a StackedContainer
+ * instance are able to use all the available screen width and are
+ * located one over another.
+ * @author Carlos Andrés Oquendo
+ */
 public class StackedContainer extends Container {
 
     private VisualComponent selectedComponent;
@@ -25,9 +32,13 @@ public class StackedContainer extends Container {
     //<editor-fold desc="Abstract Methods Implementations">
     /**
      * Adds a VisualComponent to the StackedContainer
-     * @param visualComponent VisualComponent to be added to the Container
+     * @param visualComponent VisualComponent to be added to the StackedContainer
      */
     public void addVisualComponent(VisualComponent visualComponent) {
+        if (visualComponent == null) {
+            return;
+        }
+
         visualComponent.setContainer(this);
         visualComponents.addElement(visualComponent);
 
@@ -35,7 +46,7 @@ public class StackedContainer extends Container {
     }
 
     /**
-     * Gets the currently selected component of the Container
+     * Gets the currently selected component on the Container
      * @return If there is a selected component, this method will return a
      * VisualComponent's subclass instance, else, null.
      */
@@ -61,7 +72,7 @@ public class StackedContainer extends Container {
     }
 
     /**
-     * Paints the StackedContainer.
+     * Paints the StackedContainer and its contents.
      * @param g Graphics object on which paint.
      */
     public void paint(Graphics g) {

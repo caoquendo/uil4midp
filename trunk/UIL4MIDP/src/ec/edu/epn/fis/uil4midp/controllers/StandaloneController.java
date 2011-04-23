@@ -4,6 +4,13 @@ import ec.edu.epn.fis.uil4midp.views.View;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
+/**
+ * A StandaloneController is a kind of Controller intended to hold only one View
+ * at a time. It does not automatically handle the navigation between views, so
+ * it must be implemented on the Views. This controller must not be added to another
+ * controller, as adding a StandaloneController to other Controller is not useful.
+ * @author Carlos Andrés Oquendo
+ */
 public class StandaloneController extends Controller {
 
     private View holdedView;

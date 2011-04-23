@@ -16,9 +16,14 @@ public abstract class Container extends VisualComponent {
     protected View view;
     protected int viewPortHeight;
 
+    //<editor-fold desc="Constructors">
+    /**
+     * Initializes internal fields.
+     */
     protected Container() {
         visualComponents = new Vector();
     }
+    //</editor-fold>
 
     //<editor-fold desc="Abstract Methods">
     /**
@@ -27,6 +32,12 @@ public abstract class Container extends VisualComponent {
      * @return Currently selected visual component.
      */
     public abstract VisualComponent getSelectedVisualComponent();
+
+    /**
+     * Adds a VisualComponent to the Container
+     * @param visualComponent VisualComponent to be added to the Container
+     */
+    public abstract void addVisualComponent(VisualComponent visualComponent);
     //</editor-fold>
 
     //<editor-fold desc="Content Management Methods">
@@ -83,19 +94,11 @@ public abstract class Container extends VisualComponent {
     }
     //</editor-fold>
 
-    //<editor-fold desc="Abstract Methods">
-    /**
-     * Adds a VisualComponent to the Container
-     * @param visualComponent VisualComponent to be added to the Container
-     */
-    public abstract void addVisualComponent(VisualComponent visualComponent);
-    //</editor-fold>
-
     //<editor-fold desc="Abstract Methods Implementations">
     /**
-     * Determines if the Container can be focused.
-     * @return This method always return True. This method may be overriden by
-     * the implementations.
+     * Determines if the Container can get focus.
+     * @return This method always returns True. This method may be overriden by
+     * the subclasses.
      */
     public boolean isFocusable() {
         return true;

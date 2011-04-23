@@ -97,6 +97,10 @@ public abstract class Window extends Canvas {
         this.controller = controller;
     }
 
+    /**
+     * Sets the splash screen to be shown during the application startup.
+     * @param splashScreen SplashScreen of the MIDlet.
+     */
     public void setSplashScreen(SplashScreen splashScreen) {
         this.splashScreen = splashScreen;
     }

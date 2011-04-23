@@ -8,6 +8,11 @@ import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
+/**
+ * A TitleBar is a UserControl which show a text as a title and optionally up to
+ * two Buttons on it, each one with a custom action.
+ * @author Carlos Andrés Oquendo
+ */
 public class TitleBar extends UserControl {
 
     private String title;

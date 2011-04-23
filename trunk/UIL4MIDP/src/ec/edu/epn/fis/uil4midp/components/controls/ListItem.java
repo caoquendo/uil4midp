@@ -5,6 +5,10 @@ import ec.edu.epn.fis.uil4midp.util.GradientManager;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
+/**
+ * A ListItem is a VisualComponent that holds the data present on a List.
+ * @author Carlos Andrés Oquendo
+ */
 public class ListItem extends UserControl {
 
     private ImageBox image;

@@ -2,6 +2,10 @@ package ec.edu.epn.fis.uil4midp.util;
 
 import java.io.IOException;
 
+/**
+ * Manages the usage of colors and spaces for all the components of the solution.
+ * @author Carlos Andrés Oquendo
+ */
 public class ThemeManager {
 
     private static ThemeManager instance;
@@ -41,11 +45,21 @@ public class ThemeManager {
     
     private Properties theme;
 
+    /**
+     * Creates an instance of ThemeManager which initializes using the default
+     * theme.
+     */
     private ThemeManager() {
         // Load default theme
         loadTheme(null);
     }
 
+    /**
+     * Loads a theme definition file.
+     * @param filename String containing the path of the properties file to be loaded.
+     * Is the value passed in this parameter is null, the ThemeManager loads the
+     * default theme.
+     */
     public void loadTheme(String filename) {
         try {
             theme = new Properties();
@@ -89,10 +103,21 @@ public class ThemeManager {
         }
     }
 
+    /**
+     * Converts a string representing an hexadecimal value (Eg. FFA0B3) to its integer value.
+     * @param value String with an hexadecimal value.
+     * @return Integer value of String.
+     */
     private int convertValue(String value) {
         return Integer.valueOf(value, 16).intValue();
     }
 
+    /**
+     * Converts comma separaded string hexadecimal values to an array containing
+     * their corresponding integer values.
+     * @param value String with comma separated hexadecimal values.
+     * @return Array with the integer values of the String.
+     */
     private int[] convertValues(String value) {
         String[] values = TextManager.split(value, ',');
         int[] intVals = new int[values.length];
@@ -104,6 +129,10 @@ public class ThemeManager {
         return intVals;
     }
 
+    /**
+     * Gets an instance of themeManager.
+     * @return Instance of ThemeManager.
+     */
     public static ThemeManager getInstance() {
         if (instance == null) {
             instance = new ThemeManager();

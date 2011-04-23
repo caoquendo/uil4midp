@@ -8,6 +8,14 @@ import java.util.Stack;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
+/**
+ * A NavigableController is a kind of Controller intended to support the navigation
+ * between Views. The views are added to the controlles and it provides a mechanism
+ * to go back between them. Only one View may be active at a given time. This controller
+ * can be added as a child of a TabsController to allow the programmer to build a
+ * more complex user experience.
+ * @author Carlos Andrés Oquendo
+ */
 public class NavigableController extends Controller {
 
     private Stack holdedViews;
@@ -83,6 +91,10 @@ public class NavigableController extends Controller {
         }
     }
 
+    /**
+     * Paints the contents of the NavigableController.
+     * @param g Graphics object on which paint.
+     */
     public void paint(Graphics g) {
         activeView.setViewPortHeight(viewPortHeight);
         activeView.paint(g);

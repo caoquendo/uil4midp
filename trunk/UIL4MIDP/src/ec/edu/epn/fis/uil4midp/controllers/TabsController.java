@@ -5,6 +5,15 @@ import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
+/**
+ * A TabsController is a kind of Controller which is intended to hold several
+ * Views and to provide an easy way to navigate between them using a TabBar, which
+ * has a image button dedicated to change to a specific View. This Controller can also
+ * hold a Controller, specifically a NavigableController. Adding another TabsController
+ * instance may result in inappropriate behaviors and adding a StandaloneController
+ * does not represent a useful action.
+ * @author Carlos Andrés Oquendo
+ */
 public class TabsController extends Controller {
 
     private TabBar tabBar;
