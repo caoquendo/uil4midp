@@ -1,6 +1,8 @@
 package ec.edu.epn.fis.uil4midp.ui;
 
+import ec.edu.epn.fis.uil4midp.actions.ActionListener;
 import ec.edu.epn.fis.uil4midp.controllers.Controller;
+import ec.edu.epn.fis.uil4midp.controllers.StandaloneController;
 import ec.edu.epn.fis.uil4midp.util.FontManager;
 import ec.edu.epn.fis.uil4midp.util.ThemeManager;
 import ec.edu.epn.fis.uil4midp.views.SplashScreen;
@@ -19,7 +21,10 @@ public abstract class Window extends Canvas {
     private MIDlet midlet;
     private Display display;
     private Controller controller;
+    private StandaloneController splashController;
     private SplashScreen splashScreen;
+    private ActionListener splashActionListener;
+    private boolean splashVisible = false;
     private Image overlay;
     private int[] overlayData;
     private ThemeManager tm;
@@ -44,6 +49,8 @@ public abstract class Window extends Canvas {
             overlayData[i] = baseColor;
         }
         overlay = Image.createRGBImage(overlayData, getWidth(), getHeight(), true);
+
+        splashController = new StandaloneController();
     }
 
     //<editor-fold desc="Mandatory Methods">
@@ -67,10 +74,14 @@ public abstract class Window extends Canvas {
     public final void paint(Graphics g) {
         g.setFont(FontManager.getNormalFont());
 
-        g.setColor(tm.getMainBackgroundColor());
-        g.fillRect(0, 0, getWidth(), getHeight());
+        if (splashVisible) {
+            splashController.paint(g);
+        } else {
+            g.setColor(tm.getMainBackgroundColor());
+            g.fillRect(0, 0, getWidth(), getHeight());
 
-        controller.paint(g);
+            controller.paint(g);
+        }
     }
     //</editor-fold>
 
@@ -79,6 +90,27 @@ public abstract class Window extends Canvas {
      * Shows the Window on the screen.
      */
     public final void show() {
+        if (splashScreen != null) {
+            Thread t = new Thread(new Runnable() {
+
+                public void run() {
+                    try {
+                        Thread.sleep(splashScreen.getSplashScreenDelay());
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    if (splashActionListener != null) {
+                        splashActionListener.execute();
+                    }
+
+                    splashScreen.close();
+                    splashVisible = false;
+                    repaint();
+                }
+            });
+            t.start();
+        }
         display.setCurrent(this);
     }
     //</editor-fold>
@@ -101,8 +133,17 @@ public abstract class Window extends Canvas {
      * Sets the splash screen to be shown during the application startup.
      * @param splashScreen SplashScreen of the MIDlet.
      */
-    public void setSplashScreen(SplashScreen splashScreen) {
+    public void setSplashScreen(SplashScreen splashScreen, ActionListener splashScreenActionListener) {
+        splashController.setHeight(getHeight());
+        splashController.setWidth(getWidth());
+        splashController.setWindow(this);
+        splashController.prepareController();
+
         this.splashScreen = splashScreen;
+        splashController.addView(splashScreen, null);
+
+        this.splashActionListener = splashScreenActionListener;
+        splashVisible = true;
     }
 
     /**

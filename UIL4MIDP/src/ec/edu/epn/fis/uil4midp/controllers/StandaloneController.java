@@ -26,7 +26,7 @@ public class StandaloneController extends Controller {
         view.setController(this);
         view.setWidth(width);
 
-        this.holdedView = view;
+        holdedView = view;
         view.initialize();
     }
 
