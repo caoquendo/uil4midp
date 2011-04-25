@@ -10,9 +10,13 @@ import javax.microedition.lcdui.Graphics;
  */
 public class Label extends UserControl {
 
+    public static final int LABEL_LEFT = Graphics.LEFT;
+    public static final int LABEL_CENTER = Graphics.HCENTER;
+    public static final int LABEL_RIGHT = Graphics.RIGHT;
     private String caption;
     private String[] captionLines;
     private boolean captionSynced;
+    private int textAlignment = LABEL_LEFT;
 
     //<editor-fold desc="Constructors">
     /**
@@ -50,6 +54,10 @@ public class Label extends UserControl {
         this.caption = caption;
         captionSynced = false;
     }
+
+    public void setTextAlignment(int textAlignment) {
+        this.textAlignment = textAlignment;
+    }
     //</editor-fold>
 
     //<editor-fold desc="Abstract Methods Implementations">
@@ -85,9 +93,21 @@ public class Label extends UserControl {
         g.setColor(tm.getPrimaryFontColor());
         g.setFont(font);
 
-        int[] pos = new int[]{x + padding, ty + padding};
+        int[] pos = new int[]{0, ty + padding};
+        switch (textAlignment) {
+            case LABEL_LEFT:
+                pos[0] = x + padding;
+                break;
+            case LABEL_CENTER:
+                pos[0] = width / 2;
+                break;
+            case LABEL_RIGHT:
+                pos[0] = width - padding;
+                break;
+        }
+
         for (int i = 0; i < captionLines.length; i++) {
-            g.drawString(captionLines[i], pos[0], pos[1] + font.getHeight() * i, Graphics.TOP | Graphics.LEFT);
+            g.drawString(captionLines[i], pos[0], pos[1] + font.getHeight() * i, Graphics.TOP | textAlignment);
         }
     }
 

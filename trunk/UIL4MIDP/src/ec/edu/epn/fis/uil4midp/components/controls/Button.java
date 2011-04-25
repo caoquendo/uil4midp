@@ -6,6 +6,7 @@ import ec.edu.epn.fis.uil4midp.util.GradientManager;
 import ec.edu.epn.fis.uil4midp.util.TextManager;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
 
 /**
  * A Button is a VisualComponent which is intended to execute actions.
@@ -15,7 +16,8 @@ public class Button extends UserControl {
 
     private String caption;
     private String[] captionLines;
-    private boolean captionSynced;
+    private Image icon;
+    private boolean contentSynced;
     private ActionListener actionListener;
 
     //<editor-fold desc="Constructors">
@@ -24,7 +26,7 @@ public class Button extends UserControl {
      */
     private Button() {
         font = FontManager.getBoldFont();
-        captionSynced = false;
+        contentSynced = false;
     }
 
     /**
@@ -37,6 +39,15 @@ public class Button extends UserControl {
     }
 
     /**
+     * Creates a new Button instance with the specified Icon.
+     * @param caption Image to show in the Button.
+     */
+    public Button(Image icon) {
+        this();
+        this.icon = icon;
+    }
+
+    /**
      * Creates a new Button instance with the specified Caption and ActionListener
      * @param caption Text to show in the Button.
      * @param actionListener Object containing the actions for the Button.
@@ -45,16 +56,38 @@ public class Button extends UserControl {
         this(caption);
         this.actionListener = actionListener;
     }
+
+    /**
+     * Creates a new Button instance with the specified Icon and ActionListener
+     * @param caption Image to show in the Button.
+     * @param actionListener Object containing the actions for the Button.
+     */
+    public Button(Image icon, ActionListener actionListener) {
+        this(icon);
+        this.actionListener = actionListener;
+    }
     //</editor-fold>
 
     //<editor-fold desc="Getters & Setters">
     /**
-     * Sets the caption of the Button
+     * Sets the caption of the Button. If the Button was initialized with an Icon
+     * and you set a caption, the button will display it instead of the Icon.
      * @param caption Caption of the Button
      */
     public void setCaption(String caption) {
         this.caption = caption;
-        captionSynced = false;
+        this.icon = null;
+        contentSynced = false;
+    }
+
+    /**
+     * Sets the icon of the Button. If the Button was initialized with a Text caption
+     * and you set a icon, the button will display it instead of the Text caption.
+     * @param icon Icon of the Button
+     */
+    public void setIcon(Image icon) {
+        this.icon = icon;
+        contentSynced = false;
     }
 
     /**
@@ -100,7 +133,6 @@ public class Button extends UserControl {
     public void paint(Graphics g) {
         prepareComponent();
 
-
         int ty = y - yOffset;
 
         // Paint background
@@ -113,12 +145,16 @@ public class Button extends UserControl {
         g.drawRect(x, ty, width - 1, height - 1);
 
         // Draw text
-        g.setColor(tm.getPrimaryFontColor());
-        g.setFont(font);
-
         int[] pos = new int[]{x + width / 2, ty + padding};
-        for (int i = 0; i < captionLines.length; i++) {
-            g.drawString(captionLines[i], pos[0], pos[1] + font.getHeight() * i, Graphics.TOP | Graphics.HCENTER);
+        if (icon == null) {
+            g.setColor(tm.getPrimaryFontColor());
+            g.setFont(font);
+
+            for (int i = 0; i < captionLines.length; i++) {
+                g.drawString(captionLines[i], pos[0], pos[1] + font.getHeight() * i, Graphics.TOP | Graphics.HCENTER);
+            }
+        } else {
+            g.drawImage(icon, pos[0], pos[1], Graphics.TOP | Graphics.HCENTER);
         }
     }
 
@@ -126,13 +162,17 @@ public class Button extends UserControl {
      * Prepares the layout of the Button.
      */
     public void prepareComponent() {
-        if (!captionSynced || !layoutSynced) {
-            int captionWidth = width - 2 * padding;
+        if (!contentSynced || !layoutSynced) {
+            if (icon == null) {
+                int captionWidth = width - 2 * padding;
 
-            captionLines = TextManager.getLines(caption, captionWidth, font);
-            height = captionLines.length * font.getHeight() + 2 * padding;
+                captionLines = TextManager.getLines(caption, captionWidth, font);
+                height = captionLines.length * font.getHeight() + 2 * padding;
+            } else {
+                height = icon.getHeight() + 2 * padding;
+            }
 
-            captionSynced = true;
+            contentSynced = true;
             layoutSynced = true;
         }
     }

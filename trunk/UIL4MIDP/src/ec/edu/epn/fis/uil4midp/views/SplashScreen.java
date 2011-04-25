@@ -1,79 +1,168 @@
 package ec.edu.epn.fis.uil4midp.views;
 
 import ec.edu.epn.fis.uil4midp.components.VisualComponent;
+import ec.edu.epn.fis.uil4midp.components.containers.StackedContainer;
+import ec.edu.epn.fis.uil4midp.components.controls.AnimatedImageBox;
+import ec.edu.epn.fis.uil4midp.components.controls.Label;
+import ec.edu.epn.fis.uil4midp.util.FramesManager;
+import ec.edu.epn.fis.uil4midp.util.GradientManager;
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
 
-public abstract class SplashScreen extends View {
+public class SplashScreen extends View {
 
-    private boolean shown = false;
+    private TitleBar titleBar;
+    private boolean progressIndicatorVisible;
+    private AnimatedImageBox progressIndicator;
+    private StackedContainer baseContainer;
     private int[] backgroundColors = new int[]{tm.getMainBackgroundColor()};
-    private int width;
-    private int height;
-    private String caption;
-    private int timeout = 500;
+    private int splashScreenDelay = 1000;
+    private Image logo;
+    private int maxBackgroundHeight;
+    private int[] objectsPos;
+    private Label lblProgressMessage;
+
+    //<editor-fold desc="Constructors">
+    public SplashScreen(String title, Image logo, boolean progressIndicatorVisible) {
+        titleBar = new TitleBar(title);
+        baseContainer = new StackedContainer();
+        this.logo = logo;
+        this.progressIndicatorVisible = progressIndicatorVisible;
+
+        if (progressIndicatorVisible) {
+            FramesManager frmMgr = new FramesManager("/ec/edu/epn/fis/uil4midp/resources/", "s", 12);
+            progressIndicator = new AnimatedImageBox(frmMgr, 100);
+        }
+
+        initializeComponent();
+    }
+
+    public SplashScreen(String title, Image logo, String progressMessage, boolean progressIndicatorVisible) {
+        this(title, logo, progressIndicatorVisible);
+        if (progressMessage != null || progressMessage.length() > 0){
+            lblProgressMessage = new Label(progressMessage);
+            lblProgressMessage.setTextAlignment(Label.LABEL_CENTER);
+            baseContainer.addVisualComponent(lblProgressMessage);
+        }
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Abstract Methods Implementations">
+    public final void addVisualComponent(VisualComponent visualComponent) {
+        // This method does nothing
+    }
 
     /**
-     * @param visualComponent
-     * @deprecated This method does nothing valuable on this class.
+     * Handles the key events.
+     * @param action Canvas' key action number.
+     * @param keyCode Pressed key code. This code may be device-specific.
+     * @return True if the key event was handled, else, False.
      */
-    public void addVisualComponent(VisualComponent visualComponent) {
-    }
-
-    public void paint(Graphics g) {
-
-
-
-        shown = true;
-    }
-
-    public void setCaption(String caption) {
-        this.caption = caption;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public boolean keyPressed(int action, int keyCode) {
+    public final boolean keyPressed(int action, int keyCode) {
         return false;
     }
 
     /**
-     * Sets the background colors that will be used to paint the splash screen
-     * @param backgroundColors Array containing a list of colors represented on
-     * integer format (Eg. 0x00FF00). If the array contains only one value, the
-     * SplashScreen background will be filled with a solid color. If the array
-     * contains two or more values, the background will be filled with a
-     * vertical gradient composed of the two first values.
+     * Paints the SplashScreen
+     * @param g Graphics object on which paint
      */
-    public void setBackgroundColors(int[] backgroundColors) {
-        if (backgroundColors != null) {
-            this.backgroundColors = backgroundColors;
+    public final void paint(Graphics g) {
+        maxBackgroundHeight = progressIndicatorVisible ? viewPortHeight - baseContainer.getHeight() - tm.getViewMargin() : viewPortHeight;
+
+        System.out.println("baseContainer: " + baseContainer.getHeight());
+
+        objectsPos = new int[]{width / 2, maxBackgroundHeight / 2};
+
+        if (backgroundColors.length > 1) {
+            // Gradient
+            GradientManager.paintGradient(g, backgroundColors[0], backgroundColors[1], 0, 0, width, maxBackgroundHeight, GradientManager.VERTICAL);
+        } else {
+            // Solid color
+            g.setColor(backgroundColors[0]);
+            g.fillRect(0, 0, width, maxBackgroundHeight);
         }
-    }
 
-    public boolean wasShown() {
-        return shown;
-    }
+        g.drawImage(logo, objectsPos[0], objectsPos[1], Graphics.HCENTER | Graphics.VCENTER);
 
-    public int getTimeout() {
-        return timeout;
+        // Progress Indicator
+        if (progressIndicatorVisible) {
+            // Clean the indicator area screen
+            g.setColor(0xFFFFFF);
+            g.fillRect(0, maxBackgroundHeight, width, viewPortHeight);
+
+            // Paint progressIndicator
+            baseContainer.setPosition(0, maxBackgroundHeight);
+            baseContainer.paint(g);
+        }
+        //Title Bar
+        titleBar.paint(g);
     }
 
     /**
-     * Sets the duration for the splash screen.
-     * @param timeout Value in milliseconds that the splash screen should appear
-     * on the screen. This must be greater or equal than 500 milliseconds.
+     * Initializes some internal fields
      */
-    public void setTimeout(int timeout) {
-        if (timeout > 500) {
-            this.timeout = timeout;
+    public final void initialize() {
+        baseContainer.prepareComponent();
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Getters & Setters">
+    public final void setWidth(int width) {
+        super.setWidth(width);
+        titleBar.setWidth(width);
+        baseContainer.setWidth(width);
+    }
+
+    /**
+     * Sets the background colors for the splash screen.
+     * @param backgroundColors Array containing the integer value of the background
+     * colors. If there is only one value in the array, the screen will be painted
+     * with a solid color. If there are two or more values in the array, the screen
+     * will be filled with a gradient between the two first colors.
+     */
+    public final void setBackgroundColors(int[] backgroundColors) {
+        this.backgroundColors = backgroundColors;
+    }
+
+    /**
+     * Gets the time in millisenconds that the SplashScreen should remain painted.
+     * @return Splash screen delay.
+     */
+    public final int getSplashScreenDelay() {
+        return splashScreenDelay;
+    }
+
+    /**
+     * Sets the time in milliseconds that the SplashScreen should be visible.
+     * @param splashScreenDelay Time which the SplashScreen should be visible.
+     */
+    public final void setSplashScreenDelay(int splashScreenDelay) {
+        this.splashScreenDelay = splashScreenDelay;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Utility Methods">
+    private void initializeComponent() {
+        titleBar.setPadding(tm.getTitlebarPadding());
+        titleBar.setPosition(0, 0);
+        titleBar.prepareComponent();
+
+        if (progressIndicatorVisible) {
+            baseContainer.setWidth(width);
+            baseContainer.setView(this);
+
+            baseContainer.addVisualComponent(progressIndicator);
         }
     }
 
-    public boolean canHandleVerticalMovement(int direction) {
-        return false;
+    /**
+     * Dismisses the SplashScreen. This method must be called only by the Window
+     * class.
+     */
+    public void close() {
+        if (progressIndicatorVisible) {
+            progressIndicator.cancelAnimation();
+        }
     }
-
-    public abstract void initialize();
+    //</editor-fold>
 }
