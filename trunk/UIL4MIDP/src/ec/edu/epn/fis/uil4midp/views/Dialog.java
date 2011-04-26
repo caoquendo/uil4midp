@@ -20,6 +20,7 @@ public abstract class Dialog extends View {
     private StackedContainer baseContainer;
     private TitleBar titleBar;
     private Label message;
+    private boolean vibrated = false;
 
     protected int x;
     protected int y;
@@ -127,14 +128,17 @@ public abstract class Dialog extends View {
      * @param g Graphics object on which paint.
      */
     public void paint(Graphics g) {
+        if (!vibrated){
+            getController().getWindow().getDisplay().vibrate(100);
+            vibrated = true;
+        }
+
         //Paint a background
         g.setColor(tm.getMainBackgroundColor());
         g.fillRect(x, y, width, getHeight());
 
         baseContainer.paint(g);
         titleBar.paint(g);
-
-        getController().getWindow().getDisplay().vibrate(100);
     }
     //</editor-fold>
 
