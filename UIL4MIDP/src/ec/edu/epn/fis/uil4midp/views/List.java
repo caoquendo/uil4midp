@@ -163,7 +163,7 @@ public abstract class List extends Form {
     public boolean keyPressed(int action, int keyCode) {
         switch (action) {
             case Canvas.FIRE:
-                if (actionListener != null) {
+                if (actionListener != null && baseContainer.isFocused()) {
                     actionListener.execute();
                     return true;
                 }

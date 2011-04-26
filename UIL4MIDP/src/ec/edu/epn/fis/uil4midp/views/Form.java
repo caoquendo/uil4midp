@@ -16,8 +16,8 @@ import javax.microedition.lcdui.Image;
  */
 public abstract class Form extends View {
 
-    private StackedContainer baseContainer;
-    private TitleBar titleBar;
+    protected StackedContainer baseContainer;
+    protected TitleBar titleBar;
 
     //<editor-fold desc="Constructors">
     /**
