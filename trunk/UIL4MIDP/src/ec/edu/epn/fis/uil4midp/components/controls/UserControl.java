@@ -14,6 +14,15 @@ public abstract class UserControl extends VisualComponent {
     protected int padding = tm.getUsercontrolPadding();
     protected Font font;
 
+    //<editor-fold desc="Constructors">
+    /**
+     * Initializes the UserControl
+     */
+    protected UserControl() {
+        super(VisualComponent.TYPE_USER_CONTROL);
+    }
+    //</editor-fold>
+
     //<editor-fold desc="Basic Layout Methods">
     /**
      * Sets the Font to be used on the UserControl

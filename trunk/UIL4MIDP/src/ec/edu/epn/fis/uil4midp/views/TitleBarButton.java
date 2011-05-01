@@ -103,6 +103,7 @@ final class TitleBarButton extends UserControl {
         GradientManager.paintGradient(g, back[0], back[1], buttonX, y, width, height, GradientManager.VERTICAL);
         
         if (icon == null) { // Label
+            g.setFont(font);
             g.setColor(tm.getInvertedFontColor());
             g.drawString(label, buttonX + (width / 2), y + padding, Graphics.TOP | Graphics.HCENTER);
         } else {

@@ -9,7 +9,7 @@ import java.io.IOException;
 public class ThemeManager {
 
     private static ThemeManager instance;
-
+    // Colors
     private int primaryFontColor;
     private int secondaryFontColor;
     private int invertedFontColor;
@@ -36,13 +36,18 @@ public class ThemeManager {
     private int switchInactiveBorder;
     private int[] switchInactiveSelector;
     private int listitemDivider;
+    //Dimensions
     private int usercontrolPadding;
     private int listitemPadding;
     private int titlebarPadding;
     private int tabbarPadding;
     private int containerControlSeparation;
     private int viewMargin;
-    
+    //Graphic Resources
+    private String backIconPath;
+    private String okYesIconPath;
+    private String cancelNoIconPath;
+    private String[] progressAnimationFrames;
     private Properties theme;
 
     /**
@@ -65,6 +70,7 @@ public class ThemeManager {
             theme = new Properties();
             theme.load(filename == null ? "/ec/edu/epn/fis/uil4midp/resources/default.properties" : filename);
 
+            // Colors
             primaryFontColor = convertValue(theme.get("primary-font-color").toString());
             secondaryFontColor = convertValue(theme.get("secondary-font-color").toString());
             invertedFontColor = convertValue(theme.get("inverted-font-color").toString());
@@ -91,12 +97,20 @@ public class ThemeManager {
             switchInactiveBorder = convertValue(theme.get("switch-inactive-border").toString());
             switchInactiveSelector = convertValues(theme.get("switch-inactive-selector").toString());
             listitemDivider = convertValue(theme.get("listitem-divider").toString());
+
+            // Dimensions
             usercontrolPadding = convertValue(theme.get("usercontrol-padding").toString());
             listitemPadding = convertValue(theme.get("listitem-padding").toString());
             titlebarPadding = convertValue(theme.get("titlebar-padding").toString());
             tabbarPadding = convertValue(theme.get("tabbar-padding").toString());
             containerControlSeparation = convertValue(theme.get("container-control-separation").toString());
             viewMargin = convertValue(theme.get("view-margin").toString());
+
+            // Graphic Resources
+            backIconPath = theme.get("icon-back").toString();
+            okYesIconPath = theme.get("icon-ok-yes").toString();
+            cancelNoIconPath = theme.get("icon-cancel-no").toString();
+            progressAnimationFrames = prepareAnimationDefinition(theme.get("frames-progress-animation").toString());
 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -127,6 +141,27 @@ public class ThemeManager {
         }
 
         return intVals;
+    }
+
+    /**
+     * Parsed the animation definition for the progress animation.
+     * @param value Animation definition string value
+     * @return Array with tha animation definition values.
+     */
+    private String[] prepareAnimationDefinition(String value) {
+        String[] values = TextManager.split(value, ',');
+        String[] finalValues = new String[4];
+
+        try {
+            finalValues[0] = 0 < values.length ? values[0] : ""; // Path
+            finalValues[1] = 1 < values.length ? values[1] : ""; // File Name Prefix
+            finalValues[2] = 2 < values.length ? values[2] : ""; // Extension
+            finalValues[3] = 3 < values.length ? values[3] : "0"; // Frames Count
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return finalValues;
     }
 
     /**
@@ -267,5 +302,21 @@ public class ThemeManager {
 
     public int getViewMargin() {
         return viewMargin;
+    }
+
+    public String getBackIconPath() {
+        return backIconPath;
+    }
+
+    public String getOkYesIconPath() {
+        return okYesIconPath;
+    }
+
+    public String getCancelNoIconPath() {
+        return cancelNoIconPath;
+    }
+
+    public String[] getProgressAnimationFrames() {
+        return progressAnimationFrames;
     }
 }

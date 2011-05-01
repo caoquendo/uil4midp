@@ -50,7 +50,7 @@ public abstract class Window extends Canvas {
         }
         overlay = Image.createRGBImage(overlayData, getWidth(), getHeight(), true);
 
-        splashController = new StandaloneController();
+        splashController = new StandaloneController(this);
     }
 
     //<editor-fold desc="Mandatory Methods">

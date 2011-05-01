@@ -82,7 +82,6 @@ public class AnimatedImageBox extends UserControl {
                 public void run() {
                     image = framesManager.getFrameAt(imageIndex);
                     imageIndex = imageIndex == framesManager.getFramesCount() - 1 ? 0 : imageIndex + 1;
-                    System.out.println("image " + imageIndex);
                     repaint();
                 }
 

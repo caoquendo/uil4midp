@@ -1,9 +1,10 @@
 package ec.edu.epn.fis.uil4midp.controllers;
 
 import ec.edu.epn.fis.uil4midp.actions.ActionListener;
+import ec.edu.epn.fis.uil4midp.ui.Window;
+import ec.edu.epn.fis.uil4midp.util.ResourceManager;
 import ec.edu.epn.fis.uil4midp.views.Form;
 import ec.edu.epn.fis.uil4midp.views.View;
-import java.io.IOException;
 import java.util.Stack;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
@@ -26,13 +27,9 @@ public class NavigableController extends Controller {
     /**
      * Initializes internal fields and creates a new instance of NavigableController
      */
-    public NavigableController() {
-        try {
-            backIcon = Image.createImage("/ec/edu/epn/fis/uil4midp/resources/back.png");
-        } catch (IOException ex) {
-            backIcon = Image.createImage(16, 16);
-        }
-
+    public NavigableController(Window window) {
+        super(window);
+        backIcon = ResourceManager.loadImage(tm.getBackIconPath());
         holdedViews = new Stack();
     }
     //</editor-fold>

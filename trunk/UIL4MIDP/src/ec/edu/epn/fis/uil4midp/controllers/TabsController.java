@@ -1,5 +1,6 @@
 package ec.edu.epn.fis.uil4midp.controllers;
 
+import ec.edu.epn.fis.uil4midp.ui.Window;
 import ec.edu.epn.fis.uil4midp.views.View;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
@@ -22,7 +23,8 @@ public class TabsController extends Controller {
     /**
      * Creates a new TabsController instance.
      */
-    public TabsController() {
+    public TabsController(Window window) {
+        super(window);
         tabBar = new TabBar(this);
         tabBar.setPadding(tm.getTabbarPadding());
     }
@@ -35,6 +37,7 @@ public class TabsController extends Controller {
      * @param icon Image to be used as the icon of the view
      */
     public void addView(View view, Image icon) {
+        view.setController(this);
         view.setWidth(width);
         view.initialize();
 
@@ -48,6 +51,7 @@ public class TabsController extends Controller {
      * @param icon Image to be used as the icon of the Controller
      */
     public void addController(Controller controller, Image icon) {
+        //TODO: setOwner: this;
         controller.setWidth(width);
         controller.prepareController();
 

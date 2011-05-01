@@ -3,6 +3,7 @@ package ec.edu.epn.fis.uil4midp.views;
 
 import ec.edu.epn.fis.uil4midp.components.controls.AnimatedImageBox;
 import ec.edu.epn.fis.uil4midp.util.FramesManager;
+import ec.edu.epn.fis.uil4midp.util.ThemeManager;
 
 /**
  * A ProgressDialog is a kind of Dialog which shows a message during the period
@@ -23,7 +24,8 @@ public class ProgressDialog extends Dialog {
     public ProgressDialog(String title, String message) {
         super(title, message);
 
-        FramesManager fm = new FramesManager("/ec/edu/epn/fis/uil4midp/resources/", "s", 12);
+        String[] vrs = ThemeManager.getInstance().getProgressAnimationFrames();
+        FramesManager fm = new FramesManager(vrs[0], vrs[1], vrs[2], Integer.parseInt(vrs[3]));
         progressIndicator = new AnimatedImageBox(fm, 100);
     }
     //</editor-fold>

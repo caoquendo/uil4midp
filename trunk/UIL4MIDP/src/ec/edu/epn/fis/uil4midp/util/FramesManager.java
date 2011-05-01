@@ -26,7 +26,7 @@ public class FramesManager {
      * @param fileNamePrefix Common prefix that all the required files may have.
      * @param framesCount Maximum number of files to load.
      */
-    public FramesManager(String basePath, String fileNamePrefix, int framesCount) {
+    public FramesManager(String basePath, String fileNamePrefix, String extension, int framesCount) {
         String basePathHash = fileNamePrefix + basePath.hashCode() + "Frames";
 
         if (framesCache.containsKey(basePathHash)) {
@@ -36,7 +36,7 @@ public class FramesManager {
             frames = new Image[framesCount];
             for (int i = 0; i < framesCount; i++) {
                 try {
-                    Image img = Image.createImage(basePath + fileNamePrefix + i + ".png");
+                    Image img = Image.createImage(basePath + fileNamePrefix + i + (extension.startsWith(".") ? extension : "." + extension));
                     frames[i] = img;
 
                     if (maximumFramesHeight < img.getHeight()) maximumFramesHeight = img.getHeight();

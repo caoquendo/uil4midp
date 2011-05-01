@@ -6,6 +6,7 @@ import ec.edu.epn.fis.uil4midp.components.controls.AnimatedImageBox;
 import ec.edu.epn.fis.uil4midp.components.controls.Label;
 import ec.edu.epn.fis.uil4midp.util.FramesManager;
 import ec.edu.epn.fis.uil4midp.util.GradientManager;
+import ec.edu.epn.fis.uil4midp.util.ThemeManager;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
@@ -30,7 +31,8 @@ public class SplashScreen extends View {
         this.progressIndicatorVisible = progressIndicatorVisible;
 
         if (progressIndicatorVisible) {
-            FramesManager frmMgr = new FramesManager("/ec/edu/epn/fis/uil4midp/resources/", "s", 12);
+            String[] vrs = ThemeManager.getInstance().getProgressAnimationFrames();
+            FramesManager frmMgr = new FramesManager(vrs[0], vrs[1], vrs[2], Integer.parseInt(vrs[3]));
             progressIndicator = new AnimatedImageBox(frmMgr, 100);
         }
 
