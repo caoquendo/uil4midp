@@ -25,7 +25,7 @@ public class TitleBar extends UserControl {
      */
     private TitleBar() {
         font = FontManager.getNormalFont();
-        setFocused(false);
+        focused = false;
     }
 
     /**
@@ -133,6 +133,7 @@ public class TitleBar extends UserControl {
      */
     public void paint(Graphics g) {
         prepareComponent();
+        g.setFont(font);
 
         int[] back = tm.getTitlebarNormalBackground();
         GradientManager.paintGradient(g, back[0], back[1], x, y, width, height, GradientManager.VERTICAL);

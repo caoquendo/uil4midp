@@ -148,7 +148,7 @@ public class OptionPicker extends UserControl {
         g.drawString(values[selectedValueIndex], x + width / 2, ty + padding + font.getHeight() + padding, Graphics.TOP | Graphics.HCENTER);
 
         // Paint buttons
-        paintArrows(g);
+        paintArrows(g, ty);
     }
 
     /**
@@ -173,8 +173,9 @@ public class OptionPicker extends UserControl {
      * Paints the arrows of the OptionPicker
      * @param g Graphics object on which paint
      * @param size Size of the arrow.
+     * @param y Base Y position of the arrow
      */
-    private void paintArrows(Graphics g) {
+    private void paintArrows(Graphics g, int y) {
         int deltaSize = arrowDimension / 2;
         int deltaHeight = height / 2;
 

@@ -21,6 +21,7 @@ public abstract class Container extends VisualComponent {
      * Initializes internal fields.
      */
     protected Container() {
+        super(VisualComponent.TYPE_CONTAINER);
         visualComponents = new Vector();
     }
     //</editor-fold>
@@ -82,6 +83,11 @@ public abstract class Container extends VisualComponent {
      * @return View instance to which the Container belongs.
      */
     public View getView() {
+        // Si el contenedor está dentro de otro contenedor
+        if (container != null)
+            return container.getView();
+
+        // Si el contenedor está directamente en una vista
         return this.view;
     }
 

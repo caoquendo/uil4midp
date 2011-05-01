@@ -2,7 +2,10 @@
 package ec.edu.epn.fis.uil4midp.views;
 
 import ec.edu.epn.fis.uil4midp.actions.ActionListener;
+import ec.edu.epn.fis.uil4midp.components.containers.HorizontalSplittedContainer;
 import ec.edu.epn.fis.uil4midp.components.controls.Button;
+import ec.edu.epn.fis.uil4midp.util.ResourceManager;
+import ec.edu.epn.fis.uil4midp.util.ThemeManager;
 import javax.microedition.lcdui.Canvas;
 
 /**
@@ -14,6 +17,8 @@ public class ConfirmationDialog extends Dialog {
 
     private Button btnYes;
     private Button btnNo;
+    private HorizontalSplittedContainer hspButtons;
+
 
     //<editor-fold desc="Constructors">
     /**
@@ -25,7 +30,7 @@ public class ConfirmationDialog extends Dialog {
     public ConfirmationDialog(String title, String message) {
         super(title, message);
 
-        btnYes = new Button("Si");
+        btnYes = new Button(ResourceManager.loadImage(tm.getOkYesIconPath()));
         btnYes.setFocused(true);
         btnYes.setActionListener(new ActionListener() {
             public void execute() {
@@ -34,13 +39,15 @@ public class ConfirmationDialog extends Dialog {
             }
         });
 
-        btnNo = new Button("No");
+        btnNo = new Button(ResourceManager.loadImage(tm.getCancelNoIconPath()));
         btnNo.setActionListener(new ActionListener() {
             public void execute() {
                 dialogResult = DIALOG_NO;
                 getController().dismissDialog();
             }
         });
+
+        hspButtons = new HorizontalSplittedContainer(-1);
     }
     //</editor-fold>
 
@@ -92,8 +99,11 @@ public class ConfirmationDialog extends Dialog {
      */
     public void initialize() {
         super.initialize();
-        addVisualComponent(btnYes);
-        addVisualComponent(btnNo);
+
+        hspButtons.addVisualComponent(btnYes);
+        hspButtons.addVisualComponent(btnNo);
+
+        addVisualComponent(hspButtons);
     }
     //</editor-fold>
 }

@@ -86,7 +86,7 @@ final class TabBar extends UserControl {
             case Canvas.FIRE:
                 if (selectedTab != null) {
                     if (selectedTab.getView() != null) {
-                         if (selectedTab.getView().getActionListener() != null) {
+                        if (selectedTab.getView().getActionListener() != null) {
                             selectedTab.getView().getActionListener().execute();
                         }
                     }
@@ -133,6 +133,12 @@ final class TabBar extends UserControl {
                 t.setPadding(padding);
                 t.setWidth(tabWidth);
                 t.prepareComponent();
+
+                if (t.getView() != null) {
+                    t.getView().setWidth(width);
+                } else if (t.getController() != null) {
+                    t.getController().setWidth(width);
+                }
 
                 if (height < t.getHeight()) {
                     height = t.getHeight();

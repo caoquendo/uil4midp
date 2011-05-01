@@ -171,6 +171,7 @@ public abstract class Form extends View {
      */
     private void initializeComponent() {
         titleBar.setPadding(tm.getTitlebarPadding());
+        titleBar.setWidth(width);
         titleBar.setPosition(0, 0);
         titleBar.prepareComponent();
 

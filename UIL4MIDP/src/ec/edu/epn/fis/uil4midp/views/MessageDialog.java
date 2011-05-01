@@ -3,7 +3,9 @@ package ec.edu.epn.fis.uil4midp.views;
 
 import ec.edu.epn.fis.uil4midp.actions.ActionListener;
 import ec.edu.epn.fis.uil4midp.components.controls.Button;
+import ec.edu.epn.fis.uil4midp.util.ResourceManager;
 import javax.microedition.lcdui.Canvas;
+import javax.microedition.lcdui.Image;
 
 /**
  * A MessageDialog is a kind of Dialog which shows a informative message which
@@ -24,7 +26,7 @@ public class MessageDialog extends Dialog{
     public MessageDialog(String title, String message) {
         super(title, message);
 
-        btnOk = new Button("Aceptar");
+        btnOk = new Button(ResourceManager.loadImage(tm.getOkYesIconPath()));
         btnOk.setFocused(true);
         btnOk.setActionListener(new ActionListener() {
             public void execute() {

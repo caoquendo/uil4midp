@@ -25,6 +25,12 @@ public abstract class Controller {
     protected Dialog dialog;
     protected ThemeManager tm = ThemeManager.getInstance();
 
+    //<editor-fold desc="Constructors">
+    protected Controller(Window window) {
+        setWidth(window.getWidth());
+    }
+    //</editor-fold>
+
     //<editor-fold desc="Abstract Methods">
     /**
      * Adds a View to the Controller.

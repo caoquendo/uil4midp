@@ -1,5 +1,6 @@
 package ec.edu.epn.fis.uil4midp.controllers;
 
+import ec.edu.epn.fis.uil4midp.ui.Window;
 import ec.edu.epn.fis.uil4midp.views.View;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
@@ -15,6 +16,12 @@ public class StandaloneController extends Controller {
 
     private View holdedView;
 
+    //<editor-fold desc="Constructors">
+    public StandaloneController(Window window) {
+        super(window);
+    }
+    //</editor-fold>
+
     //<editor-fold desc="Abstract Methods Implementations">
     /**
      * Adds a View to the StandaloneController.
@@ -25,9 +32,9 @@ public class StandaloneController extends Controller {
     public void addView(View view, Image icon) {
         view.setController(this);
         view.setWidth(width);
+        view.initialize();
 
         holdedView = view;
-        view.initialize();
     }
 
     /**
@@ -60,6 +67,8 @@ public class StandaloneController extends Controller {
      */
     public void prepareController() {
         viewPortHeight = height;
+
+        if (holdedView != null) holdedView.setWidth(width);
     }
     //</editor-fold>   
 }

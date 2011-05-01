@@ -11,6 +11,9 @@ import javax.microedition.lcdui.Graphics;
  */
 public abstract class VisualComponent {
 
+    public static final int TYPE_USER_CONTROL = 0;
+    public static final int TYPE_CONTAINER = 1;
+
     protected int width;
     protected int height;
     protected int x;
@@ -20,6 +23,18 @@ public abstract class VisualComponent {
     protected Container container;
     protected boolean layoutSynced;
     protected ThemeManager tm = ThemeManager.getInstance();
+    
+    private int type;
+
+    //<editor-fold desc="Constructors">
+    /**
+     * Initializes the VisualComponent.
+     * @param type Type of VisualComponent.
+     */
+    protected VisualComponent(int type) {
+        this.type = type;
+    }
+    //</editor-fold>
 
     //<editor-fold desc="Abstract Methods">
     /**
@@ -153,6 +168,15 @@ public abstract class VisualComponent {
      */
     public boolean isFocused() {
         return focused;
+    }
+
+    /**
+     * Gets the type of VisualComponent.
+     * @return Type of VisualComponent. This type may be VisualComponent.TYPE_USER_CONTROL
+     * or VisualComponent.TYPE_CONTAINER
+     */
+    public int getVisualComponentType() {
+        return type;
     }
     //</editor-fold>
 }
