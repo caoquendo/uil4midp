@@ -82,9 +82,9 @@ public class NavigableController extends Controller {
      */
     public void keyPressed(int action, int keyCode) {
         if (dialog == null || dialog.isDismissed()) {
-            activeView.keyPressed(action, keyCode);
+            keyPressHandled = activeView.keyPressed(action, keyCode);
         } else {
-            dialog.keyPressed(action, keyCode);
+            keyPressHandled = dialog.keyPressed(action, keyCode);
         }
     }
 

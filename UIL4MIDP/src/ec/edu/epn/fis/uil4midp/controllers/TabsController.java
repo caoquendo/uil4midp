@@ -51,7 +51,7 @@ public class TabsController extends Controller {
      * @param icon Image to be used as the icon of the Controller
      */
     public void addController(Controller controller, Image icon) {
-        //TODO: setOwner: this;
+        controller.setController(this);
         controller.setWidth(width);
         controller.prepareController();
 
@@ -70,51 +70,26 @@ public class TabsController extends Controller {
 
             switch (action) {
                 case Canvas.DOWN:
-                    if (tabBar.isFocused()) {
-                        tabBar.setFocused(false);
-
-                        if (selectedTab.getView() != null) {
-                            selectedTab.getView().keyPressed(action, keyCode);
-                        } else {
-                            selectedTab.getController().keyPressed(action, keyCode);
-                        }
-                    } else {
-                        if (selectedTab.getView() != null) {
-                            if (!selectedTab.getView().keyPressed(action, keyCode)) {
-                                tabBar.setFocused(true);
-                            }
-                        } else {
-                            selectedTab.getController().keyPressed(action, keyCode);
-                        }
-                    }
+                    handleVerticalMovement(action, keyCode, selectedTab);
                     break;
                 case Canvas.UP:
-                    if (tabBar.isFocused()) {
-                        tabBar.setFocused(false);
-
-                        if (selectedTab.getView() != null) {
-                            selectedTab.getView().keyPressed(action, keyCode);
-                        } else {
-                            selectedTab.getController().keyPressed(action, keyCode);
-                        }
-                    } else {
-                        tabBar.setFocused(true);
-                    }
+                    handleVerticalMovement(action, keyCode, selectedTab);
                     break;
                 default:
                     if (tabBar.isFocused()) {
-                        tabBar.keyPressed(action, keyCode);
+                        keyPressHandled = tabBar.keyPressed(action, keyCode);
                     } else {
                         if (selectedTab.getView() != null) {
-                            selectedTab.getView().keyPressed(action, keyCode);
+                            keyPressHandled = selectedTab.getView().keyPressed(action, keyCode);
                         } else {
                             selectedTab.getController().keyPressed(action, keyCode);
+                            keyPressHandled = selectedTab.getController().isKeyPressHandled();
                         }
                     }
                     break;
             }
         } else {
-            dialog.keyPressed(action, keyCode);
+            keyPressHandled = dialog.keyPressed(action, keyCode);
         }
     }
 
@@ -153,6 +128,31 @@ public class TabsController extends Controller {
         }
 
         tabBar.setPosition(0, height - tabBar.getHeight());
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Utility Methods">
+    /**
+     * Handles the vertical movement on the TabsController.
+     * @param action Canvas' key action number.
+     * @param keyCode Pressed key code. This code may be device-specific.
+     * @param selectedTab Selected Tab on the TabsController
+     */
+    private void handleVerticalMovement(int action, int keyCode, Tab selectedTab) {
+        if (selectedTab.getView() != null) {
+            keyPressHandled = selectedTab.getView().keyPressed(action, keyCode);
+        } else {
+            selectedTab.getController().keyPressed(action, keyCode);
+            keyPressHandled = selectedTab.getController().isKeyPressHandled();
+        }
+
+        if (tabBar.isFocused()) {
+            tabBar.setFocused(false);
+        } else {
+            if (!keyPressHandled) {
+                tabBar.setFocused(true);
+            }
+        }
     }
     //</editor-fold>
 }

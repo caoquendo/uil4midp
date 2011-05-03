@@ -5,6 +5,7 @@ import ec.edu.epn.fis.uil4midp.controllers.Controller;
 import ec.edu.epn.fis.uil4midp.controllers.StandaloneController;
 import ec.edu.epn.fis.uil4midp.util.FontManager;
 import ec.edu.epn.fis.uil4midp.util.ThemeManager;
+import ec.edu.epn.fis.uil4midp.views.Dialog;
 import ec.edu.epn.fis.uil4midp.views.SplashScreen;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Canvas;
@@ -152,6 +153,14 @@ public abstract class Window extends Canvas {
      */
     public Display getDisplay() {
         return display;
+    }
+
+    /**
+     * Show the Dialog on the active controller.
+     * @param dialog Dialog to be shown.
+     */
+    public void setDialog(Dialog dialog) {
+        controller.setDialog(dialog);
     }
     //</editor-fold>
 

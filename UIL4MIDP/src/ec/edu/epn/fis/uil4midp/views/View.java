@@ -109,7 +109,7 @@ public abstract class View {
      * @param dialog Dialog box instance to be shown.
      */
     public void showDialog(Dialog dialog) {
-        controller.setDialog(dialog);
+        controller.getWindow().setDialog(dialog);
     }
     //</editor-fold>
 }

@@ -51,6 +51,19 @@ public class ProgressDialog extends Dialog {
         progressIndicator.cancelAnimation();
         getController().dismissDialog();
     }
+
+    /**
+     * Dismisses the ProgressDialog and allows the user to execute or not the
+     * associated ActionListener. This method is intended to be called by a
+     * long running task.
+     * @param executeActionListener If true is passed, the ActionListener of
+     * this Dialog is executed. If false is passed, the ActionListener is not
+     * executed.
+     */
+    public void close(boolean executeActionListener) {
+        progressIndicator.cancelAnimation();
+        getController().dismissDialog(executeActionListener);
+    }
     //</editor-fold>
 
     //<editor-fold desc="Overriden Methods">
