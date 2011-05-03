@@ -44,9 +44,9 @@ public class StandaloneController extends Controller {
      */
     public void keyPressed(int action, int keyCode) {
         if (dialog == null || dialog.isDismissed()) {
-            holdedView.keyPressed(action, keyCode);
+            keyPressHandled = holdedView.keyPressed(action, keyCode);
         } else {
-            dialog.keyPressed(action, keyCode);
+            keyPressHandled = dialog.keyPressed(action, keyCode);
         }
     }
 

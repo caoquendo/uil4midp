@@ -71,8 +71,6 @@ public class SplashScreen extends View {
     public final void paint(Graphics g) {
         maxBackgroundHeight = progressIndicatorVisible ? viewPortHeight - baseContainer.getHeight() - tm.getViewMargin() : viewPortHeight;
 
-        System.out.println("baseContainer: " + baseContainer.getHeight());
-
         objectsPos = new int[]{width / 2, maxBackgroundHeight / 2};
 
         if (backgroundColors.length > 1) {

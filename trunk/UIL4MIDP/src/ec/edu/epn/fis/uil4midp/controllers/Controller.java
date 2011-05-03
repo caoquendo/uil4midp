@@ -22,8 +22,10 @@ public abstract class Controller {
     protected int viewPortHeight;
     protected boolean autoCalcViewPortHeight = true;
     protected Window window;
+    protected Controller controller;
     protected Dialog dialog;
     protected ThemeManager tm = ThemeManager.getInstance();
+    protected boolean keyPressHandled = false;
 
     //<editor-fold desc="Constructors">
     protected Controller(Window window) {
@@ -62,6 +64,17 @@ public abstract class Controller {
     public abstract void prepareController();
     //</editor-fold>
 
+    //<editor-fold desc="KeyPress Management Methods">
+    /**
+     * Determines if the last KeyPress event was handled.
+     * @return True is the last key press event was handled, otherwise False.
+     */
+    public final boolean isKeyPressHandled() {
+        return keyPressHandled;
+    }
+
+    //</editor-fold>
+    
     //<editor-fold desc="Basic Layout Methods">
     /**
      * Sets the width of the Controller.
@@ -92,19 +105,39 @@ public abstract class Controller {
     }
 
     /**
-     * Sets the owner of the Controller.
-     * @param window Window instance to which the Controller belongs.
+     * Sets a Windows as the owner of the Controller.
+     * @param window Window instance to which this Controller belongs.
      */
     public final void setWindow(Window window) {
         this.window = window;
     }
 
     /**
-     * Gets the owner of the controller.
+     * Gets the Window that is the owner of the controller. If this Controller belongs
+     * to another Controller, this method will try to find the owner's Window.
      * @return Window instance to which the Controller belongs.
      */
     public final Window getWindow() {
-        return this.window;
+        if (controller == null) {
+            return this.window;
+        }
+        return controller.getWindow();
+    }
+
+    /**
+     * Sets a Controller as the owner of the Controller.
+     * @param controller Controller instance to which this Controller belongs.
+     */
+    public final void setController(Controller controller) {
+        this.controller = controller;
+    }
+
+    /**
+     * Gets the Controller that is the owner of the controller.
+     * @return Controller instance to which the Controller belongs.
+     */
+    public final Controller getController() {
+        return this.controller;
     }
     //</editor-fold>
 
@@ -129,6 +162,19 @@ public abstract class Controller {
         dialog.setDismissed(true);
 
         if (dialog.getDismissActionListener() != null) {
+            dialog.getDismissActionListener().execute();
+        }
+
+        getWindow().repaint();
+    }
+
+    /**
+     * Dismisses the currently shown Dialog and optionally executes the ActionListener of the Dialog.
+     */
+    public final void dismissDialog(boolean executeActionListener) {
+        dialog.setDismissed(true);
+
+        if (executeActionListener && dialog.getDismissActionListener() != null) {
             dialog.getDismissActionListener().execute();
         }
 
