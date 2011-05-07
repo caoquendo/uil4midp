@@ -13,16 +13,16 @@ public class Label extends UserControl {
     public static final int LABEL_LEFT = Graphics.LEFT;
     public static final int LABEL_CENTER = Graphics.HCENTER;
     public static final int LABEL_RIGHT = Graphics.RIGHT;
-    private String caption;
+    private String caption = "";
     private String[] captionLines;
     private boolean captionSynced;
     private int textAlignment = LABEL_LEFT;
 
     //<editor-fold desc="Constructors">
     /**
-     * Initializes internal fields
+     * Creates a new Label instance without a text as caption.
      */
-    private Label() {
+    public Label() {
         font = FontManager.getNormalFont();
         captionSynced = false;
     }

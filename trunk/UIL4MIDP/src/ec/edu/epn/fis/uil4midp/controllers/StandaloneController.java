@@ -70,5 +70,13 @@ public class StandaloneController extends Controller {
 
         if (holdedView != null) holdedView.setWidth(width);
     }
+
+    /**
+     * Gets the view that is being displayed by the StandaloneController
+     * @return View that is being displayed by the StandaloneController.
+     */
+    public View getView() {
+        return holdedView;
+    }
     //</editor-fold>   
 }

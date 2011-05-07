@@ -18,6 +18,10 @@ public class TextManager {
      * @return String array containing the text converted in lines
      */
     public static String[] getLines(String text, int width, Font font) {
+        if (text == null) {
+            return new String[1];
+        }
+
         char spaceChar = ' ';
 
         Vector lines = new Vector();

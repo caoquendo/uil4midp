@@ -146,7 +146,7 @@ public abstract class List extends Form {
 
     /**
      * Gets the selected ListItem on the List.
-     * @return SelectedListItem on the List.
+     * @return SelectedListItem on the List. If there is no selected item, null is returned
      */
     public ListItem getSelectedListItem() {
         return (ListItem)getSelectedVisualComponent();

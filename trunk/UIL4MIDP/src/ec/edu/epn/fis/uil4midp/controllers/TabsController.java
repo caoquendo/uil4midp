@@ -129,6 +129,19 @@ public class TabsController extends Controller {
 
         tabBar.setPosition(0, height - tabBar.getHeight());
     }
+
+    /**
+     * Gets the view that is being displayed by the Controller
+     * @return View that is being displayed by the Controller.
+     */
+    public View getView() {
+        Tab selectedTab = tabBar.getSelectedTab();
+        if (selectedTab.getView() != null) {
+            return selectedTab.getView();
+        } else {
+            return selectedTab.getController().getView();
+        }
+    }
     //</editor-fold>
 
     //<editor-fold desc="Utility Methods">

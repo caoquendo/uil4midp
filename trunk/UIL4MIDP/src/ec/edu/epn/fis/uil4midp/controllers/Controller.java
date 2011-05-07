@@ -17,12 +17,15 @@ import javax.microedition.lcdui.Image;
  */
 public abstract class Controller {
 
+    // Dimensiones
     protected int width;
     protected int height;
     protected int viewPortHeight;
     protected boolean autoCalcViewPortHeight = true;
-    protected Window window;
-    protected Controller controller;
+    // Propietarios
+    private Window window;
+    private Controller controller;
+    // Otros
     protected Dialog dialog;
     protected ThemeManager tm = ThemeManager.getInstance();
     protected boolean keyPressHandled = false;
@@ -62,6 +65,12 @@ public abstract class Controller {
      * prepares the layout of the Controller.
      */
     public abstract void prepareController();
+
+    /**
+     * Gets the view that is being displayed by the Controller
+     * @return View that is being displayed by the Controller.
+     */
+    public abstract View getView();
     //</editor-fold>
 
     //<editor-fold desc="KeyPress Management Methods">
@@ -202,7 +211,7 @@ public abstract class Controller {
 
         nativeTextBox.setCommandListener(new DoneCommandListener(uilTextBox));
 
-        window.getDisplay().setCurrent(nativeTextBox);
+        getWindow().getDisplay().setCurrent(nativeTextBox);
     }
 
     /**
@@ -224,8 +233,8 @@ public abstract class Controller {
 
         public void commandAction(Command c, Displayable d) {
             textBox.setText(((javax.microedition.lcdui.TextBox)d).getString());
-            window.getDisplay().setCurrent(window);
-            window.repaint();
+            getWindow().getDisplay().setCurrent(getWindow());
+            getWindow().repaint();
         }
     }
 

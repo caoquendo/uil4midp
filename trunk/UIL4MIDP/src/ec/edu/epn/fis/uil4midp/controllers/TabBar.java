@@ -89,6 +89,10 @@ final class TabBar extends UserControl {
                         if (selectedTab.getView().getActionListener() != null) {
                             selectedTab.getView().getActionListener().execute();
                         }
+                    } else if (selectedTab.getController() != null) {
+                        if (selectedTab.getController().getView().getActionListener() != null) {
+                            selectedTab.getController().getView().getActionListener().execute();
+                        }
                     }
                 } else {
                     return false;
