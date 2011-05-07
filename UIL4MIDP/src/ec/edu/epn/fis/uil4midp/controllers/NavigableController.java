@@ -21,6 +21,7 @@ public class NavigableController extends Controller {
 
     private Stack holdedViews;
     private View activeView;
+    private View firstView;
     private Image backIcon;
 
     //<editor-fold desc="Constructors">
@@ -52,6 +53,11 @@ public class NavigableController extends Controller {
             view.setController(this);
             view.setWidth(width);
 
+            // Establecer la primera vista.
+            if (firstView == null) {
+                firstView = view;
+            }
+            
             // Añadir la vista activa actual a la pila
             if (activeView != null) {
                 holdedViews.push(activeView);
@@ -107,6 +113,36 @@ public class NavigableController extends Controller {
         if (autoCalcViewPortHeight) {
             viewPortHeight = height;
         }
+    }
+
+    /**
+     * Gets the view that is being displayed by the NavigableController
+     * @return View that is being displayed by the NavigableController.
+     */
+    public View getView() {
+        return activeView;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Navigation Methods">
+    /**
+     * Makes the controller to go to the first holded view.
+     */
+    public void goToStartView() {
+        holdedViews.removeAllElements();
+        
+        activeView = firstView;
+        getWindow().repaint();
+    }
+
+    /**
+     * Goes to the previous view in the Navigation flow.
+     */
+    public void goToPreviousView() {
+        if (holdedViews.isEmpty()) return;
+
+        activeView = (View)holdedViews.pop();
+        getWindow().repaint();
     }
     //</editor-fold>
 }

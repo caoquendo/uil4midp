@@ -16,9 +16,9 @@ public class ImageBox extends UserControl {
 
     //<editor-fold desc="Constructors">
     /**
-     * Initializes internal fields
+     * Creates a new ImageBox instance without an image.
      */
-    private ImageBox() {
+    public ImageBox() {
         imageSynced = false;
     }
 
@@ -64,7 +64,7 @@ public class ImageBox extends UserControl {
      * @return Actual width of the internal image.
      */
     public int getActualImageWidth() {
-        return image != null ? image.getWidth() : 0;
+        return image == null ? 0 : image.getWidth();
     }
 
     /**
@@ -73,6 +73,15 @@ public class ImageBox extends UserControl {
      */
     public void setMaxWidth(int maxWidth) {
         this.maxWidth = maxWidth;
+    }
+
+    /**
+     * Sets the Image of the ImageBox.
+     * @param image Image to be shown on the ImageBox.
+     */
+    public void setImage(Image image) {
+        this.image = image;
+        this.imageSynced = false;
     }
     //</editor-fold>
 
@@ -103,6 +112,10 @@ public class ImageBox extends UserControl {
     public void paint(Graphics g) {
         prepareComponent();
 
+        if (image == null) {
+            return;
+        }
+
         // Draw picture;
         int[] pos = {x + padding, y + padding - yOffset};
         g.drawImage(image, pos[0], pos[1], Graphics.LEFT | Graphics.TOP);
@@ -112,6 +125,10 @@ public class ImageBox extends UserControl {
      * Prepares the layout of the ImageBox.
      */
     public void prepareComponent() {
+        if (image == null) {
+            return;
+        }
+
         if (!imageSynced || !layoutSynced) {
             int maxImageWidth = maxWidth - 2 * padding;
 
