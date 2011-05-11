@@ -65,6 +65,8 @@ public abstract class Window extends Canvas {
 
         controller.keyPressed(action, keyCode);
 
+        controller.load();
+
         repaint();
     }
 
@@ -107,10 +109,14 @@ public abstract class Window extends Canvas {
 
                     splashScreen.close();
                     splashVisible = false;
+
+                    controller.load();
                     repaint();
                 }
             });
             t.start();
+        } else {
+            controller.load();
         }
         display.setCurrent(this);
     }
@@ -128,6 +134,7 @@ public abstract class Window extends Canvas {
         controller.prepareController();
 
         this.controller = controller;
+        this.controller.load();
     }
 
     /**

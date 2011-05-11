@@ -2,6 +2,7 @@ package ec.edu.epn.fis.uil4midp.controllers;
 
 import ec.edu.epn.fis.uil4midp.components.controls.UserControl;
 import ec.edu.epn.fis.uil4midp.util.Direction;
+import ec.edu.epn.fis.uil4midp.views.Form;
 import java.util.Vector;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
@@ -18,6 +19,7 @@ final class TabBar extends UserControl {
     private Tab selectedTab;
     private int selectedTabIndex;
     private TabsController owner;
+    private boolean cancelLoadRequested = false;
 
     //<editor-fold desc="Constructors">
     /**
@@ -68,6 +70,21 @@ final class TabBar extends UserControl {
 
         tabs.addElement(tab);
     }
+
+    /**
+     * Determines if there is a cancel load request pending.
+     * @return True if the Load request must be cancelled, otherwise, false.
+     */
+    public boolean isCancelLoadRequested() {
+        return cancelLoadRequested;
+    }
+
+    /**
+     * Notifies that the Cancel Load Request was accepted.
+     */
+    public void notifyLoadCancelled() {
+        cancelLoadRequested = false;
+    }
     //</editor-fold>
 
     //<editor-fold desc="Abstract Methods Implementations">
@@ -85,21 +102,33 @@ final class TabBar extends UserControl {
                 return handleHorizontalMovement(Direction.RIGHT);
             case Canvas.FIRE:
                 if (selectedTab != null) {
-                    if (selectedTab.getView() != null) {
-                        if (selectedTab.getView().getActionListener() != null) {
-                            selectedTab.getView().getActionListener().execute();
+                    Form f = null;
+
+                    try {
+                        if (selectedTab.getView() != null) {
+                            f = (Form) selectedTab.getView();
+                        } else if (selectedTab.getController() != null) {
+                            f = (Form) selectedTab.getController().getView();
                         }
-                    } else if (selectedTab.getController() != null) {
-                        if (selectedTab.getController().getView().getActionListener() != null) {
-                            selectedTab.getController().getView().getActionListener().execute();
-                        }
+                    } catch (Exception ex) {
+                        // Do Nothing
                     }
+
+                    if (f == null) {
+                        return false;
+                    }
+
+                    if (f.getLoadActionListener() != null) {
+                        f.getLoadActionListener().execute();
+                        return true;
+                    }
+                    
+                    return false;
                 } else {
                     return false;
                 }
         }
         return false;
-
     }
 
     /**
@@ -217,11 +246,7 @@ final class TabBar extends UserControl {
         selectedTab.setFocused(true);
         selectedTab.setSelected(true);
 
-        if (selectedTab.getView() != null) {
-            if (selectedTab.getView().getActionListener() != null) {
-                selectedTab.getView().getActionListener().execute();
-            }
-        }
+        cancelLoadRequested = true;
 
         return true;
     }

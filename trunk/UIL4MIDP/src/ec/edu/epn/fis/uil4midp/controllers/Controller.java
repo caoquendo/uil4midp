@@ -71,6 +71,12 @@ public abstract class Controller {
      * @return View that is being displayed by the Controller.
      */
     public abstract View getView();
+
+    /**
+     * The invocation of this method will cause that the LoadActionListener of
+     * the active View on the controller will be fired.
+     */
+    public abstract void load();
     //</editor-fold>
 
     //<editor-fold desc="KeyPress Management Methods">
