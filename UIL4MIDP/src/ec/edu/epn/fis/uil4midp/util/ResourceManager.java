@@ -19,10 +19,8 @@ public class ResourceManager {
      * @return Loaded image.
      */
     public static Image loadImage(String imageFileName) {
-        String fileHash = String.valueOf(imageFileName.hashCode());
-
-        if (resourcesCache.contains(fileHash)) {
-            return (Image) resourcesCache.get(fileHash);
+        if (resourcesCache.contains(imageFileName)) {
+            return (Image) resourcesCache.get(imageFileName);
         }
 
         Image img;
@@ -31,9 +29,10 @@ public class ResourceManager {
             img = Image.createImage(imageFileName);
         } catch (IOException ex) {
             img = Image.createImage(16, 16);
+            ex.printStackTrace();
         }
 
-        resourcesCache.put(fileHash, img);
+        resourcesCache.put(imageFileName, img);
 
         return img;
     }

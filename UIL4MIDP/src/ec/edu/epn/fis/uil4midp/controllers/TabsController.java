@@ -63,14 +63,12 @@ public class TabsController extends Controller {
             return;
         }
 
-        if (controller.getClass() == NavigableController.class.getClass()) {
-            controller.setController(this);
-            controller.setWidth(width);
-            controller.prepareController();
+        controller.setController(this);
+        controller.setWidth(width);
+        controller.prepareController();
 
-            Tab newTab = new Tab(icon, controller);
-            tabBar.addTab(newTab);
-        }
+        Tab newTab = new Tab(icon, controller);
+        tabBar.addTab(newTab);
     }
 
     /**
