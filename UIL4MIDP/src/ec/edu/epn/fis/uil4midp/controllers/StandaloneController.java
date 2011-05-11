@@ -30,7 +30,11 @@ public class StandaloneController extends Controller {
      * @param icon Icon to be used by the controller. This parameter is optional
      * so 'null' can be passed.
      */
-    public void addView(View view, Image icon) {
+    public final void addView(View view, Image icon) {
+        if (view == null) {
+            return;
+        }
+
         view.setController(this);
         view.setWidth(width);
         view.initialize();
@@ -43,7 +47,7 @@ public class StandaloneController extends Controller {
      * @param action Canvas' key action number.
      * @param keyCode Pressed key code. This code may be device-specific.
      */
-    public void keyPressed(int action, int keyCode) {
+    public final void keyPressed(int action, int keyCode) {
         if (dialog == null || dialog.isDismissed()) {
             keyPressHandled = holdedView.keyPressed(action, keyCode);
         } else {
@@ -55,7 +59,7 @@ public class StandaloneController extends Controller {
      * Paints the contents of the StandaloneController.
      * @param g Graphics object on which paint.
      */
-    public void paint(Graphics g) {
+    public final void paint(Graphics g) {
         holdedView.setViewPortHeight(viewPortHeight);
         holdedView.paint(g);
 
@@ -78,14 +82,14 @@ public class StandaloneController extends Controller {
      * Gets the view that is being displayed by the StandaloneController
      * @return View that is being displayed by the StandaloneController.
      */
-    public View getView() {
+    public final View getView() {
         return holdedView;
     }
 
     /**
      * Fires the LoadActionListener of the active view once.
      */
-    public void load() {
+    public final void load() {
         if (holdedView != null) {
             Form f = (Form) holdedView;
 
