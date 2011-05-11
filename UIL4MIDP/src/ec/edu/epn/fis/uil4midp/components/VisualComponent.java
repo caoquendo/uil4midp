@@ -21,7 +21,6 @@ public abstract class VisualComponent {
     protected int yOffset;
     protected boolean focused = false;
     protected Container container;
-    protected boolean layoutSynced;
     protected ThemeManager tm = ThemeManager.getInstance();
     
     private int type;
@@ -125,7 +124,6 @@ public abstract class VisualComponent {
      */
     public void setWidth(int width) {
         this.width = width;
-        layoutSynced = false;
     }
 
     /**

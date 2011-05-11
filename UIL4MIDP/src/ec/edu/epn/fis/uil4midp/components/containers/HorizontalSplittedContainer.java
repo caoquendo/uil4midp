@@ -44,8 +44,6 @@ public class HorizontalSplittedContainer extends StackedContainer {
         if (visualComponents.size() < 2) {
             visualComponent.setContainer(this);
             visualComponents.addElement(visualComponent);
-
-            layoutSynced = false;
         }
     }
 
@@ -67,40 +65,36 @@ public class HorizontalSplittedContainer extends StackedContainer {
      * Prepares the layout of the StackerContainer
      */
     public void prepareComponent() {
-        if (!layoutSynced) {
-            int[] nextPosition = new int[]{x + margin, y + margin};
+        int[] nextPosition = new int[]{x + margin, y + margin};
 
-            if (visualComponents.size() > 0) {
-                VisualComponent lVc = (VisualComponent) visualComponents.elementAt(0);
-                VisualComponent rVc = visualComponents.size() > 1 ? (VisualComponent) visualComponents.elementAt(1) : null;
+        if (visualComponents.size() > 0) {
+            VisualComponent lVc = (VisualComponent) visualComponents.elementAt(0);
+            VisualComponent rVc = visualComponents.size() > 1 ? (VisualComponent) visualComponents.elementAt(1) : null;
 
-                // Intentar asignar tamaños equitativos a ambos controles.
-                // Si hay solo un control, el control ocupa todo el ancho.
-                // Si hay dos controles:
-                // - Si leftControlMaxSize tiene un valor diferente a -1, asignar ese ancho al control izquierdo.
-                // - Si leftControlMaxSize tiene el valor -1, el ancho se reparte entre ambos controles.
-                int maxWidth = width - 2 * margin;
-                int leftWidth = maxWidth;
-                int rightHeight = 0;
+            // Intentar asignar tamaños equitativos a ambos controles.
+            // Si hay solo un control, el control ocupa todo el ancho.
+            // Si hay dos controles:
+            // - Si leftControlMaxSize tiene un valor diferente a -1, asignar ese ancho al control izquierdo.
+            // - Si leftControlMaxSize tiene el valor -1, el ancho se reparte entre ambos controles.
+            int maxWidth = width - 2 * margin;
+            int leftWidth = maxWidth;
+            int rightHeight = 0;
 
-                if (rVc != null) {
-                    leftWidth = leftControlMaxSize == -1 ? (maxWidth - controlSeparation) / 2 : leftControlMaxSize;
+            if (rVc != null) {
+                leftWidth = leftControlMaxSize == -1 ? (maxWidth - controlSeparation) / 2 : leftControlMaxSize;
 
-                    rVc.setWidth(leftControlMaxSize == -1 ? leftWidth : maxWidth - leftWidth - controlSeparation);
-                    rVc.setPosition(nextPosition[0] + leftWidth + controlSeparation, nextPosition[1]);
-                    rVc.prepareComponent();
+                rVc.setWidth(leftControlMaxSize == -1 ? leftWidth : maxWidth - leftWidth - controlSeparation);
+                rVc.setPosition(nextPosition[0] + leftWidth + controlSeparation, nextPosition[1]);
+                rVc.prepareComponent();
 
-                    rightHeight = rVc.getHeight();
-                }
-
-                lVc.setWidth(leftWidth);
-                lVc.setPosition(nextPosition[0], nextPosition[1]);
-                lVc.prepareComponent();
-
-                height = (rightHeight < lVc.getHeight() ? lVc.getHeight() : rightHeight) + controlSeparation;
+                rightHeight = rVc.getHeight();
             }
 
-            layoutSynced = true;
+            lVc.setWidth(leftWidth);
+            lVc.setPosition(nextPosition[0], nextPosition[1]);
+            lVc.prepareComponent();
+
+            height = (rightHeight < lVc.getHeight() ? lVc.getHeight() : rightHeight) + controlSeparation;
         }
     }
     //</editor-fold>
@@ -114,8 +108,6 @@ public class HorizontalSplittedContainer extends StackedContainer {
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
-
-        layoutSynced = false;
     }
     //</editor-fold>
 }

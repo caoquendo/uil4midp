@@ -16,7 +16,6 @@ public class StackedContainer extends Container {
 
     private VisualComponent selectedComponent;
     private int selectedComponentIndex = -1;
-    protected int[] nextPosition = {x, y};
     private int controlYOffset;
     private int tOffset;
 
@@ -41,8 +40,6 @@ public class StackedContainer extends Container {
 
         visualComponent.setContainer(this);
         visualComponents.addElement(visualComponent);
-
-        layoutSynced = false;
     }
 
     /**
@@ -89,22 +86,18 @@ public class StackedContainer extends Container {
      * Prepares the layout of the StackerContainer
      */
     public void prepareComponent() {
-        if (!layoutSynced) {
-            nextPosition[0] = x + margin;
-            nextPosition[1] = y + margin;
+        int[] nextPosition = {x + margin, y + margin};
 
-            for (int i = 0; i < visualComponents.size(); i++) {
-                VisualComponent vc = (VisualComponent) visualComponents.elementAt(i);
+        height = 0;
+        for (int i = 0; i < visualComponents.size(); i++) {
+            VisualComponent vc = (VisualComponent) visualComponents.elementAt(i);
 
-                vc.setWidth(width - 2 * margin);
-                vc.setPosition(nextPosition[0], nextPosition[1]);
-                vc.prepareComponent();
+            vc.setWidth(width - 2 * margin);
+            vc.setPosition(nextPosition[0], nextPosition[1]);
+            vc.prepareComponent();
 
-                nextPosition[1] = nextPosition[1] + vc.getHeight() + controlSeparation;
-                height = height + vc.getHeight() + controlSeparation;
-            }
-
-            layoutSynced = true;
+            nextPosition[1] = nextPosition[1] + vc.getHeight() + controlSeparation;
+            height = height + vc.getHeight() + controlSeparation;
         }
     }
     //</editor-fold>
@@ -192,20 +185,6 @@ public class StackedContainer extends Container {
 
     //<editor-fold desc="Overriden Methods">
     /**
-     * Sets the margin of the Container
-     * @param margin Margin of the container. Value must be equal or greater
-     * than 0.
-     */
-    public void setMargin(int margin) {
-        super.setMargin(margin);
-
-        nextPosition[0] = x + margin;
-        nextPosition[1] = y + margin;
-
-        layoutSynced = false;
-    }
-
-    /**
      * Sets the position of the Container.
      * @param x X-coordinate of the Container.
      * @param y Y-coordinate of the Container.
@@ -213,9 +192,8 @@ public class StackedContainer extends Container {
     public void setPosition(int x, int y) {
         super.setPosition(x, y);
 
-        nextPosition[0] = x + margin;
-        nextPosition[1] = y + margin;
-
+        int[] nextPosition = {x + margin, y + margin};
+        
         for (int i = 0; i < visualComponents.size(); i++) {
             VisualComponent vc = (VisualComponent) visualComponents.elementAt(i);
 
