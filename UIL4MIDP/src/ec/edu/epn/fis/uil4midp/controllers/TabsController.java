@@ -1,7 +1,10 @@
 package ec.edu.epn.fis.uil4midp.controllers;
 
 import ec.edu.epn.fis.uil4midp.ui.Window;
+import ec.edu.epn.fis.uil4midp.views.Form;
 import ec.edu.epn.fis.uil4midp.views.View;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
@@ -18,6 +21,7 @@ import javax.microedition.lcdui.Image;
 public class TabsController extends Controller {
 
     private TabBar tabBar;
+    private Timer tmrLoadView;
 
     //<editor-fold desc="Constructors">
     /**
@@ -141,6 +145,44 @@ public class TabsController extends Controller {
         } else {
             return selectedTab.getController().getView();
         }
+    }
+
+    /**
+     * Fires the LoadActionListener of the active view once. This implementation
+     * waits a specified delay before executing the LoadActionListener to allow the user
+     * to change between tabs.
+     */
+    public void load() {
+        if (tabBar.isCancelLoadRequested() && tmrLoadView != null) {
+            tmrLoadView.cancel();
+            tabBar.notifyLoadCancelled();
+        }
+
+        Form f = null;
+        if (tabBar.getSelectedTab().getView() != null) {
+            f = (Form) tabBar.getSelectedTab().getView();
+        } else if (tabBar.getSelectedTab().getController() != null) {
+            f = (Form) tabBar.getSelectedTab().getController().getView();
+        }
+
+        if (f == null || f.getLoadActionListener() == null) {
+            return;
+        }
+
+        final Form fx = f;
+        
+        TimerTask tt = new TimerTask() {
+
+            public void run() {
+
+                if (!fx.isLoaded() && fx.getLoadActionListener() != null) {
+                    fx.getLoadActionListener().execute();
+                    getWindow().repaint();
+                }
+            }
+        };
+        tmrLoadView = new Timer();
+        tmrLoadView.schedule(tt, f.getLoadDelay());
     }
     //</editor-fold>
 

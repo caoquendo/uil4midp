@@ -122,6 +122,17 @@ public class NavigableController extends Controller {
     public View getView() {
         return activeView;
     }
+
+    /**
+     * Fires the LoadActionListener of the active view once.
+     */
+    public void load() {
+        Form f = (Form) activeView;
+
+        if (!f.isLoaded() && f.getLoadActionListener() != null) {
+            f.getLoadActionListener().execute();
+        }
+    }
     //</editor-fold>
 
     //<editor-fold desc="Navigation Methods">

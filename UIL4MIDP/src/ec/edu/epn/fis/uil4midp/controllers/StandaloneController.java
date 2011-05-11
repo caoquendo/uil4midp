@@ -1,6 +1,7 @@
 package ec.edu.epn.fis.uil4midp.controllers;
 
 import ec.edu.epn.fis.uil4midp.ui.Window;
+import ec.edu.epn.fis.uil4midp.views.Form;
 import ec.edu.epn.fis.uil4midp.views.View;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
@@ -68,7 +69,9 @@ public class StandaloneController extends Controller {
     public void prepareController() {
         viewPortHeight = height;
 
-        if (holdedView != null) holdedView.setWidth(width);
+        if (holdedView != null) {
+            holdedView.setWidth(width);
+        }
     }
 
     /**
@@ -77,6 +80,19 @@ public class StandaloneController extends Controller {
      */
     public View getView() {
         return holdedView;
+    }
+
+    /**
+     * Fires the LoadActionListener of the active view once.
+     */
+    public void load() {
+        if (holdedView != null) {
+            Form f = (Form) holdedView;
+
+            if (!f.isLoaded() && f.getLoadActionListener() != null) {
+                f.getLoadActionListener().execute();
+            }
+        }
     }
     //</editor-fold>   
 }
