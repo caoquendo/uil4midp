@@ -12,6 +12,7 @@ import javax.microedition.lcdui.Font;
 public abstract class UserControl extends VisualComponent {
 
     protected int padding = tm.getUsercontrolPadding();
+    protected boolean layoutSynced;
     protected Font font;
 
     //<editor-fold desc="Constructors">
