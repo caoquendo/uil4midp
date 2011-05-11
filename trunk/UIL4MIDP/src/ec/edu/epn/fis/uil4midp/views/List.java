@@ -11,6 +11,8 @@ import javax.microedition.lcdui.Image;
  */
 public abstract class List extends Form {
 
+    protected ActionListener itemSelectionActionListener;
+
     //<editor-fold desc="Constructors">
     /**
      * Creates a new instance of the List class with the specified caption.
@@ -20,6 +22,18 @@ public abstract class List extends Form {
         super(caption);
         super.setMargin(0); // List does not have a margin
         super.setControlSeparation(0); // List does not have ControlSeparation
+        this.loadDelay = 2000;
+    }
+
+    /**
+     * Creates a new instance of the List class with the specified caption and
+     * a value indicating a delay for the load event.
+     * @param caption Text to be used on the titlebar of the List.
+     * @param loadDelay Time in milliseconds that must pass before the load event is fired.
+     */
+    public List(String caption, int loadDelay) {
+        this(caption);
+        this.loadDelay = loadDelay;
     }
     //</editor-fold>
 
@@ -136,12 +150,14 @@ public abstract class List extends Form {
     }
 
     /**
-     * Sets the ActionListener of the List. This ActionListener may be used to
-     * handle the keypress events based on the elements of the List.
+     * Sets an ActionListener to be used by the FIRE key event handler.
+     * The logic within this ActionListener must try to use the selected item
+     * on the list. This ActionListener will be called when the FIRE key is
+     * pressed and a list item is selected and has the focus.
      * @param actionListener ActionListener of the List.
      */
-    public void setActionListener(ActionListener actionListener) {
-        super.setActionListener(actionListener);
+    public void setItemSelectionActionListener(ActionListener itemSelectionActionListener) {
+        this.itemSelectionActionListener = itemSelectionActionListener;
     }
 
     /**
@@ -163,8 +179,8 @@ public abstract class List extends Form {
     public boolean keyPressed(int action, int keyCode) {
         switch (action) {
             case Canvas.FIRE:
-                if (actionListener != null && baseContainer.isFocused()) {
-                    actionListener.execute();
+                if (itemSelectionActionListener != null && baseContainer.isFocused()) {
+                    itemSelectionActionListener.execute();
                     return true;
                 }
                 return super.keyPressed(action, keyCode);

@@ -18,6 +18,9 @@ public abstract class Form extends View {
 
     protected StackedContainer baseContainer;
     protected TitleBar titleBar;
+    protected ActionListener loadActionListener;
+    protected boolean loaded;
+    protected int loadDelay = 0;
 
     //<editor-fold desc="Constructors">
     /**
@@ -27,6 +30,16 @@ public abstract class Form extends View {
     public Form(String title) {
         titleBar = new TitleBar(title);
         initializeComponent();
+    }
+
+    /**
+     * Creates a new instance of Form and sets the delay for the load event.
+     * @param title Title of the form.
+     * @param loadDelay Time in milliseconds that must pass before executing the load event.
+     */
+    public Form(String title, int loadDelay) {
+        this(title);
+        this.loadDelay = loadDelay;
     }
     //</editor-fold>
 
@@ -47,6 +60,13 @@ public abstract class Form extends View {
         baseContainer.setViewPortHeight(viewPortHeight - titleBar.getHeight());
     }
 
+    /**
+     * Determines if the Form was loaded.
+     * @return True if the form was loaded, otherwise, false.
+     */
+    public boolean isLoaded() {
+        return loaded;
+    }
     //</editor-fold>
 
     //<editor-fold desc="Getters & Setters">
@@ -119,6 +139,35 @@ public abstract class Form extends View {
     public VisualComponent getSelectedVisualComponent() {
         return baseContainer.getSelectedVisualComponent();
     }
+
+    /**
+     * Gets the LoadActionListener of the Form.
+     * @return LoadActionListener of the Form
+     */
+    public ActionListener getLoadActionListener() {
+        return loadActionListener;
+    }
+
+    /**
+     * Sets the LoadActionListener of the Form. This ActionListener is invoked
+     * when the Form is being loaded (before initialization) so it can be initialized
+     * without problems. This ActionListener is executed prior to display the form.
+     * Also note that this ActionListener can be called to update the data of the form.
+     * When writing this ActionListener, make sure to update the 'loaded' field to
+     * true if the execution is successful.
+     * @param actionListener ActionListener of the Form.
+     */
+    public void setLoadActionListener(ActionListener loadActionListener) {
+        this.loadActionListener = loadActionListener;
+    }
+
+    /**
+     * Gets the delay for the load event.
+     * @return Time in milliseconds that must pass before invoking the loadActionListener.
+     */
+    public int getLoadDelay() {
+        return loadDelay;
+    }
     //</editor-fold>
 
     //<editor-fold desc="Abstract Methods Implementation">
@@ -160,7 +209,9 @@ public abstract class Form extends View {
      * @param g Graphics object on which paint.
      */
     public void paint(Graphics g) {
+        baseContainer.prepareComponent();
         baseContainer.paint(g);
+
         titleBar.paint(g);
     }
     //</editor-fold>
