@@ -35,7 +35,7 @@ public class NavigableController extends Controller {
     }
     //</editor-fold>
 
-    //<editor-fold desc="Abstract Methods Implementations>
+    //<editor-fold desc="Abstract Methods Implementations">
     /**
      * Adds a view (subclass of Form) to the NavigableController.
      * The View added automatically gets a listener which allows it to go back
@@ -46,7 +46,11 @@ public class NavigableController extends Controller {
      * @param icon Icon to be used by the Controller. This parameter is optional
      * so 'null' can be passed.
      */
-    public void addView(View view, Image icon) {
+    public final void addView(View view, Image icon) {
+        if (view == null) {
+            return;
+        }
+
         try {
             Form f = (Form) view;
 
@@ -86,7 +90,7 @@ public class NavigableController extends Controller {
      * @param action Canvas' key action number.
      * @param keyCode Pressed key code. This code may be device-specific.
      */
-    public void keyPressed(int action, int keyCode) {
+    public final void keyPressed(int action, int keyCode) {
         if (dialog == null || dialog.isDismissed()) {
             keyPressHandled = activeView.keyPressed(action, keyCode);
         } else {
@@ -98,7 +102,7 @@ public class NavigableController extends Controller {
      * Paints the contents of the NavigableController.
      * @param g Graphics object on which paint.
      */
-    public void paint(Graphics g) {
+    public final void paint(Graphics g) {
         activeView.setViewPortHeight(viewPortHeight);
         activeView.paint(g);
 
@@ -119,14 +123,14 @@ public class NavigableController extends Controller {
      * Gets the view that is being displayed by the NavigableController
      * @return View that is being displayed by the NavigableController.
      */
-    public View getView() {
+    public final View getView() {
         return activeView;
     }
 
     /**
      * Fires the LoadActionListener of the active view once.
      */
-    public void load() {
+    public final void load() {
         Form f = (Form) activeView;
 
         if (!f.isLoaded() && f.getLoadActionListener() != null) {
@@ -139,7 +143,7 @@ public class NavigableController extends Controller {
     /**
      * Makes the controller to go to the first holded view.
      */
-    public void goToStartView() {
+    public final void goToStartView() {
         holdedViews.removeAllElements();
         
         activeView = firstView;

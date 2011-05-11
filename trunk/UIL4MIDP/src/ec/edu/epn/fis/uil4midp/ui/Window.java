@@ -17,7 +17,7 @@ import javax.microedition.midlet.MIDlet;
  * Defines the structure of a Window
  * @author Carlos Andrés Oquendo
  */
-public abstract class Window extends Canvas {
+public class Window extends Canvas {
 
     private MIDlet midlet;
     private Display display;
@@ -30,11 +30,12 @@ public abstract class Window extends Canvas {
     private int[] overlayData;
     private ThemeManager tm;
 
+    //<editor-fold desc="Constructors">
     /**
      * Creates a new Window instance.
      * @param midlet MIDlet to which the Window belongs
      */
-    protected Window(MIDlet midlet) {
+    public Window(MIDlet midlet) {
         this.setFullScreenMode(true);
 
         this.midlet = midlet;
@@ -53,6 +54,7 @@ public abstract class Window extends Canvas {
 
         splashController = new StandaloneController(this);
     }
+    //</editor-fold>
 
     //<editor-fold desc="Mandatory Methods">
     /**
@@ -63,8 +65,11 @@ public abstract class Window extends Canvas {
     protected final void keyPressed(int keyCode) {
         int action = getGameAction(keyCode);
 
-        controller.keyPressed(action, keyCode);
+        if (controller == null) {
+            return;
+        }
 
+        controller.keyPressed(action, keyCode);
         controller.load();
 
         repaint();
@@ -83,7 +88,9 @@ public abstract class Window extends Canvas {
             g.setColor(tm.getMainBackgroundColor());
             g.fillRect(0, 0, getWidth(), getHeight());
 
-            controller.paint(g);
+            if (controller != null) {
+                controller.paint(g);
+            }
         }
     }
     //</editor-fold>
@@ -116,7 +123,9 @@ public abstract class Window extends Canvas {
             });
             t.start();
         } else {
-            controller.load();
+            if (controller != null) {
+                controller.load();
+            }
         }
         display.setCurrent(this);
     }
@@ -141,7 +150,7 @@ public abstract class Window extends Canvas {
      * Sets the splash screen to be shown during the application startup.
      * @param splashScreen SplashScreen of the MIDlet.
      */
-    public void setSplashScreen(SplashScreen splashScreen, ActionListener splashScreenActionListener) {
+    public final void setSplashScreen(SplashScreen splashScreen, ActionListener splashScreenActionListener) {
         splashController.setHeight(getHeight());
         splashController.setWidth(getWidth());
         splashController.setWindow(this);
@@ -158,7 +167,7 @@ public abstract class Window extends Canvas {
      * Gets the Display instance assigned by the runtime to the MIDlet.
      * @return Display object belonging to the MIDlet.
      */
-    public Display getDisplay() {
+    public final Display getDisplay() {
         return display;
     }
 
@@ -166,8 +175,10 @@ public abstract class Window extends Canvas {
      * Show the Dialog on the active controller.
      * @param dialog Dialog to be shown.
      */
-    public void setDialog(Dialog dialog) {
-        controller.setDialog(dialog);
+    public final void setDialog(Dialog dialog) {
+        if (controller != null) {
+            controller.setDialog(dialog);
+        }
     }
     //</editor-fold>
 

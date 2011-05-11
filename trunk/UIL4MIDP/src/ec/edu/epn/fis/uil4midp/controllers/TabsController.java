@@ -40,7 +40,11 @@ public class TabsController extends Controller {
      * @param view View to be managed by the TabsController
      * @param icon Image to be used as the icon of the view
      */
-    public void addView(View view, Image icon) {
+    public final void addView(View view, Image icon) {
+        if (icon == null || view == null) {
+            return;
+        }
+
         view.setController(this);
         view.setWidth(width);
         view.initialize();
@@ -54,13 +58,19 @@ public class TabsController extends Controller {
      * @param view Additional controller to be managed by the TabsController
      * @param icon Image to be used as the icon of the Controller
      */
-    public void addController(Controller controller, Image icon) {
-        controller.setController(this);
-        controller.setWidth(width);
-        controller.prepareController();
+    public final void addController(Controller controller, Image icon) {
+        if (icon == null || controller == null) {
+            return;
+        }
 
-        Tab newTab = new Tab(icon, controller);
-        tabBar.addTab(newTab);
+        if (controller.getClass() == NavigableController.class.getClass()) {
+            controller.setController(this);
+            controller.setWidth(width);
+            controller.prepareController();
+
+            Tab newTab = new Tab(icon, controller);
+            tabBar.addTab(newTab);
+        }
     }
 
     /**
@@ -68,7 +78,7 @@ public class TabsController extends Controller {
      * @param action Canvas' key action number.
      * @param keyCode Pressed key code. This code may be device-specific.
      */
-    public void keyPressed(int action, int keyCode) {
+    public final void keyPressed(int action, int keyCode) {
         if (dialog == null || dialog.isDismissed()) {
             Tab selectedTab = tabBar.getSelectedTab();
 
@@ -101,7 +111,7 @@ public class TabsController extends Controller {
      * Paints the contents of the Controller.
      * @param g Graphics object on which paint.
      */
-    public void paint(Graphics g) {
+    public final void paint(Graphics g) {
         // Verificar si se pinta la vista o el controlador del tab.
         Tab selectedTab = tabBar.getSelectedTab();
         if (selectedTab.getView() != null) {
@@ -138,7 +148,7 @@ public class TabsController extends Controller {
      * Gets the view that is being displayed by the Controller
      * @return View that is being displayed by the Controller.
      */
-    public View getView() {
+    public final View getView() {
         Tab selectedTab = tabBar.getSelectedTab();
         if (selectedTab.getView() != null) {
             return selectedTab.getView();
@@ -152,12 +162,13 @@ public class TabsController extends Controller {
      * waits a specified delay before executing the LoadActionListener to allow the user
      * to change between tabs.
      */
-    public void load() {
+    public final void load() {
         if (tabBar.isCancelLoadRequested() && tmrLoadView != null) {
             tmrLoadView.cancel();
             tabBar.notifyLoadCancelled();
         }
 
+        // Obtener el formulario activo
         Form f = null;
         if (tabBar.getSelectedTab().getView() != null) {
             f = (Form) tabBar.getSelectedTab().getView();
@@ -165,20 +176,22 @@ public class TabsController extends Controller {
             f = (Form) tabBar.getSelectedTab().getController().getView();
         }
 
+        // Verificar condiciones de ejecución del formulario
         if (f == null || f.getLoadActionListener() == null) {
             return;
         }
 
+        if (f.isLoaded()) {
+            return;
+        }
+
+        // Coordinar un TimerTask para que inicie pasado un determinado tiempo
         final Form fx = f;
-        
         TimerTask tt = new TimerTask() {
 
             public void run() {
-
-                if (!fx.isLoaded() && fx.getLoadActionListener() != null) {
-                    fx.getLoadActionListener().execute();
-                    getWindow().repaint();
-                }
+                fx.getLoadActionListener().execute();
+                getWindow().repaint();
             }
         };
         tmrLoadView = new Timer();
