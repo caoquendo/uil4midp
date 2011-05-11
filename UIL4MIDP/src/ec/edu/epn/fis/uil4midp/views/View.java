@@ -14,7 +14,6 @@ public abstract class View {
 
     protected Controller controller;
     protected int width;
-    protected ActionListener actionListener;
     protected int viewPortHeight;
     protected ThemeManager tm = ThemeManager.getInstance();
 
@@ -48,24 +47,6 @@ public abstract class View {
      * will compose the View.
      */
     public abstract void initialize();
-    //</editor-fold>
-
-    //<editor-fold desc="Getters & Setters">
-    /**
-     * Gets the associated ActionListener
-     * @return ActionListener of the View
-     */
-    public ActionListener getActionListener() {
-        return actionListener;
-    }
-
-    /**
-     * Sets the associated ActionListener of the view.
-     * @param actionListener ActionListener of the view.
-     */
-    public void setActionListener(ActionListener actionListener) {
-        this.actionListener = actionListener;
-    }
     //</editor-fold>
 
     //<editor-fold desc="Basic Layout Methods">

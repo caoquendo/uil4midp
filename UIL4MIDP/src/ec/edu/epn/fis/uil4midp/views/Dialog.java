@@ -27,6 +27,8 @@ public abstract class Dialog extends View {
     protected int dialogResult = DIALOG_UNKNOWN;
     protected boolean dismissed = false;
 
+    protected ActionListener dismissActionListener;
+
     //<editor-fold desc="Constructors">
     /**
      * Initializes internal fields
@@ -102,7 +104,7 @@ public abstract class Dialog extends View {
      * @return An ActionListener instance. If there is no action listener, null.
      */
     public ActionListener getDismissActionListener() {
-        return actionListener;
+        return dismissActionListener;
     }
 
     /**
@@ -110,7 +112,7 @@ public abstract class Dialog extends View {
      * @param dismissActionListener ActionListener object.
      */
     public void setDismissActionListener(ActionListener dismissActionListener) {
-        this.actionListener = dismissActionListener;
+        this.dismissActionListener = dismissActionListener;
     }
     //</editor-fold>
 
