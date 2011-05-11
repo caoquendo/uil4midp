@@ -130,13 +130,11 @@ public class ImageBox extends UserControl {
         }
 
         if (!imageSynced || !layoutSynced) {
-            int maxImageWidth = maxWidth - 2 * padding;
+            width = image.getWidth() + 2 * padding;
 
-            width = image.getWidth();
-
-            if (image.getWidth() > maxImageWidth) {
-                width = maxWidth;
-                image = resizeImage(image, maxImageWidth);
+            if (image.getWidth() > maxWidth) {
+                width = maxWidth + 2 * padding;
+                image = resizeImage(image, maxWidth);
             }
 
             height = image.getHeight() + 2 * padding;
