@@ -47,7 +47,7 @@ public abstract class Form extends View {
     /**
      * Removes all the controls from the Form
      */
-    public void clearControls() {
+    public final void clearControls() {
         baseContainer.removeAllVisualComponents();
     }
 
@@ -55,7 +55,7 @@ public abstract class Form extends View {
      * Sets the view port height available to show content.
      * @param viewPortHeight Available height to show content.
      */
-    public void setViewPortHeight(int viewPortHeight) {
+    public final void setViewPortHeight(int viewPortHeight) {
         super.setViewPortHeight(viewPortHeight);
         baseContainer.setViewPortHeight(viewPortHeight - titleBar.getHeight());
     }
@@ -64,7 +64,7 @@ public abstract class Form extends View {
      * Determines if the Form was loaded.
      * @return True if the form was loaded, otherwise, false.
      */
-    public boolean isLoaded() {
+    public final boolean isLoaded() {
         return loaded;
     }
     //</editor-fold>
@@ -74,7 +74,7 @@ public abstract class Form extends View {
      * Sets the width of the Form
      * @param width Width of the Form
      */
-    public void setWidth(int width) {
+    public final void setWidth(int width) {
         super.setWidth(width);
         titleBar.setWidth(width);
         baseContainer.setWidth(width);
@@ -85,7 +85,7 @@ public abstract class Form extends View {
      * @param caption Caption to show on the Button
      * @param actionListener ActionListener for the Button
      */
-    public void setLeftButton(String caption, ActionListener actionListener) {
+    public final void setLeftButton(String caption, ActionListener actionListener) {
         titleBar.setTitleBarButton(caption, TitleBarButton.LEFT_BUTTON, actionListener);
     }
 
@@ -94,7 +94,7 @@ public abstract class Form extends View {
      * @param icon Icon to show on the Button
      * @param actionListener ActionListener for the Button
      */
-    public void setLeftButton(Image icon, ActionListener actionListener) {
+    public final void setLeftButton(Image icon, ActionListener actionListener) {
         titleBar.setTitleBarButton(icon, TitleBarButton.LEFT_BUTTON, actionListener);
     }
 
@@ -103,7 +103,7 @@ public abstract class Form extends View {
      * @param caption Caption to show on the Button
      * @param actionListener ActionListener for the Button
      */
-    public void setRightButton(String caption, ActionListener actionListener) {
+    public final void setRightButton(String caption, ActionListener actionListener) {
         titleBar.setTitleBarButton(caption, TitleBarButton.RIGHT_BUTTON, actionListener);
     }
 
@@ -112,7 +112,7 @@ public abstract class Form extends View {
      * @param icon Icon to show on the Button
      * @param actionListener ActionListener for the Button
      */
-    public void setRightButton(Image icon, ActionListener actionListener) {
+    public final void setRightButton(Image icon, ActionListener actionListener) {
         titleBar.setTitleBarButton(icon, TitleBarButton.RIGHT_BUTTON, actionListener);
     }
 
@@ -136,7 +136,7 @@ public abstract class Form extends View {
      * Gets the currently selected VisualComponent
      * @return VisualComponent selected on the Form.
      */
-    public VisualComponent getSelectedVisualComponent() {
+    public final VisualComponent getSelectedVisualComponent() {
         return baseContainer.getSelectedVisualComponent();
     }
 
@@ -144,7 +144,7 @@ public abstract class Form extends View {
      * Gets the LoadActionListener of the Form.
      * @return LoadActionListener of the Form
      */
-    public ActionListener getLoadActionListener() {
+    public final ActionListener getLoadActionListener() {
         return loadActionListener;
     }
 
@@ -157,7 +157,7 @@ public abstract class Form extends View {
      * true if the execution is successful.
      * @param actionListener ActionListener of the Form.
      */
-    public void setLoadActionListener(ActionListener loadActionListener) {
+    public final void setLoadActionListener(ActionListener loadActionListener) {
         this.loadActionListener = loadActionListener;
     }
 
@@ -165,7 +165,7 @@ public abstract class Form extends View {
      * Gets the delay for the load event.
      * @return Time in milliseconds that must pass before invoking the loadActionListener.
      */
-    public int getLoadDelay() {
+    public final int getLoadDelay() {
         return loadDelay;
     }
     //</editor-fold>
@@ -175,7 +175,7 @@ public abstract class Form extends View {
      * Adds a VisualComponent to the Form.
      * @param visualComponent VisualComponent to show in the Form.
      */
-    public void addVisualComponent(VisualComponent visualComponent) {
+    public final void addVisualComponent(VisualComponent visualComponent) {
         baseContainer.addVisualComponent(visualComponent);
     }
 
@@ -208,7 +208,7 @@ public abstract class Form extends View {
      * Paints the Form.
      * @param g Graphics object on which paint.
      */
-    public void paint(Graphics g) {
+    public final void paint(Graphics g) {
         baseContainer.prepareComponent();
         baseContainer.paint(g);
 
@@ -304,6 +304,16 @@ public abstract class Form extends View {
                 return true;
         }
         return false;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="UI Methods">
+    /**
+     * Shows a Dialog box.
+     * @param dialog Dialog box instance to be shown.
+     */
+    public final void showDialog(Dialog dialog) {
+        controller.getWindow().setDialog(dialog);
     }
     //</editor-fold>
 }

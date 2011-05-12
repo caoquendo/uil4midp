@@ -1,6 +1,5 @@
 package ec.edu.epn.fis.uil4midp.views;
 
-import ec.edu.epn.fis.uil4midp.actions.ActionListener;
 import ec.edu.epn.fis.uil4midp.components.VisualComponent;
 import ec.edu.epn.fis.uil4midp.controllers.Controller;
 import ec.edu.epn.fis.uil4midp.util.ThemeManager;
@@ -81,16 +80,6 @@ public abstract class View {
      */
     public void setViewPortHeight(int viewPortHeight) {
         this.viewPortHeight = viewPortHeight;
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="UI Methods">
-    /**
-     * Shows a Dialog box.
-     * @param dialog Dialog box instance to be shown.
-     */
-    public void showDialog(Dialog dialog) {
-        controller.getWindow().setDialog(dialog);
     }
     //</editor-fold>
 }
