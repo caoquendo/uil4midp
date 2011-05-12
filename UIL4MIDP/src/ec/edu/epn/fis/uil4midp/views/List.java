@@ -42,7 +42,7 @@ public abstract class List extends Form {
      * Adds a new text item to the list.
      * @param caption Text to show on the list item.
      */
-    public void addListItem(String caption) {
+    public final void addListItem(String caption) {
         ListItem li = new ListItem(caption);
         li.setValue(caption);
         li.setPadding(tm.getListitemPadding());
@@ -54,7 +54,7 @@ public abstract class List extends Form {
      * @param caption Text to show on the list item.
      * @param value Object representing the value of the list item.
      */
-    public void addListItem(String caption, Object value) {
+    public final void addListItem(String caption, Object value) {
         ListItem li = new ListItem(caption);
         li.setValue(value);
         li.setPadding(tm.getListitemPadding());
@@ -66,7 +66,7 @@ public abstract class List extends Form {
      * @param caption Text to show on the list item.
      * @param text Additional text to show on the list item.
      */
-    public void addListItem(String caption, String text) {
+    public final void addListItem(String caption, String text) {
         ListItem li = new ListItem(caption, text);
         li.setValue(caption);
         li.setPadding(tm.getListitemPadding());
@@ -79,7 +79,7 @@ public abstract class List extends Form {
      * @param text Additional text to show on the list item.
      * @param value Object representing the value of the list item.
      */
-    public void addListItem(String caption, String text, Object value) {
+    public final void addListItem(String caption, String text, Object value) {
         ListItem li = new ListItem(caption, text);
         li.setValue(value);
         li.setPadding(tm.getListitemPadding());
@@ -92,7 +92,7 @@ public abstract class List extends Form {
      * @param image Additional image to show on the list item.
      * @param isIcon Flag that indicated if the image is an icon or not.
      */
-    public void addListItem(String caption, Image image, boolean isIcon) {
+    public final void addListItem(String caption, Image image, boolean isIcon) {
         ListItem li = new ListItem(caption, image, isIcon);
         li.setValue(caption);
         li.setPadding(tm.getListitemPadding());
@@ -106,7 +106,7 @@ public abstract class List extends Form {
      * @param isIcon Flag that indicated if the image is an icon or not.
      * @param value Object representing the value of the list item.
      */
-    public void addListItem(String caption, Image image, boolean isIcon, Object value) {
+    public final void addListItem(String caption, Image image, boolean isIcon, Object value) {
         ListItem li = new ListItem(caption, image, isIcon);
         li.setValue(value);
         li.setPadding(tm.getListitemPadding());
@@ -120,7 +120,7 @@ public abstract class List extends Form {
      * @param text Additional text to show on the list item.
      * @param isIcon Flag that indicated if the image is an icon or not.
      */
-    public void addListItem(String caption, Image image, String text, boolean isIcon) {
+    public final void addListItem(String caption, Image image, String text, boolean isIcon) {
         ListItem li = new ListItem(caption, text, image, isIcon);
         li.setValue(caption);
         li.setPadding(tm.getListitemPadding());
@@ -135,18 +135,11 @@ public abstract class List extends Form {
      * @param isIcon Flag that indicated if the image is an icon or not.
      * @param value Object representing the value of the list item.
      */
-    public void addListItem(String caption, Image image, String text, boolean isIcon, Object value) {
+    public final void addListItem(String caption, Image image, String text, boolean isIcon, Object value) {
         ListItem li = new ListItem(caption, text, image, isIcon);
         li.setValue(value);
         li.setPadding(tm.getListitemPadding());
         addVisualComponent(li);
-    }
-
-    /**
-     * Removes all the items from the list.
-     */
-    public void clearControls() {
-        super.clearControls();
     }
 
     /**
@@ -156,7 +149,7 @@ public abstract class List extends Form {
      * pressed and a list item is selected and has the focus.
      * @param actionListener ActionListener of the List.
      */
-    public void setItemSelectionActionListener(ActionListener itemSelectionActionListener) {
+    public final void setItemSelectionActionListener(ActionListener itemSelectionActionListener) {
         this.itemSelectionActionListener = itemSelectionActionListener;
     }
 
@@ -164,7 +157,7 @@ public abstract class List extends Form {
      * Gets the selected ListItem on the List.
      * @return SelectedListItem on the List. If there is no selected item, null is returned
      */
-    public ListItem getSelectedListItem() {
+    public final ListItem getSelectedListItem() {
         return (ListItem)getSelectedVisualComponent();
     }
     //</editor-fold>
