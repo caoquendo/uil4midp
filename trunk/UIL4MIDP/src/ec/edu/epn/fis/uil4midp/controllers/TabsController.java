@@ -1,5 +1,6 @@
 package ec.edu.epn.fis.uil4midp.controllers;
 
+import ec.edu.epn.fis.uil4midp.actions.ListenerExecutor;
 import ec.edu.epn.fis.uil4midp.ui.Window;
 import ec.edu.epn.fis.uil4midp.views.Form;
 import ec.edu.epn.fis.uil4midp.views.View;
@@ -175,20 +176,20 @@ public class TabsController extends Controller {
         }
 
         // Verificar condiciones de ejecución del formulario
-        if (f == null || f.getLoadActionListener() == null) {
+        if (f == null) {
             return;
         }
 
-        if (f.isLoaded()) {
+        final ListenerExecutor proxy = f.getLoadListenerExecutor();
+        if (!proxy.isActionListenerSet() || proxy.isExecuted()) {
             return;
         }
 
         // Coordinar un TimerTask para que inicie pasado un determinado tiempo
-        final Form fx = f;
         TimerTask tt = new TimerTask() {
 
             public void run() {
-                fx.getLoadActionListener().execute();
+                proxy.execute();
                 getWindow().repaint();
             }
         };

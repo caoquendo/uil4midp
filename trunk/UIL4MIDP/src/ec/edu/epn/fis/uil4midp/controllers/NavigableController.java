@@ -1,6 +1,7 @@
 package ec.edu.epn.fis.uil4midp.controllers;
 
 import ec.edu.epn.fis.uil4midp.actions.ActionListener;
+import ec.edu.epn.fis.uil4midp.actions.ListenerExecutor;
 import ec.edu.epn.fis.uil4midp.ui.Window;
 import ec.edu.epn.fis.uil4midp.util.ResourceManager;
 import ec.edu.epn.fis.uil4midp.views.Form;
@@ -61,7 +62,7 @@ public class NavigableController extends Controller {
             if (firstView == null) {
                 firstView = view;
             }
-            
+
             // Añadir la vista activa actual a la pila
             if (activeView != null) {
                 holdedViews.push(activeView);
@@ -132,9 +133,10 @@ public class NavigableController extends Controller {
      */
     public final void load() {
         Form f = (Form) activeView;
+        ListenerExecutor proxy = f.getLoadListenerExecutor();
 
-        if (!f.isLoaded() && f.getLoadActionListener() != null) {
-            f.getLoadActionListener().execute();
+        if (proxy.isActionListenerSet() && !proxy.isExecuted()) {
+            proxy.execute();
         }
     }
     //</editor-fold>
@@ -145,7 +147,7 @@ public class NavigableController extends Controller {
      */
     public final void goToStartView() {
         holdedViews.removeAllElements();
-        
+
         activeView = firstView;
         getWindow().repaint();
     }
@@ -154,9 +156,11 @@ public class NavigableController extends Controller {
      * Goes to the previous view in the Navigation flow.
      */
     public void goToPreviousView() {
-        if (holdedViews.isEmpty()) return;
+        if (holdedViews.isEmpty()) {
+            return;
+        }
 
-        activeView = (View)holdedViews.pop();
+        activeView = (View) holdedViews.pop();
         getWindow().repaint();
     }
     //</editor-fold>

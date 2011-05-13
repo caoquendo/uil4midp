@@ -1,5 +1,6 @@
 package ec.edu.epn.fis.uil4midp.controllers;
 
+import ec.edu.epn.fis.uil4midp.actions.ListenerExecutor;
 import ec.edu.epn.fis.uil4midp.ui.Window;
 import ec.edu.epn.fis.uil4midp.views.Form;
 import ec.edu.epn.fis.uil4midp.views.View;
@@ -92,9 +93,10 @@ public class StandaloneController extends Controller {
     public final void load() {
         if (holdedView != null) {
             Form f = (Form) holdedView;
+            ListenerExecutor proxy = f.getLoadListenerExecutor();
 
-            if (!f.isLoaded() && f.getLoadActionListener() != null) {
-                f.getLoadActionListener().execute();
+            if (proxy.isActionListenerSet() && !proxy.isExecuted()) {
+                proxy.execute();
             }
         }
     }
