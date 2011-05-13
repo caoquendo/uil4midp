@@ -19,7 +19,7 @@ public class ResourceManager {
      * @return Loaded image.
      */
     public static Image loadImage(String imageFileName) {
-        if (resourcesCache.contains(imageFileName)) {
+        if (resourcesCache.containsKey(imageFileName)) {
             return (Image) resourcesCache.get(imageFileName);
         }
 

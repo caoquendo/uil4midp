@@ -118,8 +118,8 @@ final class TabBar extends UserControl {
                         return false;
                     }
 
-                    if (f.getLoadActionListener() != null) {
-                        f.getLoadActionListener().execute();
+                    if (f.getLoadListenerExecutor().isActionListenerSet()) {
+                        f.getLoadListenerExecutor().execute();
                         return true;
                     }
                     

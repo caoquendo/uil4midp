@@ -1,6 +1,7 @@
 package ec.edu.epn.fis.uil4midp.views;
 
 import ec.edu.epn.fis.uil4midp.actions.ActionListener;
+import ec.edu.epn.fis.uil4midp.actions.ListenerExecutor;
 import ec.edu.epn.fis.uil4midp.components.VisualComponent;
 import ec.edu.epn.fis.uil4midp.components.containers.StackedContainer;
 import ec.edu.epn.fis.uil4midp.util.Direction;
@@ -18,8 +19,7 @@ public abstract class Form extends View {
 
     protected StackedContainer baseContainer;
     protected TitleBar titleBar;
-    protected ActionListener loadActionListener;
-    protected boolean loaded;
+    protected ListenerExecutor loadListenerExecutor = new ListenerExecutor();
     protected int loadDelay = 0;
 
     //<editor-fold desc="Constructors">
@@ -58,14 +58,6 @@ public abstract class Form extends View {
     public final void setViewPortHeight(int viewPortHeight) {
         super.setViewPortHeight(viewPortHeight);
         baseContainer.setViewPortHeight(viewPortHeight - titleBar.getHeight());
-    }
-
-    /**
-     * Determines if the Form was loaded.
-     * @return True if the form was loaded, otherwise, false.
-     */
-    public final boolean isLoaded() {
-        return loaded;
     }
     //</editor-fold>
 
@@ -141,11 +133,11 @@ public abstract class Form extends View {
     }
 
     /**
-     * Gets the LoadActionListener of the Form.
-     * @return LoadActionListener of the Form
+     * Gets the LoadListenerExecutor of the Form.
+     * @return LoadListenerExecutor wrapping the LoadActionListener of the Form
      */
-    public final ActionListener getLoadActionListener() {
-        return loadActionListener;
+    public final ListenerExecutor getLoadListenerExecutor() {
+        return loadListenerExecutor;
     }
 
     /**
@@ -158,7 +150,7 @@ public abstract class Form extends View {
      * @param actionListener ActionListener of the Form.
      */
     public final void setLoadActionListener(ActionListener loadActionListener) {
-        this.loadActionListener = loadActionListener;
+        this.loadListenerExecutor.setActionListener(loadActionListener);
     }
 
     /**
