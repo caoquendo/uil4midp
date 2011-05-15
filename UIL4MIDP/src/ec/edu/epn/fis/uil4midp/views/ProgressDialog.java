@@ -3,7 +3,6 @@ package ec.edu.epn.fis.uil4midp.views;
 
 import ec.edu.epn.fis.uil4midp.components.controls.AnimatedImageBox;
 import ec.edu.epn.fis.uil4midp.util.FramesManager;
-import ec.edu.epn.fis.uil4midp.util.ThemeManager;
 
 /**
  * A ProgressDialog is a kind of Dialog which shows a message during the period
@@ -24,7 +23,7 @@ public class ProgressDialog extends Dialog {
     public ProgressDialog(String title, String message) {
         super(title, message);
 
-        String[] vrs = ThemeManager.getInstance().getProgressAnimationFrames();
+        String[] vrs = tm.getProgressAnimationFrames();
         FramesManager fm = new FramesManager(vrs[0], vrs[1], vrs[2], Integer.parseInt(vrs[3]));
         progressIndicator = new AnimatedImageBox(fm, 100);
     }
@@ -37,7 +36,7 @@ public class ProgressDialog extends Dialog {
      * @param keyCode Pressed key code. This code may be device-specific.
      * @return False due to this Dialog does not respond to any key input.
      */
-    public boolean keyPressed(int action, int keyCode) {
+    public final boolean keyPressed(int action, int keyCode) {
         return false;
     }
     //</editor-fold>
@@ -47,7 +46,7 @@ public class ProgressDialog extends Dialog {
      * Dismisses the ProgressDialog. This method is intended to be called by a
      * long running task.
      */
-    public void close() {
+    public final void close() {
         progressIndicator.cancelAnimation();
         getController().dismissDialog();
     }
@@ -60,7 +59,7 @@ public class ProgressDialog extends Dialog {
      * this Dialog is executed. If false is passed, the ActionListener is not
      * executed.
      */
-    public void close(boolean executeActionListener) {
+    public final void close(boolean executeActionListener) {
         progressIndicator.cancelAnimation();
         getController().dismissDialog(executeActionListener);
     }
@@ -70,7 +69,7 @@ public class ProgressDialog extends Dialog {
     /**
      * Initializes additional components of the ConfirmationDialog.
      */
-    public void initialize() {
+    public final void initialize() {
         super.initialize();
         addVisualComponent(progressIndicator);
     }

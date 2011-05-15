@@ -47,7 +47,7 @@ public abstract class Dialog extends View {
      * Sets the width for the Dialog
      * @param width Width for the Dialog
      */
-    public void setWidth(int width) {
+    public final void setWidth(int width) {
         super.setWidth(width);
         titleBar.setWidth(width);
         baseContainer.setWidth(width);
@@ -58,7 +58,7 @@ public abstract class Dialog extends View {
      * @param x X-coordinate of the position of the Dialog.
      * @param y Y-coordinate of the position of the Dialog.
      */
-    public void setPosition(int x, int y) {
+    public final void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
 
@@ -70,7 +70,7 @@ public abstract class Dialog extends View {
      * Gets the height of the Dialog
      * @return Actual height of the Dialog.
      */
-    public int getHeight() {
+    public final int getHeight() {
         return titleBar.getHeight() + baseContainer.getHeight() + 2 * tm.getViewMargin();
     }
 
@@ -78,7 +78,7 @@ public abstract class Dialog extends View {
      * Gets the Dialog result value
      * @return Dialog result value
      */
-    public int getDialogResult() {
+    public final int getDialogResult() {
         return dialogResult;
     }
 
@@ -86,7 +86,7 @@ public abstract class Dialog extends View {
      * Checks if the Dialog has been dismissed.
      * @return True if the dialog is dismissed, otherwise, False.
      */
-    public boolean isDismissed()
+    public final boolean isDismissed()
     {
         return dismissed;
     }
@@ -95,7 +95,7 @@ public abstract class Dialog extends View {
      * Sets the dismissed status of the Dialog.
      * @param dismissed
      */
-    public void setDismissed(boolean dismissed) {
+    public final void setDismissed(boolean dismissed) {
         this.dismissed = dismissed;
     }
 
@@ -103,7 +103,7 @@ public abstract class Dialog extends View {
      * Gets the action listener associated to the dismiss of the dialog.
      * @return An ActionListener instance. If there is no action listener, null.
      */
-    public ActionListener getDismissActionListener() {
+    public final ActionListener getDismissActionListener() {
         return dismissActionListener;
     }
 
@@ -111,7 +111,7 @@ public abstract class Dialog extends View {
      * Sets the ActionListener that will be called when the Dialog is dismissed.
      * @param dismissActionListener ActionListener object.
      */
-    public void setDismissActionListener(ActionListener dismissActionListener) {
+    public final void setDismissActionListener(ActionListener dismissActionListener) {
         this.dismissActionListener = dismissActionListener;
     }
     //</editor-fold>
@@ -129,7 +129,7 @@ public abstract class Dialog extends View {
      * Paints the Dialog on the screen.
      * @param g Graphics object on which paint.
      */
-    public void paint(Graphics g) {
+    public final void paint(Graphics g) {
         if (!vibrated){
             getController().getWindow().getDisplay().vibrate(100);
             vibrated = true;
@@ -159,7 +159,7 @@ public abstract class Dialog extends View {
     /**
      * Updates the layout values of the internal components of the Dialog.
      */
-    public void refreshLayout() {
+    public final void refreshLayout() {
         titleBar.prepareComponent();
         baseContainer.prepareComponent();
     }

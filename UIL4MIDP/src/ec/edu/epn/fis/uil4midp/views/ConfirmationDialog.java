@@ -5,7 +5,6 @@ import ec.edu.epn.fis.uil4midp.actions.ActionListener;
 import ec.edu.epn.fis.uil4midp.components.containers.HorizontalSplittedContainer;
 import ec.edu.epn.fis.uil4midp.components.controls.Button;
 import ec.edu.epn.fis.uil4midp.util.ResourceManager;
-import ec.edu.epn.fis.uil4midp.util.ThemeManager;
 import javax.microedition.lcdui.Canvas;
 
 /**
@@ -18,7 +17,6 @@ public class ConfirmationDialog extends Dialog {
     private Button btnYes;
     private Button btnNo;
     private HorizontalSplittedContainer hspButtons;
-
 
     //<editor-fold desc="Constructors">
     /**
@@ -58,7 +56,7 @@ public class ConfirmationDialog extends Dialog {
      * @param keyCode Pressed key code. This code may be device-specific.
      * @return True if the key event was handled, else, False.
      */
-    public boolean keyPressed(int action, int keyCode) {
+    public final boolean keyPressed(int action, int keyCode) {
         switch (action) {
             case Canvas.FIRE:
                 return btnYes.isFocused() ? btnYes.keyPressed(action, keyCode) : btnNo.keyPressed(action, keyCode);
@@ -97,7 +95,7 @@ public class ConfirmationDialog extends Dialog {
     /**
      * Initializes additional components of the ConfirmationDialog.
      */
-    public void initialize() {
+    public final void initialize() {
         super.initialize();
 
         hspButtons.addVisualComponent(btnYes);
