@@ -5,7 +5,6 @@ import ec.edu.epn.fis.uil4midp.actions.ActionListener;
 import ec.edu.epn.fis.uil4midp.components.controls.Button;
 import ec.edu.epn.fis.uil4midp.util.ResourceManager;
 import javax.microedition.lcdui.Canvas;
-import javax.microedition.lcdui.Image;
 
 /**
  * A MessageDialog is a kind of Dialog which shows a informative message which
@@ -44,7 +43,7 @@ public class MessageDialog extends Dialog{
      * @param keyCode Pressed key code. This code may be device-specific.
      * @return True if the key event was handled, else, False.
      */
-    public boolean keyPressed(int action, int keyCode) {
+    public final boolean keyPressed(int action, int keyCode) {
         switch (action) {
             case Canvas.FIRE:
                 return btnOk.keyPressed(action, keyCode);
@@ -58,7 +57,7 @@ public class MessageDialog extends Dialog{
     /**
      * Initializes additional components of the MessageDialog.
      */
-    public void initialize() {
+    public final void initialize() {
         super.initialize();
         addVisualComponent(btnOk);
     }
