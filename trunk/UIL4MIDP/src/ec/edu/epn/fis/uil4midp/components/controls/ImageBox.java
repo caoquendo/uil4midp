@@ -13,6 +13,7 @@ public class ImageBox extends UserControl {
     private Image image;
     private boolean imageSynced;
     private int maxWidth = -1;
+    private boolean autoMaxWidth = true;
 
     //<editor-fold desc="Constructors">
     /**
@@ -73,6 +74,7 @@ public class ImageBox extends UserControl {
      */
     public void setMaxWidth(int maxWidth) {
         this.maxWidth = maxWidth;
+        autoMaxWidth = false;
     }
 
     /**
@@ -80,7 +82,16 @@ public class ImageBox extends UserControl {
      * @param image Image to be shown on the ImageBox.
      */
     public void setImage(Image image) {
+        if (image == null) {
+            return;
+        }
+
         this.image = image;
+
+        if (autoMaxWidth) {
+            this.maxWidth = image.getWidth();
+        }
+        
         this.imageSynced = false;
     }
     //</editor-fold>
