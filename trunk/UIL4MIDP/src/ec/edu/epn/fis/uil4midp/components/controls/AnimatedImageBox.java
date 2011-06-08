@@ -9,7 +9,7 @@ import javax.microedition.lcdui.Image;
 /**
  * An AnimatedImageBox is a VisualComponent which is able to show a sequence of
  * images.
- * @author Andrés
+ * @author Carlos Andrés Oquendo
  */
 public class AnimatedImageBox extends UserControl {
 

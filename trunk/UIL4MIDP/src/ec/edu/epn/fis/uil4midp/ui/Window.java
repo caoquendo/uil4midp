@@ -18,8 +18,7 @@ import javax.microedition.midlet.MIDlet;
  * @author Carlos Andrés Oquendo
  */
 public class Window extends Canvas {
-
-    private MIDlet midlet;
+    
     private Display display;
     private Controller controller;
     private StandaloneController splashController;
@@ -38,7 +37,6 @@ public class Window extends Canvas {
     public Window(MIDlet midlet) {
         this.setFullScreenMode(true);
 
-        this.midlet = midlet;
         this.display = Display.getDisplay(midlet);
 
         // Inicializar los temas

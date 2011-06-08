@@ -155,7 +155,7 @@ public class NavigableController extends Controller {
     /**
      * Goes to the previous view in the Navigation flow.
      */
-    public void goToPreviousView() {
+    public final void goToPreviousView() {
         if (holdedViews.isEmpty()) {
             return;
         }

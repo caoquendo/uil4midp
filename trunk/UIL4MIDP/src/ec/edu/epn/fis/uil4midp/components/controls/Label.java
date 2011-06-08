@@ -55,6 +55,11 @@ public class Label extends UserControl {
         captionSynced = false;
     }
 
+    /**
+     * Sets the alignment of the text on the label
+     * @param textAlignment Alignment of the text on the label. The available values
+     * are Label.LABEL_LEFT, Label.LABEL_CENTER and Label.LABEL_RIGHT.
+     */
     public void setTextAlignment(int textAlignment) {
         this.textAlignment = textAlignment;
     }
